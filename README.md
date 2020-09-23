@@ -1,2 +1,1 @@
-# intelligent-embedded-systems
-이센티아 인하대 산학교류 저장소
+# 커넥티드카를 위한 자율주행 시뮬레이터 및 에지 연동 솔루션
