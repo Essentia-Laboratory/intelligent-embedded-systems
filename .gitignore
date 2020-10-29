@@ -236,7 +236,6 @@ Saved/
 
 /carla/ExportedMaps
 /carla/Import/*
-!/carla/Import/README.md
 
 *.VC.db
 *.VC.opendb
