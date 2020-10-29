@@ -1,6 +1,0 @@
-[submodule "UnrealEngine_4.24"]
-	path = UnrealEngine_4.24
-	url = ./UnrealEngine_4.24/
-[submodule "carla_0.9.10.1"]
-	path = carla_0.9.10.1
-	url = ./carla_0.9.10.1/
