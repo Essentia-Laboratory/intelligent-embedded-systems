@@ -287,7 +287,7 @@ void points_callback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         {
           listener.lookupTransform("world", "gps", ros::Time(0), gps_tf_on_world);
         }
-        catch (tf::TransformException ex)
+        catch (tf::TransformException& ex)
         {
           ROS_ERROR("%s", ex.what());
           return;

@@ -59,7 +59,7 @@ void points_callback(const pcl::PointCloud<pcl::PointXYZI>::ConstPtr &msg)
       /*pcl_ros::transformPointCloud("world", prev_time, prev_points, "ndt_frame", pcl_out, *tf_listener);
        */
     }
-    catch (tf::TransformException ex)
+    catch (tf::TransformException& ex)
     {
       printf("old\n");
       return;

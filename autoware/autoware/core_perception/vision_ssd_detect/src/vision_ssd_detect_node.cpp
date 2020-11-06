@@ -135,7 +135,7 @@ public:
     std::string image_raw_topic_str;
     if (private_node_handle.getParam("image_raw_node", image_raw_topic_str))
     {
-      ROS_INFO("Setting image node to %s", image_raw_topic_str.c_str());
+      ROS_INFO("[%s] Setting image node to %s", __APP_NAME__, image_raw_topic_str.c_str());
     } else
     {
       ROS_INFO("No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC");

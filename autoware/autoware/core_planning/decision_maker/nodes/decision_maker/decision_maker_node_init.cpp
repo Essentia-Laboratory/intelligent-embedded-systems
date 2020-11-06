@@ -235,7 +235,7 @@ void DecisionMakerNode::initROS()
 
   if (disuse_vector_map_)
   {
-    ROS_WARN("Disuse vectormap mode.");
+    ROS_WARN("[%s] Disuse vectormap mode.", __APP_NAME__ );
   }
   else
   {
@@ -261,7 +261,7 @@ void DecisionMakerNode::initLaneletMap(void)
   while (!ll2_map_loaded && ros::ok())
   {
     ros::spinOnce();
-    ROS_INFO_THROTTLE(2, "Subscribing to lanelet map topic");
+    ROS_INFO_THROTTLE(2, "[%s] Subscribing to lanelet map topic", __APP_NAME__ );
     ll2_map_loaded = isEventFlagTrue("lanelet2_map_loaded");
     ros::Duration(0.1).sleep();
   }
@@ -286,19 +286,19 @@ void DecisionMakerNode::initVectorMap(void)
 
     if (!vmap_loaded)
     {
-      ROS_WARN_THROTTLE(5, "Necessary vectormap topics have not been published.");
-      ROS_WARN_THROTTLE(5, "DecisionMaker will wait until the vectormap has been loaded.");
+      ROS_WARN_THROTTLE(5, "[%s] Necessary vectormap topics have not been published.", __APP_NAME__ );
+      ROS_WARN_THROTTLE(5, "[%s] DecisionMaker will wait until the vectormap has been loaded.", __APP_NAME__ );
     }
     else
     {
-      ROS_INFO("Vectormap loaded.");
+      ROS_INFO("[%s] Vectormap loaded.", __APP_NAME__);
     }
   }
 
   const std::vector<CrossRoad> crossroads = g_vmap.findByFilter([](const CrossRoad& crossroad) { return true; });
   if (crossroads.empty())
   {
-    ROS_INFO("crossroads have not found\n");
+    ROS_INFO("[%s] crossroads have not found\n", __APP_NAME__);
     return;
   }
 

@@ -176,23 +176,15 @@ layer parse_deconvolutional(list *options, size_params params)
 
 convolutional_layer parse_convolutional(list *options, size_params params)
 {
-printf("---> parse_convolutional \r\n");
     int n = option_find_int(options, "filters",1);
-printf("---  parse_convolutional filters: %d\r\n", n);
     int size = option_find_int(options, "size",1);
-printf("---  parse_convolutional size: %d\r\n", size);
     int stride = option_find_int(options, "stride",1);
-printf("---  parse_convolutional stride: %d\r\n", stride);
     int pad = option_find_int_quiet(options, "pad",0);
-printf("---  parse_convolutional pad: %d\r\n", pad);
     int padding = option_find_int_quiet(options, "padding",0);
-printf("---  parse_convolutional padding: %d\r\n", padding);
     int groups = option_find_int_quiet(options, "groups", 1);
-printf("---  parse_convolutional groups: %d\r\n", groups);
     if(pad) padding = size/2;
 
     char *activation_s = option_find_str(options, "activation", "logistic");
-printf("---  parse_convolutional get_activation \r\n");
     ACTIVATION activation = get_activation(activation_s);
 
     int batch,h,w,c;
@@ -205,14 +197,10 @@ printf("---  parse_convolutional get_activation \r\n");
     int binary = option_find_int_quiet(options, "binary", 0);
     int xnor = option_find_int_quiet(options, "xnor", 0);
 
-printf("---  parse_convolutional make_convolutional_layer\r\n");
     convolutional_layer layer = make_convolutional_layer(batch,h,w,c,n,groups,size,stride,padding,activation, batch_normalize, binary, xnor, params.net->adam);
-printf("---  parse_convolutional layer.flipped\r\n");
     layer.flipped = option_find_int_quiet(options, "flipped", 0);
-printf("---  parse_convolutional layer.dot\r\n");
     layer.dot = option_find_float_quiet(options, "dot", 0);
 
-printf("<--- parse_convolutional \r\n");
     return layer;
 }
 
@@ -741,7 +729,6 @@ int is_network(section *s)
 
 network *parse_network_cfg(char *filename)
 {
-printf("---> parse_network_cfg %s\r\n", filename);
     list *sections = read_cfg(filename);
     node *n = sections->front;
     if(!n) error("Config file has no sections");
@@ -771,11 +758,9 @@ printf("---> parse_network_cfg %s\r\n", filename);
         params.index = count;
         fprintf(stderr, "%5d ", count);
         s = (section *)n->val;
-printf("---  parse_network_cfg s->type=[%s]\r\n", s->type);
         options = s->options;
         layer l = {0};
         LAYER_TYPE lt = string_to_layer_type(s->type);
-printf("---  parse_network_cfg lt=[%d]\r\n", lt);
         if(lt == CONVOLUTIONAL){
             l = parse_convolutional(options, params);
         }else if(lt == DECONVOLUTIONAL){

@@ -49,6 +49,7 @@
 #include <lanelet2_routing/Route.h>
 
 #include <autoware_lanelet2_msgs/MapBin.h>
+#define __APP_NAME__ "decision_maker"
 
 namespace decision_maker
 {

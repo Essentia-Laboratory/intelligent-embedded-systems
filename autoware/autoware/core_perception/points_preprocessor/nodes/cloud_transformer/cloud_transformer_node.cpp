@@ -90,9 +90,9 @@ private:
       // Dataset might contain NaNs and Infs, so check for them first,
       for (size_t i = 0; i < out_cloud.points.size (); ++i)
       {
-        if (!pcl_isfinite (in_cloud.points[i].x) ||
-                   !pcl_isfinite (in_cloud.points[i].y) ||
-                   !pcl_isfinite (in_cloud.points[i].z))
+        if (!std::isfinite (in_cloud.points[i].x) ||
+                   !std::isfinite (in_cloud.points[i].y) ||
+                   !std::isfinite (in_cloud.points[i].z))
           {continue;}
         //out_cloud.points[i].getVector3fMap () = transform * in_cloud.points[i].getVector3fMap ();
         Eigen::Matrix<float, 3, 1> pt (in_cloud[i].x, in_cloud[i].y, in_cloud[i].z);
@@ -125,7 +125,7 @@ private:
                                           transform);
         do_transform = true;
       }
-      catch (tf::TransformException ex) {
+      catch (tf::TransformException& ex) {
         ROS_ERROR("cloud_transformer: %s NOT Transforming.", ex.what());
         do_transform = false;
         transform_ok_ = false;

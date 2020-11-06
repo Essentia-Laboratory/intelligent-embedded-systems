@@ -89,12 +89,9 @@ cublasHandle_t blas_handle()
 
 float *cuda_make_array(float *x, size_t n)
 {
-printf("---> cuda_make_array n=[%d]\r\n", n);
     float *x_gpu;
     size_t size = sizeof(float)*n;
-printf("---  cuda_make_array size=[%d]\r\n", size);
     cudaError_t status = cudaMalloc((void **)&x_gpu, size);
-printf("---  cuda_make_array cudaMalloc=[%d]\r\n", status);
     check_error(status);
     if(x){
         status = cudaMemcpy(x_gpu, x, size, cudaMemcpyHostToDevice);
@@ -103,7 +100,6 @@ printf("---  cuda_make_array cudaMalloc=[%d]\r\n", status);
         fill_gpu(n, 0, x_gpu, 1);
     }
     if(!x_gpu) error("Cuda malloc failed\n");
-printf("<--- cuda_make_array \r\n");
     return x_gpu;
 }
 

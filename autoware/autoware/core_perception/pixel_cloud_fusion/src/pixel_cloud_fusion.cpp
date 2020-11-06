@@ -164,7 +164,7 @@ ROSPixelCloudFusionApp::FindTransform(const std::string &in_target_frame, const 
     camera_lidar_tf_ok_ = true;
     ROS_INFO("[%s] Camera-Lidar TF obtained", __APP_NAME__);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("[%s] %s", __APP_NAME__, ex.what());
   }

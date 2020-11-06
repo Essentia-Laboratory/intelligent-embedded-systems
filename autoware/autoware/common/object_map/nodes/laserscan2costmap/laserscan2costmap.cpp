@@ -267,7 +267,7 @@ void createCostMap(const sensor_msgs::LaserScan& scan, const std::vector<std::ve
     // What time should we use?
     g_tf_listenerp->lookupTransform(OGM_FRAME, g_sensor_frame, ros::Time(0), transform);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
     return;

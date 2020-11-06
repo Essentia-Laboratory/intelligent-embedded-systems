@@ -20,6 +20,7 @@
  *  Created on: October, 23rd, 2018
  */
 
+// #include <boost/stacktrace.hpp>
 #include "roi_object_filter/roi_object_filter.h"
 
 void
@@ -29,8 +30,11 @@ RosRoiObjectFilterApp::SyncedDetectionsCallback(const autoware_msgs::DetectedObj
   if (nullptr == in_detections
       || nullptr == in_gridmap)
   {
+//     std::cout << boost::stacktrace::stacktrace();
     ROS_INFO("[%s] Empty input messages, for details check the topics : %s and %s.", __APP_NAME__,
              wayarea_gridmap_topic_.c_str(), objects_src_topic_.c_str());
+    ROS_INFO("[%s] in_detections = [%d] or in_gridmap = [%d].", __APP_NAME__,
+             nullptr != in_detections, nullptr != in_gridmap);
     return;
   }
 

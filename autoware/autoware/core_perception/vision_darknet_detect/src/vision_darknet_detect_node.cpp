@@ -22,14 +22,13 @@
 
 int main(int argc, char **argv)
 {
-printf("--- vision_darknet_detect main\r\n");
     ros::init(argc, argv, "vision_darknet_detect");
 
-printf("--- vision_darknet_detect Yolo3DetectorNode construct\r\n");
     Yolo3DetectorNode app;
 
-printf("--- vision_darknet_detect Yolo3DetectorNode run\r\n");
+printf("----> Yolo3DetectorNode.Run()\r\n");
     app.Run();
+printf("<---- Yolo3DetectorNode.Run()\r\n");
 
     return 0;
 }

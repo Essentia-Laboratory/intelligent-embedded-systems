@@ -175,7 +175,6 @@ void cudnn_convolutional_setup(layer *l)
 
 convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int n, int groups, int size, int stride, int padding, ACTIVATION activation, int batch_normalize, int binary, int xnor, int adam)
 {
-printf("---> make_convolutional_layer \r\n");
     int i;
     convolutional_layer l = {0};
     l.type = CONVOLUTIONAL;
@@ -260,16 +259,12 @@ printf("---> make_convolutional_layer \r\n");
     }
 
 #ifdef GPU
-printf("---  make_convolutional_layer GPU\r\n");
     l.forward_gpu = forward_convolutional_layer_gpu;
     l.backward_gpu = backward_convolutional_layer_gpu;
     l.update_gpu = update_convolutional_layer_gpu;
 
-printf("---  make_convolutional_layer gpu_index=[%d]\r\n", gpu_index);
     if(gpu_index >= 0){
-printf("---  make_convolutional_layer adam=[%d]\r\n", adam);
         if (adam) {
-printf("---  make_convolutional_layer cuda_make_array\r\n");
             l.m_gpu = cuda_make_array(l.m, l.nweights);
             l.v_gpu = cuda_make_array(l.v, l.nweights);
             l.bias_m_gpu = cuda_make_array(l.bias_m, n);
@@ -278,7 +273,6 @@ printf("---  make_convolutional_layer cuda_make_array\r\n");
             l.scale_v_gpu = cuda_make_array(l.scale_v, n);
         }
 
-printf("---  make_convolutional_layer cuda_make_array 2 l.weights=[%d], l.nweights=[%d]\r\n", l.weights, l.nweights);
         l.weights_gpu = cuda_make_array(l.weights, l.nweights);
         l.weight_updates_gpu = cuda_make_array(l.weight_updates, l.nweights);
 
@@ -288,17 +282,14 @@ printf("---  make_convolutional_layer cuda_make_array 2 l.weights=[%d], l.nweigh
         l.delta_gpu = cuda_make_array(l.delta, l.batch*out_h*out_w*n);
         l.output_gpu = cuda_make_array(l.output, l.batch*out_h*out_w*n);
 
-printf("---  make_convolutional_layer binary=[%d]\r\n", binary);
         if(binary){
             l.binary_weights_gpu = cuda_make_array(l.weights, l.nweights);
         }
-printf("---  make_convolutional_layer xnor=[%d]\r\n", xnor);
         if(xnor){
             l.binary_weights_gpu = cuda_make_array(l.weights, l.nweights);
             l.binary_input_gpu = cuda_make_array(0, l.inputs*l.batch);
         }
 
-printf("---  make_convolutional_layer batch_normalize=[%d]\r\n", batch_normalize);
         if(batch_normalize){
             l.mean_gpu = cuda_make_array(l.mean, n);
             l.variance_gpu = cuda_make_array(l.variance, n);
@@ -316,7 +307,6 @@ printf("---  make_convolutional_layer batch_normalize=[%d]\r\n", batch_normalize
             l.x_norm_gpu = cuda_make_array(l.output, l.batch*out_h*out_w*n);
         }
 #ifdef CUDNN
-printf("---  make_convolutional_layer CUDNN\r\n");
         cudnnCreateTensorDescriptor(&l.normTensorDesc);
         cudnnCreateTensorDescriptor(&l.srcTensorDesc);
         cudnnCreateTensorDescriptor(&l.dstTensorDesc);
@@ -329,13 +319,11 @@ printf("---  make_convolutional_layer CUDNN\r\n");
 #endif
     }
 #endif
-printf("---  make_convolutional_layer get_workspace_size\r\n");
     l.workspace_size = get_workspace_size(l);
     l.activation = activation;
 
     fprintf(stderr, "conv  %5d %2d x%2d /%2d  %4d x%4d x%4d   ->  %4d x%4d x%4d  %5.3f BFLOPs\n", n, size, size, stride, w, h, c, l.out_w, l.out_h, l.out_c, (2.0 * l.n * l.size*l.size*l.c/l.groups * l.out_h*l.out_w)/1000000000.);
 
-printf("<--- make_convolutional_layer \r\n");
     return l;
 }
 

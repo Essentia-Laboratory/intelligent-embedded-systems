@@ -52,8 +52,10 @@
     # ROS remapping + conversion #
     ##############################
   -->
+<!-- 
   <include file="$(find carla_autoware_bridge)/launch/carla_autoware_bridge_common.launch">
     <arg name="role_name" value='$(arg role_name)'/>
   </include>
+-->
 </launch>
 

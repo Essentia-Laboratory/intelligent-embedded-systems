@@ -39,22 +39,14 @@ namespace darknet
     }
     void Yolo3Detector::load(std::string& in_model_file, std::string& in_trained_file, double in_min_confidence, double in_nms_threshold)
     {
-printf("---> Yolo3Detector::load\r\n");
         min_confidence_ = in_min_confidence;
-printf("---  Yolo3Detector::load nms_threshold\r\n");
         nms_threshold_ = in_nms_threshold;
-printf("---  Yolo3Detector::load parse_network_cfg [%s]\r\n", in_model_file.c_str());
         darknet_network_ = parse_network_cfg(&in_model_file[0]);
-printf("---  Yolo3Detector::load load_weights\r\n");
         load_weights(darknet_network_, &in_trained_file[0]);
-printf("---  Yolo3Detector::load set_batch_network\r\n");
         set_batch_network(darknet_network_, 1);
 
-printf("---  Yolo3Detector::load layers\r\n");
         layer output_layer = darknet_network_->layers[darknet_network_->n - 1];
-printf("---  Yolo3Detector::load resize\r\n");
         darknet_boxes_.resize(output_layer.w * output_layer.h * output_layer.n);
-printf("<--- Yolo3Detector::load\r\n");
     }
 
     Yolo3Detector::~Yolo3Detector()
@@ -69,7 +61,6 @@ printf("<--- Yolo3Detector::load\r\n");
 
     image Yolo3Detector::convert_image(const sensor_msgs::ImageConstPtr& msg)
     {
-printf("---> Yolo3Detector::convert_image\r\n");
         if (msg->encoding != sensor_msgs::image_encodings::BGR8)
         {
             ROS_ERROR("Unsupported encoding");
@@ -98,13 +89,11 @@ printf("---> Yolo3Detector::convert_image\r\n");
         }
         image resized = resize_image(im, darknet_network_->w, darknet_network_->h);
         free_image(im);
-printf("<--- Yolo3Detector::convert_image\r\n");
         return resized;
     }
 
     std::vector< RectClassScore<float> > Yolo3Detector::forward(image& in_darknet_image)
     {
-printf("---> Yolo3Detector::forward\r\n");
         float * in_data = in_darknet_image.data;
         float *prediction = network_predict(darknet_network_, in_data);
         layer output_layer = darknet_network_->layers[darknet_network_->n - 1];
@@ -148,7 +137,6 @@ printf("---> Yolo3Detector::forward\r\n");
             }
         }
         //std::cout << std::endl;
-printf("<--- Yolo3Detector::forward\r\n");
         return detections;
     }
 }  // namespace darknet
@@ -157,7 +145,6 @@ printf("<--- Yolo3Detector::forward\r\n");
 
 void Yolo3DetectorNode::convert_rect_to_image_obj(std::vector< RectClassScore<float> >& in_objects, autoware_msgs::DetectedObjectArray& out_message)
 {
-printf("---> Yolo3Detector::convert_rect_to_image_obj\r\n");
     for (unsigned int i = 0; i < in_objects.size(); ++i)
     {
         {
@@ -194,7 +181,6 @@ printf("---> Yolo3Detector::convert_rect_to_image_obj\r\n");
 
         }
     }
-printf("<--- Yolo3Detector::convert_rect_to_image_obj\r\n");
 }
 
 void Yolo3DetectorNode::rgbgr_image(image& im)
@@ -307,11 +293,11 @@ void Yolo3DetectorNode::Run()
     std::string image_raw_topic_str;
     if (private_node_handle.getParam("image_raw_node", image_raw_topic_str))
     {
-        ROS_INFO("Setting image node to %s", image_raw_topic_str.c_str());
+        ROS_INFO("[%s] Setting image node to %s", __APP_NAME__, image_raw_topic_str.c_str());
     }
     else
     {
-        ROS_INFO("No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC");
+        ROS_INFO("[%s] No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
         image_raw_topic_str = "/image_raw";
     }
 
@@ -319,32 +305,32 @@ void Yolo3DetectorNode::Run()
     std::string pretrained_model_file, names_file;
     if (private_node_handle.getParam("network_definition_file", network_definition_file))
     {
-        ROS_INFO("Network Definition File (Config): %s", network_definition_file.c_str());
+        ROS_INFO("[%s] Network Definition File (Config): %s", __APP_NAME__, network_definition_file.c_str());
     }
     else
     {
-        ROS_INFO("No Network Definition File was received. Finishing execution.");
+        ROS_INFO("[%s] No Network Definition File was received. Finishing execution.", __APP_NAME__);
         return;
     }
     if (private_node_handle.getParam("pretrained_model_file", pretrained_model_file))
     {
-        ROS_INFO("Pretrained Model File (Weights): %s", pretrained_model_file.c_str());
+        ROS_INFO("[%s] Pretrained Model File (Weights): %s", __APP_NAME__, pretrained_model_file.c_str());
     }
     else
     {
-        ROS_INFO("No Pretrained Model File was received. Finishing execution.");
+        ROS_INFO("[%s] No Pretrained Model File was received. Finishing execution.", __APP_NAME__ );
         return;
     }
 
     if (private_node_handle.getParam("names_file", names_file))
     {
-        ROS_INFO("Names File: %s", names_file.c_str());
+        ROS_INFO("[%s] Names File: %s", __APP_NAME__, names_file.c_str());
         use_coco_names_ = false;
         custom_names_ = read_custom_names_file(names_file);
     }
     else
     {
-        ROS_INFO("No Names file was received. Using default COCO names.");
+        ROS_INFO("[%s] No Names file was received. Using default COCO names.", __APP_NAME__);
         use_coco_names_ = true;
     }
 
@@ -355,9 +341,9 @@ void Yolo3DetectorNode::Run()
     ROS_INFO("[%s] nms_threshold: %f",__APP_NAME__, nms_threshold_);
 
 
-    ROS_INFO("Initializing Yolo on Darknet...");
+    ROS_INFO("[%s] Initializing Yolo on Darknet...", __APP_NAME__);
     yolo_detector_.load(network_definition_file, pretrained_model_file, score_threshold_, nms_threshold_);
-    ROS_INFO("Initialization complete.");
+    ROS_INFO("[%s] Initialization complete.", __APP_NAME__);
 
     #if (CV_MAJOR_VERSION <= 2)
         cv::generateColors(colors_, 80);
@@ -367,16 +353,19 @@ void Yolo3DetectorNode::Run()
 
     publisher_objects_ = node_handle_.advertise<autoware_msgs::DetectedObjectArray>("/detection/image_detector/objects", 1);
 
-    ROS_INFO("Subscribing to... %s", image_raw_topic_str.c_str());
+    ROS_INFO("[%s] Subscribing to... %s", __APP_NAME__, image_raw_topic_str.c_str());
     subscriber_image_raw_ = node_handle_.subscribe(image_raw_topic_str, 1, &Yolo3DetectorNode::image_callback, this);
 
     std::string config_topic("/config");
     config_topic += "/Yolo3";
+    ROS_INFO("[%s] Subscribing yolo config to... %s", __APP_NAME__, config_topic.c_str());
     subscriber_yolo_config_ = node_handle_.subscribe(config_topic, 1, &Yolo3DetectorNode::config_cb, this);
 
+    ROS_INFO("[%s] ROS_INFO_STREAM", __APP_NAME__);
     ROS_INFO_STREAM( __APP_NAME__ << "" );
 
+    ROS_INFO("[%s] ros::spin()", __APP_NAME__);
     ros::spin();
-    ROS_INFO("END Yolo");
+    ROS_INFO("[%s] END Yolo", __APP_NAME__ );
 
 }

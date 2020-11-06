@@ -19,9 +19,12 @@
 
 int main(int argc, char **argv)
 {
+ROS_INFO("[wayarea2grid] ros::init");
   ros::init(argc, argv, "wayarea2grid");
+ROS_INFO("[wayarea2grid] object_map::WayareaToGrid");
   object_map::WayareaToGrid wayarea2grid;
 
+ROS_INFO("[wayarea2grid] WayareaToGrid.Run()");
   wayarea2grid.Run();
 
   return 0;

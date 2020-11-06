@@ -442,8 +442,8 @@ static void map_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
       try
       {
         ros::Time now = ros::Time(0);
-        local_transform_listener.waitForTransform("/map", "/world", now, ros::Duration(10.0));
-        local_transform_listener.lookupTransform("/map", "world", now, local_transform);
+        local_transform_listener.waitForTransform("map", "world", now, ros::Duration(10.0));
+        local_transform_listener.lookupTransform("map", "world", now, local_transform);
       }
       catch (tf::TransformException& ex)
       {
@@ -611,8 +611,8 @@ static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped:
   try
   {
     ros::Time now = ros::Time(0);
-    listener.waitForTransform("/map", input->header.frame_id, now, ros::Duration(10.0));
-    listener.lookupTransform("/map", input->header.frame_id, now, transform);
+    listener.waitForTransform("map", input->header.frame_id, now, ros::Duration(10.0));
+    listener.lookupTransform("map", input->header.frame_id, now, transform);
   }
   catch (tf::TransformException& ex)
   {
@@ -1224,7 +1224,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     {
       tf::Vector3 v(predict_pose.x, predict_pose.y, predict_pose.z);
       tf::Transform transform(predict_q, v);
-      predict_pose_msg.header.frame_id = "/map";
+      predict_pose_msg.header.frame_id = "map";
       predict_pose_msg.header.stamp = current_scan_time;
       predict_pose_msg.pose.position.x = (local_transform * transform).getOrigin().getX();
       predict_pose_msg.pose.position.y = (local_transform * transform).getOrigin().getY();
@@ -1236,7 +1236,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     }
     else
     {
-      predict_pose_msg.header.frame_id = "/map";
+      predict_pose_msg.header.frame_id = "map";
       predict_pose_msg.header.stamp = current_scan_time;
       predict_pose_msg.pose.position.x = predict_pose.x;
       predict_pose_msg.pose.position.y = predict_pose.y;
@@ -1291,7 +1291,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     {
       tf::Vector3 v(ndt_pose.x, ndt_pose.y, ndt_pose.z);
       tf::Transform transform(ndt_q, v);
-      ndt_pose_msg.header.frame_id = "/map";
+      ndt_pose_msg.header.frame_id = "map";
       ndt_pose_msg.header.stamp = current_scan_time;
       ndt_pose_msg.pose.position.x = (local_transform * transform).getOrigin().getX();
       ndt_pose_msg.pose.position.y = (local_transform * transform).getOrigin().getY();
@@ -1303,7 +1303,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     }
     else
     {
-      ndt_pose_msg.header.frame_id = "/map";
+      ndt_pose_msg.header.frame_id = "map";
       ndt_pose_msg.header.stamp = current_scan_time;
       ndt_pose_msg.pose.position.x = ndt_pose.x;
       ndt_pose_msg.pose.position.y = ndt_pose.y;
@@ -1317,7 +1317,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     current_q.setRPY(current_pose.roll, current_pose.pitch, current_pose.yaw);
     // current_pose is published by vel_pose_mux
     /*
-    current_pose_msg.header.frame_id = "/map";
+    current_pose_msg.header.frame_id = "map";
     current_pose_msg.header.stamp = current_scan_time;
     current_pose_msg.pose.position.x = current_pose.x;
     current_pose_msg.pose.position.y = current_pose.y;
@@ -1333,7 +1333,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     {
       tf::Vector3 v(localizer_pose.x, localizer_pose.y, localizer_pose.z);
       tf::Transform transform(localizer_q, v);
-      localizer_pose_msg.header.frame_id = "/map";
+      localizer_pose_msg.header.frame_id = "map";
       localizer_pose_msg.header.stamp = current_scan_time;
       localizer_pose_msg.pose.position.x = (local_transform * transform).getOrigin().getX();
       localizer_pose_msg.pose.position.y = (local_transform * transform).getOrigin().getY();
@@ -1345,7 +1345,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     }
     else
     {
-      localizer_pose_msg.header.frame_id = "/map";
+      localizer_pose_msg.header.frame_id = "map";
       localizer_pose_msg.header.stamp = current_scan_time;
       localizer_pose_msg.pose.position.x = localizer_pose.x;
       localizer_pose_msg.pose.position.y = localizer_pose.y;
@@ -1363,17 +1363,17 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     //    current_pose_pub.publish(current_pose_msg);
     localizer_pose_pub.publish(localizer_pose_msg);
 
-    // Send TF "/base_link" to "/map"
+    // Send TF "base_link" to "map"
     transform.setOrigin(tf::Vector3(current_pose.x, current_pose.y, current_pose.z));
     transform.setRotation(current_q);
-    //    br.sendTransform(tf::StampedTransform(transform, current_scan_time, "/map", "/base_link"));
+    //    br.sendTransform(tf::StampedTransform(transform, current_scan_time, "map", "base_link"));
     if (_use_local_transform == true)
     {
-      br.sendTransform(tf::StampedTransform(local_transform * transform, current_scan_time, "/map", "/base_link"));
+      br.sendTransform(tf::StampedTransform(local_transform * transform, current_scan_time, "map", "base_link"));
     }
     else
     {
-      br.sendTransform(tf::StampedTransform(transform, current_scan_time, "/map", "/base_link"));
+      br.sendTransform(tf::StampedTransform(transform, current_scan_time, "map", "base_link"));
     }
 
     matching_end = std::chrono::system_clock::now();

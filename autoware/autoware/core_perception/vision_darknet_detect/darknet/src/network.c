@@ -528,12 +528,16 @@ detection *make_network_boxes(network *net, float thresh, int *num)
     layer l = net->layers[net->n - 1];
     int i;
     int nboxes = num_detections(net, thresh);
+    detection *dets = NULL;
     if(num) *num = nboxes;
-    detection *dets = calloc(nboxes, sizeof(detection));
-    for(i = 0; i < nboxes; ++i){
-        dets[i].prob = calloc(l.classes, sizeof(float));
-        if(l.coords > 4){
-            dets[i].mask = calloc(l.coords-4, sizeof(float));
+    if( nboxes > 0 )
+    {
+        dets = calloc(nboxes, sizeof(detection));
+        for(i = 0; i < nboxes; ++i){
+            dets[i].prob = calloc(l.classes, sizeof(float));
+            if(l.coords > 4){
+                dets[i].mask = calloc(l.coords-4, sizeof(float));
+            }
         }
     }
     return dets;
@@ -562,7 +566,8 @@ void fill_network_boxes(network *net, int w, int h, float thresh, float hier, in
 detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num)
 {
     detection *dets = make_network_boxes(net, thresh, num);
-    fill_network_boxes(net, w, h, thresh, hier, map, relative, dets);
+    if( *num > 0 && dets != NULL)
+        fill_network_boxes(net, w, h, thresh, hier, map, relative, dets);
     return dets;
 }
 
