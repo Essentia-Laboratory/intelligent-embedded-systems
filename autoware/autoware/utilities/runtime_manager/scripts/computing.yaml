@@ -2110,7 +2110,7 @@ params :
       desc      : pointcloud2 topic for obstacle detection
       label     : Points Topic
       kind      : str
-      v         : points_no_ground
+      v         : /points_no_ground
       cmd_param :
         dash      : ''
         delim     : ':='

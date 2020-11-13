@@ -57,7 +57,7 @@
      (print (list "callback" goal))
      (print (list "test" (send origin :worldcoords)))
 
-     (setq base->origin (send *tfl* :lookup-transform "/base_link" (send origin :name)  (ros::time 0)))
+     (setq base->origin (send *tfl* :lookup-transform "base_link" (send origin :name)  (ros::time 0)))
      (unless base->origin
        (return-from :model-move-object-callback)
        )

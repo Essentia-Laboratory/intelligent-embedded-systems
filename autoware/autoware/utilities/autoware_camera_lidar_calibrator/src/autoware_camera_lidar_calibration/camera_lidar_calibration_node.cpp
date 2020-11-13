@@ -25,6 +25,7 @@
 #include <pcl/PCLPointCloud2.h>
 #include <pcl_ros/point_cloud.h>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -250,17 +251,19 @@ public:
     std::string image_raw_topic_str, points_raw_topic_str, clusters_topic_str, camera_info_topic_str;
     std::string name_space_str = ros::this_node::getNamespace();
 
-    private_node_handle.param<std::string>("image_src", image_raw_topic_str, "/image_rectified");
+    private_node_handle.param<std::string>("image_src", image_raw_topic_str, "image_rectified");
     private_node_handle.param<std::string>("camera_info_src", camera_info_topic_str, "camera_info");
 
     if (name_space_str != "/")
     {
       if (name_space_str.substr(0, 2) == "//")
-      {
         name_space_str.erase(name_space_str.begin());
-      }
-      image_raw_topic_str = name_space_str + image_raw_topic_str;
-      camera_info_topic_str = name_space_str + camera_info_topic_str;
+      image_raw_topic_str = name_space_str + 
+	      ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( image_raw_topic_str, "/" ) ? "" : "/" )
+	      + image_raw_topic_str;
+      camera_info_topic_str = name_space_str + 
+	      ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( camera_info_topic_str, "/" ) ? "" : "/" )
+	      + camera_info_topic_str;
     }
 
     ROS_INFO("[%s] image_src: %s",__APP_NAME__, image_raw_topic_str.c_str());
@@ -274,8 +277,8 @@ public:
     ROS_INFO("[%s] Subscribing to... %s",__APP_NAME__, camera_info_topic_str.c_str());
     subscriber_intrinsics_ = node_handle_.subscribe(camera_info_topic_str, 1, &ROSCameraLidarApp::IntrinsicsCallback, this);
 
-    ROS_INFO("[%s] Subscribing to PointCloud ClickedPoint from RVIZ... /clicked_point",__APP_NAME__);
-    subscriber_clicked_point_ = node_handle_.subscribe("/clicked_point", 1, &ROSCameraLidarApp::RvizClickedPointCallback, this);
+    ROS_INFO("[%s] Subscribing to PointCloud ClickedPoint from RVIZ... clicked_point",__APP_NAME__);
+    subscriber_clicked_point_ = node_handle_.subscribe("clicked_point", 1, &ROSCameraLidarApp::RvizClickedPointCallback, this);
 
     ROS_INFO("[%s] Subscribing to Image ClickedPoint from JSK ImageView2... %s/screenpoint",__APP_NAME__, image_raw_topic_str.c_str());
     subscriber_image_point_ = node_handle_.subscribe(image_raw_topic_str+"/screenpoint", 1, &ROSCameraLidarApp::ImageClickedPointCallback, this);

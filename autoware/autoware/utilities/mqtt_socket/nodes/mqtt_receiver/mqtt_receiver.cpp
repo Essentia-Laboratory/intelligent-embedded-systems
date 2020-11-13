@@ -94,7 +94,7 @@ MqttReceiver::~MqttReceiver()
 
 static void MqttReceiver::on_connect(struct mosquitto *mosq, void *obj, int result)
 {
-  ROS_INFO("on_connect: %s(%d)\n", __FUNCTION__, __LINE__);
+  ROS_INFO("on_connect: %s(%d) mqtt_topic=[%s]\n", __FUNCTION__, __LINE__, mqtt_topic.c_str());
   mosquitto_subscribe(mqtt_client, NULL, mqtt_topic.c_str(), mqtt_qos);
 }
 
@@ -146,9 +146,9 @@ static void MqttReceiver::on_message(struct mosquitto *mosq, void *obj, const st
       msg.vehicle_cmd.gear_cmd.gear = stoi(cmds[3]);
       // lamp
       switch(stoi(cmds[4])) {
-        msg.vehicle_cmd.lamp_cmd.l = 0;
-        msg.vehicle_cmd.lamp_cmd.r = 0;
         case 0:
+          msg.vehicle_cmd.lamp_cmd.l = 0;
+          msg.vehicle_cmd.lamp_cmd.r = 0;
           break;
         case 1:
           msg.vehicle_cmd.lamp_cmd.l = 1;

@@ -32,12 +32,12 @@ class TestSuite : public ::testing::Test
 public:
     TestSuite() : nh_(""), pnh_("~")
     {
-        pub_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("current_pose", 1);
-        pub_vs_ = nh_.advertise<autoware_msgs::VehicleStatus>("vehicle_status", 1);
-        pub_lane_ = nh_.advertise<autoware_msgs::Lane>("base_waypoints", 1);
-        pub_estimate_twist_ = nh_.advertise<geometry_msgs::TwistStamped>("estimate_twist", 1);
-        sub_twist_ = nh_.subscribe("twist_raw", 1, &TestSuite::callbackTwistRaw, this);
-        sub_ctrl_cmd_ = nh_.subscribe("ctrl_raw", 1, &TestSuite::callbackCtrlCmd, this);
+        pub_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("/current_pose", 1);
+        pub_vs_ = nh_.advertise<autoware_msgs::VehicleStatus>("/vehicle_status", 1);
+        pub_lane_ = nh_.advertise<autoware_msgs::Lane>("/base_waypoints", 1);
+        pub_estimate_twist_ = nh_.advertise<geometry_msgs::TwistStamped>("/estimate_twist", 1);
+        sub_twist_ = nh_.subscribe("/twist_raw", 1, &TestSuite::callbackTwistRaw, this);
+        sub_ctrl_cmd_ = nh_.subscribe("/ctrl_raw", 1, &TestSuite::callbackCtrlCmd, this);
         spin_duration_ = 0.05;
         spin_loopnum_ = 10;
     }

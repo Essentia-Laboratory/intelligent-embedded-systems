@@ -220,10 +220,10 @@ int main(int argc, char **argv) {
     pthread_t th;
     pthread_create(&th, NULL, thread, (void *)NULL );
 
-    ros::Subscriber image_obj_sub = nh.subscribe("obj_car/image_obj", 1, image_obj_callback);
-    ros::Subscriber vscan_image_sub = nh.subscribe("vscan_image", 1, vscan_image_callback);
-    image_obj__pub = nh.advertise<autoware_msgs::ImageObj>("obj_car/image_obj_", 5);
-    vscan_image__pub = nh.advertise<autoware_msgs::PointsImage>("vscan_image_", 5);
+    ros::Subscriber image_obj_sub = nh.subscribe("/obj_car/image_obj", 1, image_obj_callback);
+    ros::Subscriber vscan_image_sub = nh.subscribe("/vscan_image", 1, vscan_image_callback);
+    image_obj__pub = nh.advertise<autoware_msgs::ImageObj>("/obj_car/image_obj_", 5);
+    vscan_image__pub = nh.advertise<autoware_msgs::PointsImage>("/vscan_image_", 5);
 
     pthread_mutex_lock(&flag_mutex);
     while ((!buf_flag) || ros::ok()) {

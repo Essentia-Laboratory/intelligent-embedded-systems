@@ -25,7 +25,7 @@
 
 (defmethod robot-im
   (:init
-   (&key ((:robot r)) ((:ri i)) ((:base-frame bf) "/base_link")
+   (&key ((:robot r)) ((:ri i)) ((:base-frame bf) "base_link")
 	 ((:server-nodename sn) "/jsk_interactive_marker_manipulation")
 	 ((:urdf-model-nodename umn) "/jsk_model_marker_interface")
 	 ((:visualization-nodename vn) "/jsk_ik_visualization")

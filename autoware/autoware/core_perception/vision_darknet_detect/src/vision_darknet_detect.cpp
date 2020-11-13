@@ -297,7 +297,7 @@ void Yolo3DetectorNode::Run()
     }
     else
     {
-        ROS_INFO("[%s] No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
+        ROS_INFO("[%s] No image node received, defaulting to image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
         image_raw_topic_str = "/image_raw";
     }
 
@@ -356,8 +356,8 @@ void Yolo3DetectorNode::Run()
     ROS_INFO("[%s] Subscribing to... %s", __APP_NAME__, image_raw_topic_str.c_str());
     subscriber_image_raw_ = node_handle_.subscribe(image_raw_topic_str, 1, &Yolo3DetectorNode::image_callback, this);
 
-    std::string config_topic("/config");
-    config_topic += "/Yolo3";
+    std::string config_topic("/config/");
+    config_topic += "Yolo3";
     ROS_INFO("[%s] Subscribing yolo config to... %s", __APP_NAME__, config_topic.c_str());
     subscriber_yolo_config_ = node_handle_.subscribe(config_topic, 1, &Yolo3DetectorNode::config_cb, this);
 

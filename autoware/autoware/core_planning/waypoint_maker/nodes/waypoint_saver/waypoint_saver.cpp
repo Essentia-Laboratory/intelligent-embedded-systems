@@ -70,8 +70,8 @@ WaypointSaver::WaypointSaver() : private_nh_("~")
 {
   // parameter settings
   private_nh_.param<std::string>("save_filename", filename_, std::string("data.txt"));
-  private_nh_.param<std::string>("pose_topic", pose_topic_, std::string("current_pose"));
-  private_nh_.param<std::string>("velocity_topic", velocity_topic_, std::string("current_velocity"));
+  private_nh_.param<std::string>("pose_topic", pose_topic_, std::string("/current_pose"));
+  private_nh_.param<std::string>("velocity_topic", velocity_topic_, std::string("/current_velocity"));
   private_nh_.param<double>("interval", interval_, 1.0);
   private_nh_.param<bool>("save_velocity", save_velocity_, false);
 
@@ -90,7 +90,7 @@ WaypointSaver::WaypointSaver() : private_nh_("~")
   }
 
   // publisher
-  waypoint_saver_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("waypoint_saver_marker", 10, true);
+  waypoint_saver_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("/waypoint_saver_marker", 10, true);
 }
 
 WaypointSaver::~WaypointSaver()

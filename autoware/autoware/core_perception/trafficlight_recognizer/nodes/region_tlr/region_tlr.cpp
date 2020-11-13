@@ -493,11 +493,11 @@ int main(int argc, char* argv[])
   signalState_pub =
       n.advertise<autoware_msgs::TrafficLight>(camera_light_color_topic_name, ADVERTISE_QUEUE_SIZE, ADVERTISE_LATCH);
   signalStateString_pub = n.advertise<std_msgs::String>("/sound_player", ADVERTISE_QUEUE_SIZE);
-  marker_pub = n.advertise<visualization_msgs::MarkerArray>("tlr_result", ADVERTISE_QUEUE_SIZE);
-  superimpose_image_pub = n.advertise<sensor_msgs::Image>("tlr_superimpose_image", ADVERTISE_QUEUE_SIZE);
+  marker_pub = n.advertise<visualization_msgs::MarkerArray>("/tlr_result", ADVERTISE_QUEUE_SIZE);
+  superimpose_image_pub = n.advertise<sensor_msgs::Image>("/tlr_superimpose_image", ADVERTISE_QUEUE_SIZE);
 
   signal_state_array_publisher_ =
-      n.advertise<autoware_msgs::TrafficLightResultArray>("tlr_result_array", ADVERTISE_QUEUE_SIZE);
+      n.advertise<autoware_msgs::TrafficLightResultArray>("/tlr_result_array", ADVERTISE_QUEUE_SIZE);
 
   ros::spin();
 

@@ -447,9 +447,9 @@ FeatProjLanelet2::FeatProjLanelet2() : private_nh_("~")
 void FeatProjLanelet2::init()
 {
   visible_traffic_light_triangle_pub_ =
-      rosnode_.advertise<visualization_msgs::MarkerArray>("visible_traffic_lights_triangle", 1);
+      rosnode_.advertise<visualization_msgs::MarkerArray>("/visible_traffic_lights_triangle", 1);
 
-  bin_map_sub_ = rosnode_.subscribe("lanelet_map_bin", 10, &FeatProjLanelet2::binMapCallback, this);
+  bin_map_sub_ = rosnode_.subscribe("/lanelet_map_bin", 10, &FeatProjLanelet2::binMapCallback, this);
 
   while (ros::ok() && !loaded_lanelet_map_)
   {
@@ -460,15 +460,15 @@ void FeatProjLanelet2::init()
   private_nh_.param<std::string>("camera_frame", camera_frame_, "camera");
 
   // subcribe to camera info & image etc
-  camera_info_subscriber_ = rosnode_.subscribe("camera_info", 100, &FeatProjLanelet2::cameraInfoCallback, this);
-  adjustXY_subscriber_ = rosnode_.subscribe("config/adjust_xy", 100, &FeatProjLanelet2::adjustXYCallback, this);
+  camera_info_subscriber_ = rosnode_.subscribe("/camera_info", 100, &FeatProjLanelet2::cameraInfoCallback, this);
+  adjustXY_subscriber_ = rosnode_.subscribe("/config/adjust_xy", 100, &FeatProjLanelet2::adjustXYCallback, this);
 
   // publisher to pub regions of interest: ie areas in image where traffic lights should be
-  roi_sign_pub_ = rosnode_.advertise<autoware_msgs::Signals>("roi_signal", 100);
+  roi_sign_pub_ = rosnode_.advertise<autoware_msgs::Signals>("/roi_signal", 100);
 
   private_nh_.param<bool>("use_path_info", use_path_info_, false);
 
-  waypoint_subscriber_ = rosnode_.subscribe("final_waypoints", 1, &FeatProjLanelet2::waypointsCallback, this);
+  waypoint_subscriber_ = rosnode_.subscribe("/final_waypoints", 1, &FeatProjLanelet2::waypointsCallback, this);
 
   if (use_path_info_)
   {

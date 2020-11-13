@@ -83,8 +83,8 @@ static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped:
   try
   {
     ros::Time now = ros::Time(0);
-    listener.waitForTransform("/map", input->header.frame_id, now, ros::Duration(10.0));
-    listener.lookupTransform("/map", input->header.frame_id, now, transform);
+    listener.waitForTransform("map", input->header.frame_id, now, ros::Duration(10.0));
+    listener.lookupTransform("map", input->header.frame_id, now, transform);
   }
   catch (tf::TransformException& ex)
   {
@@ -128,12 +128,12 @@ static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped:
   Eigen::Matrix4f t = ndt.getFinalTransformation();
 
   pcl::PointCloud<pcl::PointXYZI>::Ptr transformed_additional_map_ptr (new pcl::PointCloud<pcl::PointXYZI>());
-  transformed_additional_map_ptr->header.frame_id = "/map";
+  transformed_additional_map_ptr->header.frame_id = "map";
   pcl::transformPointCloud(*additional_map_ptr, *transformed_additional_map_ptr, t);
   sensor_msgs::PointCloud2::Ptr msg_ptr(new sensor_msgs::PointCloud2);
 
   pcl::toROSMsg(*transformed_additional_map_ptr, *msg_ptr);
-  msg_ptr->header.frame_id = "/map";
+  msg_ptr->header.frame_id = "map";
   ndt_map_pub.publish(*msg_ptr);
 
 
@@ -220,8 +220,8 @@ int main(int argc, char **argv)
 
     ndt_map_pub = n.advertise<sensor_msgs::PointCloud2>("/extended_map", 10, true);
 
-    ros::Subscriber map_sub = n.subscribe("points_map", 10, map_callback);
-    ros::Subscriber initialpose_sub = n.subscribe("initialpose", 10, initialpose_callback);
+    ros::Subscriber map_sub = n.subscribe("/points_map", 10, map_callback);
+    ros::Subscriber initialpose_sub = n.subscribe("/initialpose", 10, initialpose_callback);
 
     ros::spin();
 

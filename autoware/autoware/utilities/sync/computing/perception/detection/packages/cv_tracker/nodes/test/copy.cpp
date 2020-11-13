@@ -396,10 +396,10 @@ void* thread(void* args)
     ros::NodeHandle nh_rcv;
     ros::CallbackQueue rcv_callbackqueue;
     nh_rcv.setCallbackQueue(&rcv_callbackqueue);
-    ros::Subscriber obj_person__image_obj_sub = nh_rcv.subscribe("/obj_person/image_obj", 5, obj_person__image_obj_callback);
-    ros::Subscriber obj_car__image_obj_sub = nh_rcv.subscribe("/obj_car/image_obj", 5, obj_car__image_obj_callback);
-    ros::Subscriber points_image_sub = nh_rcv.subscribe("/points_image", 5, points_image_callback);
-    ros::Subscriber vscan_image_sub = nh_rcv.subscribe("/vscan_image", 5, vscan_image_callback);
+    ros::Subscriber obj_person__image_obj_sub = nh_rcv.subscribe("obj_person/image_obj", 5, obj_person__image_obj_callback);
+    ros::Subscriber obj_car__image_obj_sub = nh_rcv.subscribe("obj_car/image_obj", 5, obj_car__image_obj_callback);
+    ros::Subscriber points_image_sub = nh_rcv.subscribe("points_image", 5, points_image_callback);
+    ros::Subscriber vscan_image_sub = nh_rcv.subscribe("vscan_image", 5, vscan_image_callback);
     bool prev_obj_person__image_obj_flag;
     bool prev_obj_car__image_obj_flag;
     bool prev_points_image_flag;

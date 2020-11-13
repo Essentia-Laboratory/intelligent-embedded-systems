@@ -60,6 +60,8 @@ ros::Publisher marker_pub;
 int marker_cnt;
 #endif  // DEBUG
 
+#define __APP_NAME__ "lane_rule"
+
 autoware_msgs::Lane create_new_lane(const autoware_msgs::Lane& lane, const std_msgs::Header& header)
 {
   autoware_msgs::Lane l = lane;
@@ -382,6 +384,7 @@ std_msgs::ColorRGBA create_color(int index)
 
 void create_waypoint(const autoware_msgs::LaneArray& msg)
 {
+  ROS_INFO("[%s] /lane_waypoints_array create_waypoint ", __APP_NAME__);
   std_msgs::Header header;
   header.stamp = ros::Time::now();
   header.frame_id = frame_id;
@@ -394,7 +397,9 @@ void create_waypoint(const autoware_msgs::LaneArray& msg)
   if (all_vmap.points.empty() || all_vmap.lanes.empty() || all_vmap.nodes.empty() || all_vmap.stoplines.empty() ||
       all_vmap.dtlanes.empty())
   {
+    ROS_INFO("[%s] --> traffic_pub.publish( cached_waypoint ) ", __APP_NAME__);
     traffic_pub.publish(cached_waypoint);
+    ROS_INFO("[%s] <-- traffic_pub.publish( cached_waypoint ) ", __APP_NAME__);
     return;
   }
 
@@ -479,7 +484,9 @@ void create_waypoint(const autoware_msgs::LaneArray& msg)
 #endif  // DEBUG
   }
 
+  ROS_INFO("[%s] --> traffic_pub.publish( traffic_waypoint ) ", __APP_NAME__);
   traffic_pub.publish(traffic_waypoint);
+  ROS_INFO("[%s] <-- traffic_pub.publish( traffic_waypoint ) ", __APP_NAME__);
   red_pub.publish(red_waypoint);
   green_pub.publish(green_waypoint);
 }
@@ -541,36 +548,47 @@ void update_values()
 
 void cache_point(const vector_map::PointArray& msg)
 {
+  ROS_INFO("[%s] --> /vector_map_info/point cache_point ", __APP_NAME__);
   all_vmap.points = msg.data;
   update_values();
+  ROS_INFO("[%s] <-- /vector_map_info/point cache_point ", __APP_NAME__);
 }
 
 void cache_lane(const vector_map::LaneArray& msg)
 {
+  ROS_INFO("[%s] --> /vector_map_info/lane cache_lane ", __APP_NAME__);
   all_vmap.lanes = msg.data;
   update_values();
+  ROS_INFO("[%s] <-- /vector_map_info/lane cache_lane ", __APP_NAME__);
 }
 
 void cache_node(const vector_map::NodeArray& msg)
 {
+  ROS_INFO("[%s] --> /vector_map_info/node cache_node ", __APP_NAME__);
   all_vmap.nodes = msg.data;
   update_values();
+  ROS_INFO("[%s] <-- /vector_map_info/node cache_node ", __APP_NAME__);
 }
 
 void cache_stopline(const vector_map::StopLineArray& msg)
 {
+  ROS_INFO("[%s] --> /vector_map_info/stop_line cache_stopline ", __APP_NAME__);
   all_vmap.stoplines = msg.data;
   update_values();
+  ROS_INFO("[%s] <-- /vector_map_info/stop_line cache_stopline ", __APP_NAME__);
 }
 
 void cache_dtlane(const vector_map::DTLaneArray& msg)
 {
+  ROS_INFO("[%s] --> /vector_map_info/dtlane cache_dtlane ", __APP_NAME__);
   all_vmap.dtlanes = msg.data;
   update_values();
+  ROS_INFO("[%s] <-- /vector_map_info/dtlane cache_dtlane ", __APP_NAME__);
 }
 
 void config_parameter(const autoware_config_msgs::ConfigLaneRule& msg)
 {
+  ROS_INFO("[%s] --> config_parameter ", __APP_NAME__);
   config_acceleration = msg.acceleration;
   config_stopline_search_radius = msg.stopline_search_radius;
   config_number_of_zeros_ahead = msg.number_of_zeros_ahead;
@@ -582,13 +600,14 @@ void config_parameter(const autoware_config_msgs::ConfigLaneRule& msg)
     autoware_msgs::LaneArray update_waypoint = cached_waypoint;
     create_waypoint(update_waypoint);
   }
+  ROS_INFO("[%s] <-- config_parameter ", __APP_NAME__);
 }
 
 }  // namespace
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "lane_rule");
+  ros::init(argc, argv, __APP_NAME__);
 
   ros::NodeHandle n;
   ros::NodeHandle pnh("~");
@@ -622,6 +641,7 @@ int main(int argc, char** argv)
   pnh.param<int>("number_of_zeros_behind", config_number_of_zeros_behind, 0);
   pnh.param<double>("stopline_search_radius", config_stopline_search_radius, 1);
 
+  ROS_INFO("[%s] advertise ", __APP_NAME__);
   traffic_pub =
       n.advertise<autoware_msgs::LaneArray>("/traffic_waypoints_array", pub_waypoint_queue_size, pub_waypoint_latch);
   red_pub = n.advertise<autoware_msgs::LaneArray>("/red_waypoints_array", pub_waypoint_queue_size, pub_waypoint_latch);
@@ -639,6 +659,7 @@ int main(int argc, char** argv)
   marker_pub = n.advertise<visualization_msgs::Marker>("/waypoint_debug", pub_marker_queue_size, pub_marker_latch);
 #endif  // DEBUG
 
+  ROS_INFO("[%s] subscribe ", __APP_NAME__);
   ros::Subscriber waypoint_sub = n.subscribe("/lane_waypoints_array", sub_waypoint_queue_size, create_waypoint);
   ros::Subscriber point_sub = n.subscribe("/vector_map_info/point", sub_vmap_queue_size, cache_point);
   ros::Subscriber lane_sub = n.subscribe("/vector_map_info/lane", sub_vmap_queue_size, cache_lane);

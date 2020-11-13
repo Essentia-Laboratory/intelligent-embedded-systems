@@ -118,12 +118,12 @@ int main(int argc, char **argv)
 
   // Publish the following topics:
   // Commands
-  ros::Publisher cmd_velocity_publisher = nh.advertise<geometry_msgs::TwistStamped>("twist_raw", 10);
+  ros::Publisher cmd_velocity_publisher = nh.advertise<geometry_msgs::TwistStamped>("/twist_raw", 10);
 
   // Subscribe to the following topics:
   // Curvature parameters and state parameters
-  ros::Subscriber spline_parameters = nh.subscribe("spline", 1, splineCallback);
-  ros::Subscriber state_parameters = nh.subscribe("state", 1, stateCallback);
+  ros::Subscriber spline_parameters = nh.subscribe("/spline", 1, splineCallback);
+  ros::Subscriber state_parameters = nh.subscribe("/state", 1, stateCallback);
 
   // Setup message to hold commands
   geometry_msgs::TwistStamped twist;

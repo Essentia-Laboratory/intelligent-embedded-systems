@@ -435,6 +435,7 @@ ROSRangeVisionFusionApp::SyncedDetectionsCallback(
   if (empty_frames_ > 5)
   {
     ROS_INFO("[%s] Empty Detections. Make sure the vision and range detectors are running.", __APP_NAME__);
+    ROS_INFO("[%s] in_vision_detections = [%d], in_range_detections = [%d]", __APP_NAME__, nullptr != in_vision_detections, nullptr != in_range_detections);
   }
 
   if (nullptr == in_vision_detections

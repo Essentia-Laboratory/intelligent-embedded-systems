@@ -589,10 +589,10 @@ int main(int argc, char **argv)
     std_msgs::Header header_support;
 
     image_transport::ImageTransport it(node);
-    image_transport::CameraPublisher pub00 = it.advertiseCamera("grayscale/left/image_rect", 1);
-    image_transport::CameraPublisher pub01 = it.advertiseCamera("grayscale/right/image_rect", 1);
-    image_transport::CameraPublisher pub02 = it.advertiseCamera("color/left/image_rect", 1);
-    image_transport::CameraPublisher pub03 = it.advertiseCamera("color/right/image_rect", 1);
+    image_transport::CameraPublisher pub00 = it.advertiseCamera("/grayscale/left/image_rect", 1);
+    image_transport::CameraPublisher pub01 = it.advertiseCamera("/grayscale/right/image_rect", 1);
+    image_transport::CameraPublisher pub02 = it.advertiseCamera("/color/left/image_rect", 1);
+    image_transport::CameraPublisher pub03 = it.advertiseCamera("/color/right/image_rect", 1);
 
     sensor_msgs::Image ros_msg00;
     sensor_msgs::Image ros_msg01;
@@ -608,12 +608,12 @@ int main(int argc, char **argv)
 
     cv_bridge::CvImage cv_bridge_img;
 
-    ros::Publisher map_pub           = node.advertise<pcl::PointCloud<pcl::PointXYZ> >  ("hdl64e", 1, true);
-    ros::Publisher gps_pub           = node.advertise<sensor_msgs::NavSatFix>           ("oxts/gps", 1, true);
-    ros::Publisher gps_pub_initial   = node.advertise<sensor_msgs::NavSatFix>           ("oxts/gps_initial", 1, true);
-    ros::Publisher imu_pub           = node.advertise<sensor_msgs::Imu>                 ("oxts/imu", 1, true);
-    ros::Publisher disp_pub          = node.advertise<stereo_msgs::DisparityImage>      ("preprocessed_disparity",1,true);
-    //ros::Publisher lanes_pub         = node.advertise<road_layout_estimation::msg_lines>("lanes",1,true);
+    ros::Publisher map_pub           = node.advertise<pcl::PointCloud<pcl::PointXYZ> >  ("/hdl64e", 1, true);
+    ros::Publisher gps_pub           = node.advertise<sensor_msgs::NavSatFix>           ("/oxts/gps", 1, true);
+    ros::Publisher gps_pub_initial   = node.advertise<sensor_msgs::NavSatFix>           ("/oxts/gps_initial", 1, true);
+    ros::Publisher imu_pub           = node.advertise<sensor_msgs::Imu>                 ("/oxts/imu", 1, true);
+    ros::Publisher disp_pub          = node.advertise<stereo_msgs::DisparityImage>      ("/preprocessed_disparity",1,true);
+    //ros::Publisher lanes_pub         = node.advertise<road_layout_estimation::msg_lines>("/lanes",1,true);
 
     sensor_msgs::NavSatFix  ros_msgGpsFix;
     sensor_msgs::NavSatFix  ros_msgGpsFixInitial;   // This message contains the first reading of the file

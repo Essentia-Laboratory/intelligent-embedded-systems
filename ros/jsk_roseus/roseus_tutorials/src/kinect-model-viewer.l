@@ -221,7 +221,7 @@
 	   (if m
 	       (send j :joint-angle (map cons #'rad2deg (matrix-log (send m :worldrot))))
 	     (setq ret nil)))
-	 (setq m (send tf-listener :lookup-transform "/map" (format nil "/torso_~d" i) tm)) ;;; change from /map to /base_footprint for pr2
+	 (setq m (send tf-listener :lookup-transform "map" (format nil "/torso_~d" i) tm)) ;;; change from map to /base_footprint for pr2
 	 (if m
 	     (send (car (send self :joint-list))
 		   :joint-angle (coerce (append (coerce (send m :worldpos) cons)

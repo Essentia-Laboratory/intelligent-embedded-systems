@@ -101,7 +101,7 @@ void GazeboRosBlockLaser::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
   if (!_sdf->HasElement("frameName"))
   {
     ROS_INFO_NAMED("block_laser", "Block laser plugin missing <frameName>, defaults to /world");
-    this->frame_name_ = "/world";
+    this->frame_name_ = "world";
   }
   else
     this->frame_name_ = _sdf->GetElement("frameName")->Get<std::string>();
@@ -109,7 +109,7 @@ void GazeboRosBlockLaser::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
   if (!_sdf->HasElement("topicName"))
   {
     ROS_INFO_NAMED("block_laser", "Block laser plugin missing <topicName>, defaults to /world");
-    this->topic_name_ = "/world";
+    this->topic_name_ = "world";
   }
   else
     this->topic_name_ = _sdf->GetElement("topicName")->Get<std::string>();

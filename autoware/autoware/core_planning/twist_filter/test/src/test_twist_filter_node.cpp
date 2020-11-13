@@ -25,12 +25,12 @@ public:
   TestSuite() : nh_(), private_nh_("~")
   {
     // Raw velocity publisher
-    twist_raw_publisher_ = nh_.advertise<geometry_msgs::TwistStamped>("twist_raw", 1, true);
-    ctrl_raw_publisher_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("ctrl_raw", 1, true);
+    twist_raw_publisher_ = nh_.advertise<geometry_msgs::TwistStamped>("/twist_raw", 1, true);
+    ctrl_raw_publisher_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("/ctrl_raw", 1, true);
 
     // Setup subscriber
-    twist_cmd_subscriber_ = nh_.subscribe("twist_cmd", 1, &TestSuite::callbackTwistCmd, this);
-    ctrl_cmd_subscriber_ = nh_.subscribe("ctrl_cmd", 1, &TestSuite::callbackCtrlCmd, this);
+    twist_cmd_subscriber_ = nh_.subscribe("/twist_cmd", 1, &TestSuite::callbackTwistCmd, this);
+    ctrl_cmd_subscriber_ = nh_.subscribe("/ctrl_cmd", 1, &TestSuite::callbackCtrlCmd, this);
   }
 
   void setupParameters()

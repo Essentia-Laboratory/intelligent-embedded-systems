@@ -75,20 +75,20 @@ way_planner_core::way_planner_core()
   m_OriginPos.position.y  = transform.getOrigin().y();
   m_OriginPos.position.z  = transform.getOrigin().z();
 
-  pub_Paths = nh.advertise<autoware_msgs::LaneArray>("lane_waypoints_array", 1, true);
-  pub_PathsRviz = nh.advertise<visualization_msgs::MarkerArray>("global_waypoints_rviz", 1, true);
-  pub_StartPointRviz = nh.advertise<visualization_msgs::Marker>("Global_StartPoint_rviz", 1, true);
-  pub_GoalPointRviz = nh.advertise<visualization_msgs::MarkerArray>("Global_GoalPoints_rviz", 1, true);
-  pub_NodesListRviz = nh.advertise<visualization_msgs::MarkerArray>("Goal_Nodes_Points_rviz", 1, true);
-  pub_MapRviz  = nh.advertise<visualization_msgs::MarkerArray>("vector_map_center_lines_rviz", 100, true);
-  pub_TrafficInfoRviz = nh.advertise<visualization_msgs::MarkerArray>("Traffic_Lights_rviz", 1, true);
+  pub_Paths = nh.advertise<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, true);
+  pub_PathsRviz = nh.advertise<visualization_msgs::MarkerArray>("/global_waypoints_rviz", 1, true);
+  pub_StartPointRviz = nh.advertise<visualization_msgs::Marker>("/Global_StartPoint_rviz", 1, true);
+  pub_GoalPointRviz = nh.advertise<visualization_msgs::MarkerArray>("/Global_GoalPoints_rviz", 1, true);
+  pub_NodesListRviz = nh.advertise<visualization_msgs::MarkerArray>("/Goal_Nodes_Points_rviz", 1, true);
+  pub_MapRviz  = nh.advertise<visualization_msgs::MarkerArray>("/vector_map_center_lines_rviz", 100, true);
+  pub_TrafficInfoRviz = nh.advertise<visualization_msgs::MarkerArray>("/Traffic_Lights_rviz", 1, true);
 
 #ifdef ENABLE_VISUALIZE_PLAN
   m_CurrMaxCost = 1;
   m_iCurrLevel = 0;
   m_nLevelSize = 1;
   m_bSwitch = 0;
-  pub_GlobalPlanAnimationRviz = nh.advertise<visualization_msgs::MarkerArray>("AnimateGlobalPlan", 1, true);
+  pub_GlobalPlanAnimationRviz = nh.advertise<visualization_msgs::MarkerArray>("/AnimateGlobalPlan", 1, true);
 #endif
 
 if(m_params.bEnableHMI)
@@ -102,7 +102,7 @@ if(m_params.bEnableHMI)
   //if(m_params.bEnableRvizInput)
   {
     sub_start_pose   = nh.subscribe("/initialpose",           1, &way_planner_core::callbackGetStartPose,     this);
-    sub_goal_pose   = nh.subscribe("move_base_simple/goal",     1, &way_planner_core::callbackGetGoalPose,     this);
+    sub_goal_pose   = nh.subscribe("/move_base_simple/goal",     1, &way_planner_core::callbackGetGoalPose,     this);
   }
 //  else
 //  {

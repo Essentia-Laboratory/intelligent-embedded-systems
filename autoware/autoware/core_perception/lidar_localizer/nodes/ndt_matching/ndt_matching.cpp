@@ -20,6 +20,7 @@
  Yuki KITSUKAWA
  */
 
+#define USE_TF2 0
 #include <pthread.h>
 #include <chrono>
 #include <fstream>
@@ -43,10 +44,16 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/TwistStamped.h>
 
+#if USE_TF2 
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#else
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
+#endif
 
 #include <pcl/io/io.h>
 #include <pcl/io/pcd_io.h>
@@ -72,6 +79,7 @@
 //headers in Autoware Health Checker
 #include <autoware_health_checker/health_checker/health_checker.h>
 
+#define __APP_DATA__ "ndt_matching"
 #define PREDICT_POSE_THRESHOLD 0.5
 
 #define Wa 0.4
@@ -225,7 +233,7 @@ static bool _use_odom = false;
 static bool _imu_upside_down = false;
 static bool _output_log_data = false;
 
-static std::string _imu_topic = "/imu_raw";
+static std::string _imu_topic = "imu_raw";
 
 static std::ofstream ofs;
 static std::string filename;
@@ -234,7 +242,11 @@ static sensor_msgs::Imu imu;
 static nav_msgs::Odometry odom;
 
 // static tf::TransformListener local_transform_listener;
+#if USE_TF2 
+static tf2::StampedTransform local_transform;
+#else
 static tf::StampedTransform local_transform;
+#endif
 
 static unsigned int points_map_num = 0;
 
@@ -426,6 +438,7 @@ static void param_callback(const autoware_config_msgs::ConfigNDT::ConstPtr& inpu
 
 static void map_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 {
+  ROS_INFO("[%s] --> map_callback ", __APP_DATA__);
   // if (map_loaded == 0)
   if (points_map_num != input->width)
   {
@@ -438,6 +451,20 @@ static void map_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 
     if (_use_local_transform == true)
     {
+#if USE_TF2
+      tf2_ros::Buffer buffer;
+      tf2_ros::TransformListener local_transform_listener(buffer);
+      try
+      {
+        ros::Time now = ros::Time(0);
+	ros::Duration timeout(10.0);
+
+      }
+      catch( tf2::TransformException& ex)
+      {
+        ROS_ERROR("[%s], %s", __APP_NAME__, ex.what());
+      }
+#else
       tf::TransformListener local_transform_listener;
       try
       {
@@ -449,6 +476,7 @@ static void map_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
       {
         ROS_ERROR("%s", ex.what());
       }
+#endif
 
       pcl_ros::transformPointCloud(map, map, local_transform.inverse());
     }
@@ -535,10 +563,12 @@ static void map_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 #endif
     map_loaded = 1;
   }
+  ROS_INFO("[%s] <-- map_callback ", __APP_DATA__);
 }
 
 static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
 {
+  ROS_INFO("[%s] --> gnss_callback ", __APP_DATA__);
   tf::Quaternion gnss_q(input->pose.orientation.x, input->pose.orientation.y, input->pose.orientation.z,
                         input->pose.orientation.w);
   tf::Matrix3x3 gnss_m(gnss_q);
@@ -602,10 +632,12 @@ static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
   previous_gnss_pose.pitch = current_gnss_pose.pitch;
   previous_gnss_pose.yaw = current_gnss_pose.yaw;
   previous_gnss_time = current_gnss_time;
+  ROS_INFO("[%s] <-- gnss_callback ", __APP_DATA__);
 }
 
 static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& input)
 {
+  ROS_INFO("[%s] --> initialpost_callback ", __APP_DATA__);
   tf::TransformListener listener;
   tf::StampedTransform transform;
   try
@@ -699,6 +731,7 @@ static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped:
   offset_imu_odom_yaw = 0.0;
 
   init_pos_set = 1;
+  ROS_INFO("[%s] <-- initialpost_callback ", __APP_DATA__);
 }
 
 static void imu_odom_calc(ros::Time current_time)
@@ -924,6 +957,7 @@ static void imu_callback(const sensor_msgs::Imu::Ptr& input)
 
 static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 {
+  ROS_INFO("[%s] --> points_callback", __APP_DATA__);
   health_checker_ptr_->CHECK_RATE("topic_rate_filtered_points_slow", 8, 5, 1, "topic filtered_points subscribe rate slow.");
   if (map_loaded == 1 && init_pos_set == 1)
   {
@@ -1384,7 +1418,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 
     // Set values for /estimate_twist
     estimate_twist_msg.header.stamp = current_scan_time;
-    estimate_twist_msg.header.frame_id = "/base_link";
+    estimate_twist_msg.header.frame_id = "base_link";
     estimate_twist_msg.twist.linear.x = current_velocity;
     estimate_twist_msg.twist.linear.y = 0.0;
     estimate_twist_msg.twist.linear.z = 0.0;
@@ -1392,7 +1426,9 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     estimate_twist_msg.twist.angular.y = 0.0;
     estimate_twist_msg.twist.angular.z = angular_velocity;
 
+    ROS_INFO("[%s] --> estimate_twist_pub.publish(estimate_twist_msg)", __APP_DATA__);
     estimate_twist_pub.publish(estimate_twist_msg);
+    ROS_INFO("[%s] <-- estimate_twist_pub.publish(estimate_twist_msg)", __APP_DATA__);
 
     geometry_msgs::Vector3Stamped estimate_vel_msg;
     estimate_vel_msg.header.stamp = current_scan_time;
@@ -1501,6 +1537,7 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 
     previous_estimated_vel_kmph.data = estimated_vel_kmph.data;
   }
+  ROS_INFO("[%s] <-- points_callback", __APP_DATA__);
 }
 
 void* thread_func(void* args)
@@ -1509,7 +1546,7 @@ void* thread_func(void* args)
   ros::CallbackQueue map_callback_queue;
   nh_map.setCallbackQueue(&map_callback_queue);
 
-  ros::Subscriber map_sub = nh_map.subscribe("points_map", 10, map_callback);
+  ros::Subscriber map_sub = nh_map.subscribe("/points_map", 10, map_callback);
   ros::Rate ros_rate(10);
   while (nh_map.ok())
   {
@@ -1665,11 +1702,11 @@ int main(int argc, char** argv)
   ndt_reliability_pub = nh.advertise<std_msgs::Float32>("/ndt_reliability", 10);
 
   // Subscribers
-  ros::Subscriber param_sub = nh.subscribe("config/ndt", 10, param_callback);
-  ros::Subscriber gnss_sub = nh.subscribe("gnss_pose", 10, gnss_callback);
-  //  ros::Subscriber map_sub = nh.subscribe("points_map", 1, map_callback);
-  ros::Subscriber initialpose_sub = nh.subscribe("initialpose", 10, initialpose_callback);
-  ros::Subscriber points_sub = nh.subscribe("filtered_points", _queue_size, points_callback);
+  ros::Subscriber param_sub = nh.subscribe("/config/ndt", 10, param_callback);
+  ros::Subscriber gnss_sub = nh.subscribe("/gnss_pose", 10, gnss_callback);
+  //  ros::Subscriber map_sub = nh.subscribe("/points_map", 1, map_callback);
+  ros::Subscriber initialpose_sub = nh.subscribe("/initialpose", 10, initialpose_callback);
+  ros::Subscriber points_sub = nh.subscribe("/filtered_points", _queue_size, points_callback);
   ros::Subscriber odom_sub = nh.subscribe("/vehicle/odom", _queue_size * 10, odom_callback);
   ros::Subscriber imu_sub = nh.subscribe(_imu_topic.c_str(), _queue_size * 10, imu_callback);
 

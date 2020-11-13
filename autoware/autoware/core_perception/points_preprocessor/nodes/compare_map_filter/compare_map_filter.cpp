@@ -82,7 +82,7 @@ CompareMapFilter::CompareMapFilter()
   , distance_threshold_(0.3)
   , min_clipping_height_(-2.0)
   , max_clipping_height_(0.5)
-  , map_frame_("/map")
+  , map_frame_("map")
 {
   nh_private_.param("distance_threshold", distance_threshold_, distance_threshold_);
   nh_private_.param("min_clipping_height", min_clipping_height_, min_clipping_height_);

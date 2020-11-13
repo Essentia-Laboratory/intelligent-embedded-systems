@@ -183,9 +183,11 @@ void SaveDepth::create_depth(){
 }
 
 void SaveDepth::depthConverter(int argc, char* argv[]){
-  ros::init(argc, argv, "Depth_Conveter");
+  ros::init(argc, argv, "Depth_Converter");
   ros::NodeHandle n;
+  ROS_INFO("[%s] subscribe image_topic_name=[%s]", "Depth_Converter", image_topic_name_.c_str());  
   ros::Subscriber image_sub = n.subscribe(image_topic_name_, 1, &SaveDepth::get_image, this);
+  ROS_INFO("[%s] subscribe pc2_topic_name=[%s]", "Depth_Converter", pc2_topic_name_.c_str());  
   ros::Subscriber pc2_sub = n.subscribe(pc2_topic_name_, 1, &SaveDepth::get_pcd, this);
   ros::Rate r(100);
   while (ros::ok())

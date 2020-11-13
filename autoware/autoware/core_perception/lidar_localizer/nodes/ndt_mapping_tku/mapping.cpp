@@ -46,14 +46,14 @@ void points_callback(const pcl::PointCloud<pcl::PointXYZI>::ConstPtr &msg)
   tf::StampedTransform transform;
   if ((int)prev_points.points.size() > 0)
   {
-    //  tf_listener->waitForTransform("/world", header.frame_id, header.stamp, ros::Duration(1));
-    // pcl_ros::transformPointCloud("/world", *msg, pcl_out, *tf_listener);
+    //  tf_listener->waitForTransform("world", header.frame_id, header.stamp, ros::Duration(1));
+    // pcl_ros::transformPointCloud("world", *msg, pcl_out, *tf_listener);
     try
     {
-      /*    tf_listener->waitForTransform("/japan_7", header.frame_id, header.stamp, ros::Duration(1));
-      pcl_ros::transformPointCloud("/japan_7", *msg, pcl_out, *tf_listener);
+      /*    tf_listener->waitForTransform("japan_7", header.frame_id, header.stamp, ros::Duration(1));
+      pcl_ros::transformPointCloud("japan_7", *msg, pcl_out, *tf_listener);
       */
-      //    tf_listener->waitForTransform("/world", header.frame_id, header.stamp, ros::Duration(1));
+      //    tf_listener->waitForTransform("world", header.frame_id, header.stamp, ros::Duration(1));
       tf_listener->waitForTransform("map", "base_link", prev_time /*header.stamp*/, ros::Duration(1));
       tf_listener->lookupTransform("map", "base_link", prev_time, transform);
       /*pcl_ros::transformPointCloud("world", prev_time, prev_points, "ndt_frame", pcl_out, *tf_listener);
@@ -121,8 +121,8 @@ int main(int argc, char **argv)
   filename = "ndt_mapping_tku_" + std::string(buffer) + ".csv";
   ofs.open(filename.c_str(), std::ios::app);
 
-  ros::Subscriber points_sub = n.subscribe("points_raw", 10, points_callback);
-  velodyne_pub = n.advertise<pcl::PointCloud<pcl::PointXYZI>>("velodyne_points/world", 1);
+  ros::Subscriber points_sub = n.subscribe("/points_raw", 10, points_callback);
+  velodyne_pub = n.advertise<pcl::PointCloud<pcl::PointXYZI>>("/velodyne_points/world", 1);
 
   tf_listener = new tf::TransformListener();
   //  sleep(2);

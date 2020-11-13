@@ -114,7 +114,7 @@ PotentialField::PotentialField()
 
 void PotentialField::init() {
   ROS_INFO("Created map");
-  map_.setFrameId("/potential_field_link");
+  map_.setFrameId("potential_field_link");
   map_.setGeometry(Length(map_x_size_, map_y_size_), map_resolution_);
   for (GridMapIterator it(map_); !it.isPastEnd(); ++it) {
     Position position;
@@ -268,10 +268,10 @@ void PotentialField::target_waypoint_callback(
   tf::TransformListener tflistener;
   try {
     ros::Time now = ros::Time(0);
-    tflistener.waitForTransform("/map", "/potential_field_link", now,
+    tflistener.waitForTransform("map", "potential_field_link", now,
                                 ros::Duration(10.0));
-    tflistener.transformPoint("/potential_field_link", in.header.stamp, in,
-                              "/map", out);
+    tflistener.transformPoint("potential_field_link", in.header.stamp, in,
+                              "map", out);
 
   } catch (tf::TransformException &ex) {
     ROS_ERROR("%s", ex.what());

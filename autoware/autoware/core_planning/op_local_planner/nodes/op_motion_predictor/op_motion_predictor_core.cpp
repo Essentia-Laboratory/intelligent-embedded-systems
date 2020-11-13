@@ -44,7 +44,7 @@ MotionPrediction::MotionPrediction()
   pub_predicted_objects_trajectories = nh.advertise<autoware_msgs::DetectedObjectArray>("/predicted_objects", 1);
   pub_PredictedTrajectoriesRviz = nh.advertise<visualization_msgs::MarkerArray>("/predicted_trajectories_rviz", 1);
   pub_CurbsRviz          = nh.advertise<visualization_msgs::MarkerArray>("/map_curbs_rviz", 1);
-  pub_ParticlesRviz = nh.advertise<visualization_msgs::MarkerArray>("prediction_particles", 1);
+  pub_ParticlesRviz = nh.advertise<visualization_msgs::MarkerArray>("/prediction_particles", 1);
 
   sub_StepSignal = nh.subscribe("/pred_step_signal",     1, &MotionPrediction::callbackGetStepForwardSignals,     this);
   sub_tracked_objects  = nh.subscribe("/tracked_objects",       1,    &MotionPrediction::callbackGetTrackedObjects,     this);

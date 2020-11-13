@@ -21,21 +21,21 @@ namespace twist_filter_node
 TwistFilterNode::TwistFilterNode() : nh_(), private_nh_("~"), health_checker_(nh_, private_nh_)
 {
   // Subscribe
-  twist_sub_ = nh_.subscribe("twist_raw", 1, &TwistFilterNode::twistCmdCallback, this);
-  ctrl_sub_ = nh_.subscribe("ctrl_raw", 1, &TwistFilterNode::ctrlCmdCallback, this);
-  config_sub_ = nh_.subscribe("config/twist_filter", 10, &TwistFilterNode::configCallback, this);
+  twist_sub_ = nh_.subscribe("/twist_raw", 1, &TwistFilterNode::twistCmdCallback, this);
+  ctrl_sub_ = nh_.subscribe("/ctrl_raw", 1, &TwistFilterNode::ctrlCmdCallback, this);
+  config_sub_ = nh_.subscribe("/config/twist_filter", 10, &TwistFilterNode::configCallback, this);
 
   // Publish
-  twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("twist_cmd", 5);
-  ctrl_pub_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("ctrl_cmd", 5);
-  twist_lacc_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("limitation_debug/twist/lateral_accel", 5);
-  twist_ljerk_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("limitation_debug/twist/lateral_jerk", 5);
-  ctrl_lacc_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("limitation_debug/ctrl/lateral_accel", 5);
-  ctrl_ljerk_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("limitation_debug/ctrl/lateral_jerk", 5);
-  twist_lacc_result_pub_ = private_nh_.advertise<std_msgs::Float32>("result/twist/lateral_accel", 5);
-  twist_ljerk_result_pub_ = private_nh_.advertise<std_msgs::Float32>("result/twist/lateral_jerk", 5);
-  ctrl_lacc_result_pub_ = private_nh_.advertise<std_msgs::Float32>("result/ctrl/lateral_accel", 5);
-  ctrl_ljerk_result_pub_ = private_nh_.advertise<std_msgs::Float32>("result/ctrl/lateral_jerk", 5);
+  twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("/twist_cmd", 5);
+  ctrl_pub_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("/ctrl_cmd", 5);
+  twist_lacc_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("/limitation_debug/twist/lateral_accel", 5);
+  twist_ljerk_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("/limitation_debug/twist/lateral_jerk", 5);
+  ctrl_lacc_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("/limitation_debug/ctrl/lateral_accel", 5);
+  ctrl_ljerk_limit_debug_pub_ = private_nh_.advertise<std_msgs::Float32>("/limitation_debug/ctrl/lateral_jerk", 5);
+  twist_lacc_result_pub_ = private_nh_.advertise<std_msgs::Float32>("/result/twist/lateral_accel", 5);
+  twist_ljerk_result_pub_ = private_nh_.advertise<std_msgs::Float32>("/result/twist/lateral_jerk", 5);
+  ctrl_lacc_result_pub_ = private_nh_.advertise<std_msgs::Float32>("/result/ctrl/lateral_accel", 5);
+  ctrl_ljerk_result_pub_ = private_nh_.advertise<std_msgs::Float32>("/result/ctrl/lateral_jerk", 5);
 
   // Parameters
   twist_filter::Configuration twist_filter_config;

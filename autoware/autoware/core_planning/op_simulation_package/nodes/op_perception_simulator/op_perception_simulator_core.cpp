@@ -48,7 +48,7 @@ OpenPlannerSimulatorPerception::OpenPlannerSimulatorPerception()
   nh.getParam("/op_perception_simulator/GuassianErrorFactor" , m_DecParams.errFactor);
   nh.getParam("/op_perception_simulator/pointCloudPointsNumber" , m_DecParams.nPointsPerObj);
 
-  pub_DetectedObjects = nh.advertise<autoware_msgs::CloudClusterArray>("cloud_clusters",1);
+  pub_DetectedObjects = nh.advertise<autoware_msgs::CloudClusterArray>("/cloud_clusters",1);
 
   sub_simulated_obstacle_pose_rviz = nh.subscribe("/clicked_point", 1, &OpenPlannerSimulatorPerception::callbackGetRvizPoint,  this);
 

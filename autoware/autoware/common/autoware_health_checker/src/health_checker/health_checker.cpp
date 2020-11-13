@@ -31,7 +31,7 @@ HealthChecker::HealthChecker(ros::NodeHandle nh, ros::NodeHandle pnh)
   , is_shutdown_(false)
 {
   status_pub_ =
-    nh_.advertise<autoware_system_msgs::NodeStatus>("node_status", 10);
+    nh_.advertise<autoware_system_msgs::NodeStatus>("/node_status", 10);
 }
 
 HealthChecker::~HealthChecker()

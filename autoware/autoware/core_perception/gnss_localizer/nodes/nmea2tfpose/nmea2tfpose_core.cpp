@@ -47,10 +47,10 @@ void Nmea2TFPoseNode::initForROS()
   private_nh_.getParam("plane", plane_number_);
 
   // setup subscriber
-  sub1_ = nh_.subscribe("nmea_sentence", 100, &Nmea2TFPoseNode::callbackFromNmeaSentence, this);
+  sub1_ = nh_.subscribe("/nmea_sentence", 100, &Nmea2TFPoseNode::callbackFromNmeaSentence, this);
 
   // setup publisher
-  pub1_ = nh_.advertise<geometry_msgs::PoseStamped>("gnss_pose", 10);
+  pub1_ = nh_.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 10);
 }
 
 void Nmea2TFPoseNode::run()

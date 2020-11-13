@@ -64,7 +64,7 @@ public:
     else
     {
       ROS_INFO("No image node received, defaulting to /image_raw, you can use _image_src:=YOUR_TOPIC");
-      image_raw_topic_str = "/image_raw";
+      image_raw_topic_str = "image_raw";
     }
 
     std::string network_definition_file;

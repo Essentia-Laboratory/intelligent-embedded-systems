@@ -158,12 +158,12 @@ static void *getCanValue(void *arg)
   if (!ret)
     return nullptr;
 
-  can_msg.header.frame_id = "/can";
+  can_msg.header.frame_id = "can";
   can_msg.header.stamp = ros::Time::now();
   can_pub.publish(can_msg);
 
   tablet_socket_msgs::mode_info mode_msg;
-  mode_msg.header.frame_id = "/mode";
+  mode_msg.header.frame_id = "mode";
   mode_msg.header.stamp = ros::Time::now();
   mode_msg.mode = mode;
   mode_pub.publish(mode_msg);
@@ -247,8 +247,8 @@ int main(int argc, char **argv)
 
   std::cout << "vehicle receiver" << std::endl;
 
-  can_pub = nh.advertise<autoware_can_msgs::CANInfo>("can_info", 100);
-  mode_pub = nh.advertise<tablet_socket_msgs::mode_info>("mode_info", 100);
+  can_pub = nh.advertise<autoware_can_msgs::CANInfo>("/can_info", 100);
+  mode_pub = nh.advertise<tablet_socket_msgs::mode_info>("/mode_info", 100);
 
   pthread_t th;
   int ret = pthread_create(&th, nullptr, receiverCaller, nullptr);

@@ -26,8 +26,8 @@
   <arg name='yaw' value='0.0'/>
   <arg name='pitch' value='0.0'/>
   <arg name='roll' value='0.0'/>
-  <arg name='frame_id' value='/base_link'/>
-  <arg name='child_frame_id' value='/velodyne'/>
+  <arg name='frame_id' value='base_link'/>
+  <arg name='child_frame_id' value='velodyne'/>
   <arg name='period_in_ms' value='10'/>
 
   <!-- tf parameters for ndt_matching -->

@@ -38,6 +38,7 @@
 #include <console_bridge/console.h>
 #include "tf2/LinearMath/Transform.h"
 #include <boost/foreach.hpp>
+#include <boost/stacktrace.hpp>
 
 namespace tf2
 {
@@ -124,6 +125,7 @@ bool BufferCore::warnFrameId(const char* function_name_arg, const std::string& f
     std::stringstream ss;
     ss << "Invalid argument passed to "<< function_name_arg <<" in tf2 frame_ids cannot be empty";
     CONSOLE_BRIDGE_logWarn("%s",ss.str().c_str());
+    // std::cerr << boost::stacktrace::stacktrace();
     return true;
   }
 
@@ -132,6 +134,7 @@ bool BufferCore::warnFrameId(const char* function_name_arg, const std::string& f
     std::stringstream ss;
     ss << "Invalid argument \"" << frame_id << "\" passed to "<< function_name_arg <<" in tf2 frame_ids cannot start with a '/' like: ";
     CONSOLE_BRIDGE_logWarn("%s",ss.str().c_str());
+    // std::cerr << boost::stacktrace::stacktrace();
     return true;
   }
 

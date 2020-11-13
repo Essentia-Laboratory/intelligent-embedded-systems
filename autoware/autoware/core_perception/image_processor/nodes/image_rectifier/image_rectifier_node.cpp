@@ -16,6 +16,7 @@
 // Created by amc on 2017-11-15.
 //
  */
+
 #include <string>
 #include <vector>
 #include <ros/ros.h>
@@ -23,6 +24,8 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/CameraInfo.h>
+
+#include "boost/algorithm/string.hpp"
 
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -91,12 +94,12 @@ public:
   {
     ros::NodeHandle node_handle("~");//to receive args
 
-    std::string image_raw_topic_str, camera_info_topic_str, image_rectified_str = "/image_rectified";
+    std::string image_raw_topic_str, camera_info_topic_str, image_rectified_str = "image_rectified";
     std::string name_space_str = ros::this_node::getNamespace();
 
-    node_handle.param<std::string>("image_src", image_raw_topic_str, "/image_raw");
+    node_handle.param<std::string>("image_src", image_raw_topic_str, "image_raw");
 
-    node_handle.param<std::string>("camera_info_src", camera_info_topic_str, "/camera_info");
+    node_handle.param<std::string>("camera_info_src", camera_info_topic_str, "camera_info");
 
     if (name_space_str != "/") {
       if (name_space_str.substr(0, 2) == "//") {
@@ -104,9 +107,16 @@ public:
            starts with "//", delete one of them */
         name_space_str.erase(name_space_str.begin());
       }
-      image_raw_topic_str = name_space_str + image_raw_topic_str;
-      image_rectified_str = name_space_str + image_rectified_str;
-      camera_info_topic_str = name_space_str + camera_info_topic_str;
+
+      image_raw_topic_str = name_space_str + 
+	      ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( image_raw_topic_str, "/" ) ? "" : "/" )
+	      + image_raw_topic_str;
+      image_rectified_str = name_space_str + 
+	      ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( image_rectified_str, "/" ) ? "" : "/" )
+	      + image_rectified_str;
+      camera_info_topic_str = name_space_str + 
+	      ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( camera_info_topic_str, "/" ) ? "" : "/" )
+	      + camera_info_topic_str;
     }
 
     ROS_INFO("[%s] image_src: %s", _NODE_NAME_, image_raw_topic_str.c_str());

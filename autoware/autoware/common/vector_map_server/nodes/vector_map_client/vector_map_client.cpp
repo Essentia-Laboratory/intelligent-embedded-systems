@@ -83,7 +83,7 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   VectorMapClient vmc;
 
-  ros::Publisher marker_array_pub = nh.advertise<visualization_msgs::MarkerArray>("vector_map_client", 10, true);
+  ros::Publisher marker_array_pub = nh.advertise<visualization_msgs::MarkerArray>("/vector_map_client", 10, true);
 
   VectorMap vmap;
   vmap.subscribe(nh,
@@ -91,8 +91,8 @@ int main(int argc, char **argv)
                  Category::WHITE_LINE | Category::STOP_LINE | Category::CROSS_WALK | Category::SIGNAL,
                  ros::Duration(0));  // non-blocking
 
-  ros::Subscriber pose_sub = nh.subscribe("current_pose", 1, &VectorMapClient::setPose, &vmc);
-  ros::Subscriber waypoints_sub = nh.subscribe("final_waypoints", 1, &VectorMapClient::setWaypoints, &vmc);
+  ros::Subscriber pose_sub = nh.subscribe("/current_pose", 1, &VectorMapClient::setPose, &vmc);
+  ros::Subscriber waypoints_sub = nh.subscribe("/final_waypoints", 1, &VectorMapClient::setWaypoints, &vmc);
 
   visualization_msgs::MarkerArray marker_array;
   ros::ServiceClient white_line_cli =

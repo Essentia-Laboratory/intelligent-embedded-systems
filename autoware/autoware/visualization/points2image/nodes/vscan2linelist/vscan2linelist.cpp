@@ -27,7 +27,7 @@
 static pcl::PointCloud<pcl::PointXYZ> _vscan;
 static visualization_msgs::Marker _linelist;
 static ros::Publisher _pub;
-const std::string FRAME = "/velodyne";
+const std::string FRAME = "velodyne";
 
 static void Callback(const sensor_msgs::PointCloud2ConstPtr& msg)
 {
@@ -61,8 +61,8 @@ int main(int argc, char* argv[])
   ros::init(argc, argv, "vscan2linelist");
   ros::NodeHandle nh;
 
-  _pub = nh.advertise<visualization_msgs::Marker>("vscan_linelist", 10);
-  ros::Subscriber sub = nh.subscribe("vscan_points", 100, Callback);
+  _pub = nh.advertise<visualization_msgs::Marker>("/vscan_linelist", 10);
+  ros::Subscriber sub = nh.subscribe("/vscan_points", 100, Callback);
 
   _linelist.header.frame_id = FRAME;
   _linelist.header.stamp = ros::Time(0);

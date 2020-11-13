@@ -43,9 +43,11 @@
     # Map loading                #
     ##############################
   -->
+<!--
   <include file="$(find map_file)/launch/points_map_loader.launch">
     <arg name="path_pcd" value='$(env CARLA_MAPS_PATH)/$(arg town).pcd'/>
   </include>
+-->
 
   <!--
     ##############################

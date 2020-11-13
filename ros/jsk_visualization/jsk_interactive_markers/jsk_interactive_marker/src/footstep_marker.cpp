@@ -89,7 +89,7 @@ plan_run_(false), lleg_first_(true) {
   pnh.param("wait_snapit_server", wait_snapit_server_, false);
   bool nowait = true;
   pnh.param("no_wait", nowait, true);
-  pnh.param("frame_id", marker_frame_id_, std::string("/map"));
+  pnh.param("frame_id", marker_frame_id_, std::string("map"));
   footstep_pub_ = nh.advertise<jsk_footstep_msgs::FootstepArray>("footstep_from_marker", 1);
   snapit_client_ = nh.serviceClient<jsk_recognition_msgs::CallSnapIt>("snapit");
   snapped_pose_pub_ = pnh.advertise<geometry_msgs::PoseStamped>("snapped_pose", 1);

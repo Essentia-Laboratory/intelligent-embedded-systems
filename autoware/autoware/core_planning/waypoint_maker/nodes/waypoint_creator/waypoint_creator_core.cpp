@@ -36,7 +36,7 @@ WaypointCreator::WaypointCreator() : nh_(""), pnh_("~"), tf2_listener_(tf2_buffe
   sub_source_point_ = nh_.subscribe(source_point, 1, &WaypointCreator::inputPointCallback, this);
   sub_delete_point_ = nh_.subscribe(delete_pose, 1, &WaypointCreator::deletePoseCallback, this);
   pub_waypoints_ = pnh_.advertise<autoware_msgs::LaneArray>(out_lane_array_topic, 1);
-  pub_visualize_ = pnh_.advertise<visualization_msgs::MarkerArray>("debug/waypoints", 1);
+  pub_visualize_ = pnh_.advertise<visualization_msgs::MarkerArray>("/debug/waypoints", 1);
 
   source_pose_v_.clear();
   interpolated_pose_v_.clear();

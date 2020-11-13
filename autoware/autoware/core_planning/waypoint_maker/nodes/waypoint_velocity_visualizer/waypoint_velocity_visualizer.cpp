@@ -146,19 +146,19 @@ WaypointVelocityVisualizer::WaypointVelocityVisualizer() : node_handle_(), priva
   command_twist_buf_.set_capacity(control_buffer_size_);
 
   lane_waypoints_array_sub_ =
-      node_handle_.subscribe("lane_waypoints_array", 1, &WaypointVelocityVisualizer::laneWaypointsArrayCallback, this);
+      node_handle_.subscribe("/lane_waypoints_array", 1, &WaypointVelocityVisualizer::laneWaypointsArrayCallback, this);
   final_waypoints_sub_ =
-      node_handle_.subscribe("final_waypoints", 1, &WaypointVelocityVisualizer::finalWaypointsCallback, this);
+      node_handle_.subscribe("/final_waypoints", 1, &WaypointVelocityVisualizer::finalWaypointsCallback, this);
 
-  current_pose_sub_ = new message_filters::Subscriber<geometry_msgs::PoseStamped>(node_handle_, "current_pose", 1);
+  current_pose_sub_ = new message_filters::Subscriber<geometry_msgs::PoseStamped>(node_handle_, "/current_pose", 1);
   current_twist_sub_ =
-      new message_filters::Subscriber<geometry_msgs::TwistStamped>(node_handle_, "current_velocity", 1);
-  command_twist_sub_ = new message_filters::Subscriber<geometry_msgs::TwistStamped>(node_handle_, "twist_cmd", 1);
+      new message_filters::Subscriber<geometry_msgs::TwistStamped>(node_handle_, "/current_velocity", 1);
+  command_twist_sub_ = new message_filters::Subscriber<geometry_msgs::TwistStamped>(node_handle_, "/twist_cmd", 1);
   control_sync_ = new message_filters::Synchronizer<ControlSyncPolicy>(ControlSyncPolicy(10), *current_pose_sub_,
                                                                        *current_twist_sub_, *command_twist_sub_);
   control_sync_->registerCallback(boost::bind(&WaypointVelocityVisualizer::controlCallback, this, _1, _2, _3));
 
-  velocity_marker_pub_ = node_handle_.advertise<visualization_msgs::MarkerArray>("waypoints_velocity", 10);
+  velocity_marker_pub_ = node_handle_.advertise<visualization_msgs::MarkerArray>("/waypoints_velocity", 10);
 }
 
 WaypointVelocityVisualizer::~WaypointVelocityVisualizer()

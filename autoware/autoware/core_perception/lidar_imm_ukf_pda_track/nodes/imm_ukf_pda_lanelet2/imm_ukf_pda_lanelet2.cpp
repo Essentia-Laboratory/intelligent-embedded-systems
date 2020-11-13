@@ -83,8 +83,8 @@ void ImmUkfPdaLanelet2::run()
     }
   }
 
-  pub_object_array_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("detection/objects", 1);
-  sub_detected_array_ = nh_.subscribe("detection/fusion_tools/objects", 1, &ImmUkfPdaLanelet2::callback, this);
+  pub_object_array_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("/detection/objects", 1);
+  sub_detected_array_ = nh_.subscribe("/detection/fusion_tools/objects", 1, &ImmUkfPdaLanelet2::callback, this);
 }
 
 void ImmUkfPdaLanelet2::binMapCallback(const autoware_lanelet2_msgs::MapBin& msg)
@@ -126,7 +126,7 @@ bool ImmUkfPdaLanelet2::updateNecessaryTransform()
     tf_listener_.waitForTransform(input_header_.frame_id, tracking_frame_, ros::Time(0), ros::Duration(1.0));
     tf_listener_.lookupTransform(tracking_frame_, input_header_.frame_id, ros::Time(0), tf_local2global_);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
     success = false;
@@ -139,7 +139,7 @@ bool ImmUkfPdaLanelet2::updateNecessaryTransform()
       tf_listener_.lookupTransform(tracking_frame_, map_frame_, ros::Time(0), tf_map2tracking_);
       tf_tracking2map_ = tf_map2tracking_.inverse();
     }
-    catch (tf::TransformException ex)
+    catch (tf::TransformException& ex)
     {
       ROS_ERROR("%s", ex.what());
       success = false;

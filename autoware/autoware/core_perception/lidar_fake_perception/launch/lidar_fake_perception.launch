@@ -2,14 +2,14 @@
 <launch>
 
   <!-- publisher -->
-  <arg name="initial_pose_topic" default="/move_base_simple/goal"/>
-  <arg name="real_objects_topic" default="/detected_objects"/>
-  <arg name="real_points_topic" default="/points_raw"/>
-  <arg name="fake_twist_topic" default="/fake_twist"/>
+  <arg name="initial_pose_topic" default="move_base_simple/goal"/>
+  <arg name="real_objects_topic" default="detected_objects"/>
+  <arg name="real_points_topic" default="points_raw"/>
+  <arg name="fake_twist_topic" default="fake_twist"/>
 
   <!-- subscriber -->
-  <arg name="fake_objects_topic" default="/fake_objects"/>
-  <arg name="fake_points_topic" default="/fake_points"/>
+  <arg name="fake_objects_topic" default="fake_objects"/>
+  <arg name="fake_points_topic" default="fake_points"/>
 
   <!-- param, publishing -->
   <arg name="publish_objects" default="true"/>
@@ -35,13 +35,13 @@
   <arg name="object_frame" default="velodyne"/>
 
   <node pkg="lidar_fake_perception" type="lidar_fake_perception_node" name="lidar_fake_perception" output="screen">
-    <remap from="/move_base_simple/goal" to="$(arg initial_pose_topic)"/>
-    <remap from="/detected_objects" to="$(arg real_objects_topic)"/>
-    <remap from="/points_raw" to="$(arg real_points_topic)"/>
-    <remap from="/fake_twist" to="$(arg fake_twist_topic)"/>
+    <remap from="move_base_simple/goal" to="$(arg initial_pose_topic)"/>
+    <remap from="detected_objects" to="$(arg real_objects_topic)"/>
+    <remap from="points_raw" to="$(arg real_points_topic)"/>
+    <remap from="fake_twist" to="$(arg fake_twist_topic)"/>
 
-    <remap from="/fake_objects" to="$(arg fake_objects_topic)"/>
-    <remap from="/fake_points" to="$(arg fake_points_topic)"/>
+    <remap from="fake_objects" to="$(arg fake_objects_topic)"/>
+    <remap from="fake_points" to="$(arg fake_points_topic)"/>
 
     <param name="publish_objects" value="$(arg publish_objects)"/>
     <param name="publish_points" value="$(arg publish_points)"/>
@@ -63,6 +63,6 @@
   </node>
 
   <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="fake_perception_visualization_01"
-        output="screen" ns="/detection/fake_perception" />
+        output="screen" ns="detection/fake_perception/" />
 
 </launch>

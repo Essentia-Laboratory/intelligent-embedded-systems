@@ -49,9 +49,9 @@ UrdfControlMarker::UrdfControlMarker() : nh_(), pnh_("~"){
 
   pnh_.param("move_2d", move_2d_, false);
   pnh_.param("use_dynamic_tf", use_dynamic_tf_, false);
-  pnh_.param<std::string>("frame_id", frame_id_, "/map");
-  pnh_.param<std::string>("fixed_frame_id", fixed_frame_id_, "/odom_on_ground");
-  pnh_.param<std::string>("marker_frame_id", marker_frame_id_, "/urdf_control_marker");
+  pnh_.param<std::string>("frame_id", frame_id_, "map");
+  pnh_.param<std::string>("fixed_frame_id", fixed_frame_id_, "odom_on_ground");
+  pnh_.param<std::string>("marker_frame_id", marker_frame_id_, "urdf_control_marker");
   pnh_.param<std::string>("center_marker", center_marker_, "");
   pnh_.param("marker_scale", marker_scale_, 1.0);
   pnh_.param("center_marker_scale", center_marker_scale_, 1.0);

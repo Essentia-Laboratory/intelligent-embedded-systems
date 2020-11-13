@@ -332,7 +332,7 @@ void RayGroundFilter::CloudCallback(const sensor_msgs::PointCloud2ConstPtr& in_s
   const bool succeeded = TransformPointCloud(base_frame_, in_sensor_cloud, trans_sensor_cloud);
   if (!succeeded)
   {
-    ROS_ERROR_STREAM_THROTTLE(10, "Failed transform from " << base_frame_ << " to "
+    ROS_ERROR_STREAM_THROTTLE(10, "[RayGroundFilter] Failed transform from " << base_frame_ << " to "
                                                            << in_sensor_cloud->header.frame_id);
     return;
   }

@@ -41,7 +41,7 @@ namespace object_map
     occupancy_grid_sub_ = nh_.subscribe<nav_msgs::OccupancyGrid>(map_topic_, 10,
                                                                  &GridMapFilter::OccupancyGridCallback, this);
 
-    grid_map_pub_ = nh_.advertise<grid_map_msgs::GridMap>("filtered_grid_map", 1, true);
+    grid_map_pub_ = nh_.advertise<grid_map_msgs::GridMap>("/filtered_grid_map", 1, true);
 
   }
 

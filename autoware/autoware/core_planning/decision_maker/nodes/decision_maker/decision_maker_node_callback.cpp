@@ -435,7 +435,7 @@ bool DecisionMakerNode::drivingMissionCheck()
     if (!isSubscriberRegistered("final_waypoints"))
     {
       Subs["final_waypoints"] =
-          nh_.subscribe("final_waypoints", 100, &DecisionMakerNode::callbackFromFinalWaypoint, this);
+          nh_.subscribe("/final_waypoints", 100, &DecisionMakerNode::callbackFromFinalWaypoint, this);
     }
 
     return true;

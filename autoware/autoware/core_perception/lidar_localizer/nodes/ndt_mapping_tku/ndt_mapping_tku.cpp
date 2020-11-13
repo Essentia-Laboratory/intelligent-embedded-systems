@@ -317,7 +317,7 @@ void points_callback(const sensor_msgs::PointCloud2::ConstPtr &msg)
       static_cast<double>(global_t(2, 0)), static_cast<double>(global_t(2, 1)), static_cast<double>(global_t(2, 2)));
 
   mat_l.getRotation(localizer_q);
-  localizer_pose_msg.header.frame_id = "/map";
+  localizer_pose_msg.header.frame_id = "map";
   localizer_pose_msg.header.stamp = current_scan_time;
   localizer_pose_msg.pose.position.x = global_t(0, 3);
   localizer_pose_msg.pose.position.y = global_t(1, 3);
@@ -336,7 +336,7 @@ void points_callback(const sensor_msgs::PointCloud2::ConstPtr &msg)
       static_cast<double>(global_t2(2, 0)), static_cast<double>(global_t2(2, 1)), static_cast<double>(global_t2(2, 2)));
   mat_b.getRotation(ndt_q);
 
-  ndt_pose_msg.header.frame_id = "/map";
+  ndt_pose_msg.header.frame_id = "map";
   ndt_pose_msg.header.stamp = current_scan_time;
   ndt_pose_msg.pose.position.x = global_t2(0, 3);
   ndt_pose_msg.pose.position.y = global_t2(1, 3);
@@ -456,7 +456,7 @@ void save_nd_map(char *name)
 
   // save pcd
 
-  cloud.header.frame_id = "/map";
+  cloud.header.frame_id = "map";
   cloud.width = cloud.points.size();
   cloud.height = 1;
   pcl::io::savePCDFileASCII("/tmp/ndmap.pcd", cloud);
@@ -568,7 +568,7 @@ int main(int argc, char *argv[])
   ndt_pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/ndt_pose", 1000);
   localizer_pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/localizer_pose", 1000);
 
-  ros::Subscriber points_sub = nh.subscribe("points_raw", 1000, points_callback);
+  ros::Subscriber points_sub = nh.subscribe("/points_raw", 1000, points_callback);
 
   ros::spin();
 

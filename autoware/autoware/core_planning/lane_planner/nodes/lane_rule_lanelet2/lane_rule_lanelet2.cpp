@@ -65,6 +65,8 @@ static lanelet::LaneletMapPtr g_lanelet_map;
 static lanelet::routing::RoutingGraphPtr g_routing_graph;
 static bool g_loaded_lanelet_map = false;
 
+#define __APP_NAME__ "lane_rule_lanelet2"
+
 // create new lane with given lane and header
 autoware_msgs::Lane create_new_lane(const autoware_msgs::Lane& lane, const std_msgs::Header& header)
 {
@@ -321,6 +323,7 @@ void create_waypoint(const autoware_msgs::LaneArray& msg)
   if (!g_loaded_lanelet_map || !g_lanelet_map || g_lanelet_map->laneletLayer.empty() ||
       g_lanelet_map->pointLayer.empty() || g_lanelet_map->regulatoryElementLayer.empty())
   {
+    ROS_INFO("[%s] g_traffic_pub.publish( g_cached_waypoint )", __APP_NAME__);
     g_traffic_pub.publish(g_cached_waypoint);
     return;
   }
@@ -382,6 +385,7 @@ void create_waypoint(const autoware_msgs::LaneArray& msg)
     red_waypoint.lanes.push_back(waypoint_lane);
   }
 
+  ROS_INFO("[%s] g_traffic_pub.publish( traffic_waypoint )", __APP_NAME__);
   // publish traffic waypoint
   g_traffic_pub.publish(traffic_waypoint);
   g_red_pub.publish(red_waypoint);
@@ -395,7 +399,7 @@ void binMapCallback(const autoware_lanelet2_msgs::MapBin& msg)
 
   lanelet::utils::conversion::fromBinMsg(msg, g_lanelet_map);
   g_loaded_lanelet_map = true;
-  ROS_INFO("loaded lanelet map\n");
+  ROS_INFO("[%s] loaded lanelet map\n", __APP_NAME__);
 
   if (!g_cached_waypoint.lanes.empty())
   {
@@ -451,16 +455,18 @@ int main(int argc, char** argv)
   pnh.param<int>("number_of_zeros_ahead", g_config_number_of_zeros_ahead, 0);
   pnh.param<int>("number_of_zeros_behind", g_config_number_of_zeros_behind, 0);
 
-  g_traffic_pub = rosnode.advertise<autoware_msgs::LaneArray>("traffic_waypoints_array", pub_waypoint_queue_size,
+  ROS_INFO("[%s] advertise", __APP_NAME__);
+  g_traffic_pub = rosnode.advertise<autoware_msgs::LaneArray>("/traffic_waypoints_array", pub_waypoint_queue_size,
                                                               pub_waypoint_latch);
   g_red_pub =
-      rosnode.advertise<autoware_msgs::LaneArray>("red_waypoints_array", pub_waypoint_queue_size, pub_waypoint_latch);
-  g_green_pub = rosnode.advertise<autoware_msgs::LaneArray>("green_waypoints_array", pub_waypoint_queue_size,
+      rosnode.advertise<autoware_msgs::LaneArray>("/red_waypoints_array", pub_waypoint_queue_size, pub_waypoint_latch);
+  g_green_pub = rosnode.advertise<autoware_msgs::LaneArray>("/green_waypoints_array", pub_waypoint_queue_size,
                                                             pub_waypoint_latch);
 
-  ros::Subscriber bin_map_sub = rosnode.subscribe("lanelet_map_bin", 10, binMapCallback);
-  ros::Subscriber waypoint_sub = rosnode.subscribe("lane_waypoints_array", sub_waypoint_queue_size, create_waypoint);
-  ros::Subscriber config_sub = rosnode.subscribe("config/lane_rule", sub_config_queue_size, config_parameter);
+  ROS_INFO("[%s] subscribe", __APP_NAME__);
+  ros::Subscriber bin_map_sub = rosnode.subscribe("/lanelet_map_bin", 10, binMapCallback);
+  ros::Subscriber waypoint_sub = rosnode.subscribe("/lane_waypoints_array", sub_waypoint_queue_size, create_waypoint);
+  ros::Subscriber config_sub = rosnode.subscribe("/config/lane_rule", sub_config_queue_size, config_parameter);
 
   if (LANE_RULES_USE_ROUTING_GRAPH)
   {
@@ -469,6 +475,7 @@ int main(int argc, char** argv)
     g_routing_graph = lanelet::routing::RoutingGraph::build(*g_lanelet_map, *traffic_rules);
   }
 
+  ROS_INFO("[%s] ros::spin()", __APP_NAME__);
   ros::spin();
 
   return 0;

@@ -55,7 +55,7 @@ namespace pcl_ros
       typedef PointCloud2::ConstPtr PointCloud2ConstPtr;
 
       /** \brief Empty constructor. */
-      PCDReader () : publish_rate_ (0), tf_frame_ ("/base_link") {};
+      PCDReader () : publish_rate_ (0), tf_frame_ ("base_link") {};
 
       virtual void onInit ();
 
@@ -79,7 +79,7 @@ namespace pcl_ros
       /** \brief The publishing interval in seconds. Set to 0 to only publish once (default). */
       double publish_rate_;
 
-      /** \brief The TF frame the data should be published in ("/base_link" by default). */
+      /** \brief The TF frame the data should be published in ("base_link" by default). */
       std::string tf_frame_;
 
       /** \brief The name of the file that contains the PointCloud data. */

@@ -62,7 +62,7 @@ namespace object_map
     {
       in_tf_listener.lookupTransform(in_target_frame, in_source_frame, ros::Time(0), transform);
     }
-    catch (tf::TransformException ex)
+    catch (tf::TransformException& ex)
     {
       ROS_ERROR("%s", ex.what());
     }

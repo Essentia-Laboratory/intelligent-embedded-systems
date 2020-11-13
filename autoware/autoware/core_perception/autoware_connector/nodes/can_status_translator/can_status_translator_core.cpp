@@ -53,13 +53,13 @@ void CanStatusTranslatorNode::initForROS()
     v_info_.is_stored = true;
   }
   // setup subscriber
-  sub1_ = nh_.subscribe("can_info", 100, &CanStatusTranslatorNode::callbackFromCANInfo, this);
-  sub2_ = nh_.subscribe("vehicle_status", 10, &CanStatusTranslatorNode::callbackFromVehicleStatus, this);
+  sub1_ = nh_.subscribe("/can_info", 100, &CanStatusTranslatorNode::callbackFromCANInfo, this);
+  sub2_ = nh_.subscribe("/vehicle_status", 10, &CanStatusTranslatorNode::callbackFromVehicleStatus, this);
 
   // setup publisher
-  pub1_ = nh_.advertise<geometry_msgs::TwistStamped>("can_velocity", 10);
-  pub2_ = nh_.advertise<std_msgs::Float32>("linear_velocity_viz", 10);
-  pub3_ = nh_.advertise<autoware_msgs::VehicleStatus>("vehicle_status", 10);
+  pub1_ = nh_.advertise<geometry_msgs::TwistStamped>("/can_velocity", 10);
+  pub2_ = nh_.advertise<std_msgs::Float32>("/linear_velocity_viz", 10);
+  pub3_ = nh_.advertise<autoware_msgs::VehicleStatus>("/vehicle_status", 10);
 }
 
 void CanStatusTranslatorNode::run()

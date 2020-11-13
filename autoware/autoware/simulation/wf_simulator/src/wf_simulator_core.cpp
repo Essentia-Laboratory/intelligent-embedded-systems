@@ -189,7 +189,7 @@ tf::StampedTransform WFSimulatorCore::getTransformFromTF(
       tf_listener_.lookupTransform(parent_frame, child_frame, ros::Time(0), transform);
       break;
     }
-    catch (tf::TransformException ex)
+    catch (tf::TransformException& ex)
     {
       ROS_ERROR("%s", ex.what());
       ros::Duration(1.0).sleep();

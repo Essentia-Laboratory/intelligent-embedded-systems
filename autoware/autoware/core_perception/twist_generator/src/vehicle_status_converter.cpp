@@ -19,7 +19,7 @@
 VehicleStatusConverter::VehicleStatusConverter() : nh_(""), pnh_("~")
 {
   pub_twist_ = nh_.advertise<geometry_msgs::TwistStamped>("/can_twist", 1);
-  pub_correction_coeff_ = pnh_.advertise<std_msgs::Float32MultiArray>("convert_correction_coeff", 1);
+  pub_correction_coeff_ = pnh_.advertise<std_msgs::Float32MultiArray>("/convert_correction_coeff", 1);
   sub_vehicle_status_ = nh_.subscribe("/vehicle_status", 1, &VehicleStatusConverter::callbackVehicleStatus, this);
   sub_estimate_twist_ = nh_.subscribe("/estimate_twist", 1, &VehicleStatusConverter::callbackEstimateTwist, this);
 

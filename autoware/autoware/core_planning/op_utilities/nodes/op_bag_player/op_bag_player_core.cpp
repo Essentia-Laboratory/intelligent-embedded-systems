@@ -279,9 +279,9 @@ void TestingUI::InitNode(const BagReaderParams& params, const int& mode)
   }
   else if(m_TestMode == SIMULATION_MODE)
   {
-    pub_SimuStepSignal     = nh.advertise<geometry_msgs::TwistStamped>("simu_step_signal", 1);
-    pub_PredStepSignal     = nh.advertise<geometry_msgs::TwistStamped>("pred_step_signal", 1);
-    pub_SimuGenSignal    = nh.advertise<geometry_msgs::TwistStamped>("simu_generate_signal", 1);
+    pub_SimuStepSignal     = nh.advertise<geometry_msgs::TwistStamped>("/simu_step_signal", 1);
+    pub_PredStepSignal     = nh.advertise<geometry_msgs::TwistStamped>("/pred_step_signal", 1);
+    pub_SimuGenSignal    = nh.advertise<geometry_msgs::TwistStamped>("/simu_generate_signal", 1);
   }
 }
 

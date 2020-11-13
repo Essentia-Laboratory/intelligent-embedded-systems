@@ -17,8 +17,8 @@ using namespace twist2odom;  // NOLINT
 
 Twist2Odom::Twist2Odom() : nh_(), private_nh_("~")
 {
-  odom_pub_ = nh_.advertise<nav_msgs::Odometry>("current_odom", 10);
-  twist_sub_ = nh_.subscribe("current_twist", 10, &Twist2Odom::callbackFromTwist, this);
+  odom_pub_ = nh_.advertise<nav_msgs::Odometry>("/current_odom", 10);
+  twist_sub_ = nh_.subscribe("/current_twist", 10, &Twist2Odom::callbackFromTwist, this);
 }
 
 void Twist2Odom::callbackFromTwist(const geometry_msgs::TwistStampedConstPtr& msg)

@@ -18,9 +18,9 @@ while not rospy.is_shutdown():
     br.sendTransform((3*sin(t/10),3*cos(t/10),sin(t/20)),
                      tf.transformations.quaternion_from_euler(0,0,0),
                      rospy.Time.now(),
-                     "/map", "/point")
+                     "map", "point")
     msg = PointStamped();
-    msg.header.frame_id = "/point"
+    msg.header.frame_id = "point"
     msg.header.stamp = rospy.Time.now();
     msg.point.x = 2*sin(t);
     msg.point.y = 2*cos(t);

@@ -1,7 +1,7 @@
 <launch>
-  <arg name="points_ground_src" default="points_ground" /> <!-- PointCloud Ground filtered source topic-->
-  <arg name="points_no_ground_src" default="points_no_ground" /> <!-- PointCloud NoGround filtered source topic-->
-  <arg name="wayarea_topic_src" default="grid_map_wayarea" /> <!-- GridMap Road data source topic-->
+  <arg name="points_ground_src" default="/points_ground" /> <!-- PointCloud Ground filtered source topic-->
+  <arg name="points_no_ground_src" default="/points_no_ground" /> <!-- PointCloud NoGround filtered source topic-->
+  <arg name="wayarea_topic_src" default="/grid_map_wayarea" /> <!-- GridMap Road data source topic-->
   <arg name="wayarea_layer_name" default="wayarea" /> <!-- NAme of the layer in the GridMap containing the road data-->
   <arg name="output_layer_name" default="road_status" /> <!-- NAme of the output layer in the GridMap-->
 

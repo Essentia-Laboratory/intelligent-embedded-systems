@@ -52,15 +52,15 @@ GlobalPlanner::GlobalPlanner()
   m_OriginPos.position.y  = transform.getOrigin().y();
   m_OriginPos.position.z  = transform.getOrigin().z();
 
-  pub_Paths = nh.advertise<autoware_msgs::LaneArray>("lane_waypoints_array", 1, true);
-  pub_PathsRviz = nh.advertise<visualization_msgs::MarkerArray>("global_waypoints_rviz", 1, true);
-  pub_MapRviz  = nh.advertise<visualization_msgs::MarkerArray>("vector_map_center_lines_rviz", 1, true);
-  pub_GoalsListRviz = nh.advertise<visualization_msgs::MarkerArray>("op_destinations_rviz", 1, true);
+  pub_Paths = nh.advertise<autoware_msgs::LaneArray>("/lane_waypoints_array", 1, true);
+  pub_PathsRviz = nh.advertise<visualization_msgs::MarkerArray>("/global_waypoints_rviz", 1, true);
+  pub_MapRviz  = nh.advertise<visualization_msgs::MarkerArray>("/vector_map_center_lines_rviz", 1, true);
+  pub_GoalsListRviz = nh.advertise<visualization_msgs::MarkerArray>("/op_destinations_rviz", 1, true);
 
   if(m_params.bEnableRvizInput)
   {
     sub_start_pose = nh.subscribe("/initialpose", 1, &GlobalPlanner::callbackGetStartPose, this);
-    sub_goal_pose = nh.subscribe("move_base_simple/goal", 1, &GlobalPlanner::callbackGetGoalPose, this);
+    sub_goal_pose = nh.subscribe("/move_base_simple/goal", 1, &GlobalPlanner::callbackGetGoalPose, this);
   }
   else
   {

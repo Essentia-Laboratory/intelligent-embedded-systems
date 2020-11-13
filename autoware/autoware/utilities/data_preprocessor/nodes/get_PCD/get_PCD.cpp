@@ -23,6 +23,7 @@ void SavePCD::sub_pcd(int argc, char* argv[])
 {
   ros::init(argc, argv, "PCD_Subscriber");
   ros::NodeHandle n;
+  ROS_INFO("[%s] subscribe topic_name_2=[%s]", "PCD_Subscriber", topic_name_.c_str());
   ros::Subscriber sub = n.subscribe(topic_name_, 1, &SavePCD::save_pcd, this);
   ros::spin();
 }

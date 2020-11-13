@@ -125,11 +125,11 @@ int main(int argc, char *argv[])
 
   ros::init(argc, argv, NODE_NAME);
   ros::NodeHandle node;
-  pub[0] = node.advertise<tablet_socket_msgs::gear_cmd>("gear_cmd", 1);
-  pub[1] = node.advertise<tablet_socket_msgs::mode_cmd>("mode_cmd", 1);
-  pub[2] = node.advertise<tablet_socket_msgs::route_cmd>("route_cmd", 1);
-  pub[3] = node.advertise<geometry_msgs::PoseStamped>("gnss_pose", 1);
-  pub[4] = node.advertise<std_msgs::Bool>("gnss_stat", 1);
+  pub[0] = node.advertise<tablet_socket_msgs::gear_cmd>("/gear_cmd", 1);
+  pub[1] = node.advertise<tablet_socket_msgs::mode_cmd>("/mode_cmd", 1);
+  pub[2] = node.advertise<tablet_socket_msgs::route_cmd>("/route_cmd", 1);
+  pub[3] = node.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 1);
+  pub[4] = node.advertise<std_msgs::Bool>("/gnss_stat", 1);
   node.param<int>("tablet_receiver/port", port, DEFAULT_PORT);
   node.param<int>("tablet_receiver/plane", plane, DEFAULT_PLANE);
   fprintf(stderr, "listen port=%d\n", port);

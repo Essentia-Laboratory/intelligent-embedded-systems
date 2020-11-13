@@ -198,7 +198,7 @@ visualization_msgs::Marker DoorFoot::makeFootMarker(geometry_msgs::Pose pose, bo
 
 visualization_msgs::InteractiveMarker DoorFoot::makeInteractiveMarker(){
   visualization_msgs::InteractiveMarker mk;
-  mk.header.frame_id = "/map";
+  mk.header.frame_id = "map";
   mk.header.stamp = ros::Time(0);
   mk.name = marker_name;
   mk.scale = 0.3;

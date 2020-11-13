@@ -1,7 +1,7 @@
 <launch>
   <!-- argument list -->
   <arg name="camera_id" default="/"/>
-  <arg name="image_src" default="/image_raw" />
+  <arg name="image_src" default="image_raw" />
   <arg name="network_definition_file" default="/tmp/mxnet-network.json" />
   <arg name="pretrained_model_file" default="/tmp/mxnet-network.params" />
   <arg name="use_gpu" default="true" />

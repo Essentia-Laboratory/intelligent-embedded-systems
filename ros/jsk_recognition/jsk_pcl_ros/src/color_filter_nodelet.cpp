@@ -312,7 +312,7 @@ namespace jsk_pcl_ros
     ConnectionBasedNodelet::onInit();
 
     color_space_pub_ = pnh_->advertise<sensor_msgs::PointCloud2>("color_space", 1);
-    color_space_msg_.header.frame_id = "/map";
+    color_space_msg_.header.frame_id = "map";
     color_space_msg_.fields.resize(4);
     color_space_msg_.fields[0].name = "x";
     color_space_msg_.fields[0].offset = 0;

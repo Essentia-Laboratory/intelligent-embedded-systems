@@ -19,6 +19,7 @@
 AstarAvoid::AstarAvoid()
   : nh_()
   , private_nh_("~")
+  , terminate_thread_(false)
   , closest_waypoint_index_(-1)
   , obstacle_waypoint_index_(-1)
   , closest_local_index_(-1)
@@ -27,7 +28,6 @@ AstarAvoid::AstarAvoid()
   , current_velocity_initialized_(false)
   , base_waypoints_initialized_(false)
   , closest_waypoint_initialized_(false)
-  , terminate_thread_(false)
 {
   private_nh_.param<int>("safety_waypoints_size", safety_waypoints_size_, 100);
   private_nh_.param<double>("update_rate", update_rate_, 10.0);
@@ -40,13 +40,13 @@ AstarAvoid::AstarAvoid()
   private_nh_.param<int>("search_waypoints_delta", search_waypoints_delta_, 2);
   private_nh_.param<int>("closest_search_size", closest_search_size_, 30);
 
-  safety_waypoints_pub_ = nh_.advertise<autoware_msgs::Lane>("safety_waypoints", 1, true);
-  costmap_sub_ = nh_.subscribe("costmap", 1, &AstarAvoid::costmapCallback, this);
-  current_pose_sub_ = nh_.subscribe("current_pose", 1, &AstarAvoid::currentPoseCallback, this);
-  current_velocity_sub_ = nh_.subscribe("current_velocity", 1, &AstarAvoid::currentVelocityCallback, this);
-  base_waypoints_sub_ = nh_.subscribe("base_waypoints", 1, &AstarAvoid::baseWaypointsCallback, this);
-  closest_waypoint_sub_ = nh_.subscribe("closest_waypoint", 1, &AstarAvoid::closestWaypointCallback, this);
-  obstacle_waypoint_sub_ = nh_.subscribe("obstacle_waypoint", 1, &AstarAvoid::obstacleWaypointCallback, this);
+  safety_waypoints_pub_ = nh_.advertise<autoware_msgs::Lane>("/safety_waypoints", 1, true);
+  costmap_sub_ = nh_.subscribe("/costmap", 1, &AstarAvoid::costmapCallback, this);
+  current_pose_sub_ = nh_.subscribe("/current_pose", 1, &AstarAvoid::currentPoseCallback, this);
+  current_velocity_sub_ = nh_.subscribe("/current_velocity", 1, &AstarAvoid::currentVelocityCallback, this);
+  base_waypoints_sub_ = nh_.subscribe("/base_waypoints", 1, &AstarAvoid::baseWaypointsCallback, this);
+  closest_waypoint_sub_ = nh_.subscribe("/closest_waypoint", 1, &AstarAvoid::closestWaypointCallback, this);
+  obstacle_waypoint_sub_ = nh_.subscribe("/obstacle_waypoint", 1, &AstarAvoid::obstacleWaypointCallback, this);
 
   rate_ = new ros::Rate(update_rate_);
 }
@@ -99,7 +99,7 @@ void AstarAvoid::baseWaypointsCallback(const autoware_msgs::Lane& msg)
     ros::Time t2 = base_waypoints_.header.stamp;
     if ((t2 - t1).toSec() > 1e-3)
     {
-      ROS_INFO("Receive new /base_waypoints, reset waypoint index.");
+      ROS_INFO("[%s] Receive new /base_waypoints, reset waypoint index.", __APP_NAME__);
       closest_local_index_ = -1; // reset local closest waypoint
       prev_base_waypoints = base_waypoints_;
     }
@@ -141,7 +141,7 @@ void AstarAvoid::run()
     {
       break;
     }
-    ROS_WARN("Waiting for subscribing topics...");
+    ROS_WARN("[%s] Waiting for subscribing topics...", __APP_NAME__);
     ros::Duration(1.0).sleep();
   }
 
@@ -181,7 +181,7 @@ void AstarAvoid::run()
 
       if (found_obstacle)
       {
-        ROS_INFO("RELAYING -> STOPPING, Decelerate for stopping");
+        ROS_INFO("[%s] RELAYING -> STOPPING, Decelerate for stopping", __APP_NAME__);
         state_ = AstarAvoid::STATE::STOPPING;
       }
     }
@@ -191,12 +191,12 @@ void AstarAvoid::run()
 
       if (!found_obstacle)
       {
-        ROS_INFO("STOPPING -> RELAYING, Obstacle disappers");
+        ROS_INFO("[%s] STOPPING -> RELAYING, Obstacle disappers", __APP_NAME__);
         state_ = AstarAvoid::STATE::RELAYING;
       }
       else if (replan && avoid_velocity)
       {
-        ROS_INFO("STOPPING -> PLANNING, Start A* planning");
+        ROS_INFO("[%s] STOPPING -> PLANNING, Start A* planning", __APP_NAME__);
         state_ = AstarAvoid::STATE::PLANNING;
       }
     }
@@ -206,13 +206,13 @@ void AstarAvoid::run()
 
       if (planAvoidWaypoints(end_of_avoid_index))
       {
-        ROS_INFO("PLANNING -> AVOIDING, Found path");
+        ROS_INFO("[%s] PLANNING -> AVOIDING, Found path", __APP_NAME__);
         state_ = AstarAvoid::STATE::AVOIDING;
         start_avoid_time = ros::WallTime::now();
       }
       else
       {
-        ROS_INFO("PLANNING -> STOPPING, Cannot find path");
+        ROS_INFO("[%s] PLANNING -> STOPPING, Cannot find path", __APP_NAME__);
         state_ = AstarAvoid::STATE::STOPPING;
       }
     }
@@ -221,7 +221,7 @@ void AstarAvoid::run()
       bool reached = (getLocalClosestWaypoint(avoid_waypoints_, current_pose_global_.pose, closest_search_size_) > end_of_avoid_index);
       if (reached)
       {
-        ROS_INFO("AVOIDING -> RELAYING, Reached goal");
+        ROS_INFO("[%s] AVOIDING -> RELAYING, Reached goal", __APP_NAME__);
         state_ = AstarAvoid::STATE::RELAYING;
       }
       else if (found_obstacle && avoid_velocity)
@@ -229,7 +229,7 @@ void AstarAvoid::run()
         bool replan = ((ros::WallTime::now() - start_avoid_time).toSec() > replan_interval_);
         if (replan)
         {
-          ROS_INFO("AVOIDING -> STOPPING, Abort avoiding");
+          ROS_INFO("[%s] AVOIDING -> STOPPING, Abort avoiding", __APP_NAME__);
           state_ = AstarAvoid::STATE::STOPPING;
         }
       }
@@ -287,7 +287,7 @@ bool AstarAvoid::planAvoidWaypoints(int& end_of_avoid_index)
     found_path = astar_.makePlan(current_pose_local_.pose, goal_pose_local_.pose);
     // ros::WallTime end = ros::WallTime::now();
 
-    static ros::Publisher pub = nh_.advertise<nav_msgs::Path>("debug", 1, true);
+    static ros::Publisher pub = nh_.advertise<nav_msgs::Path>("/debug", 1, true);
 
     // ROS_INFO("Astar planning: %f [s], at index = %d", (end - start).toSec(), goal_waypoint_index);
 
@@ -298,7 +298,7 @@ bool AstarAvoid::planAvoidWaypoints(int& end_of_avoid_index)
       mergeAvoidWaypoints(astar_.getPath(), end_of_avoid_index);
       if (avoid_waypoints_.waypoints.size() > 0)
       {
-        ROS_INFO("Found GOAL at index = %d", goal_waypoint_index);
+        ROS_INFO("[%s] Found GOAL at index = %d", __APP_NAME__, goal_waypoint_index);
         astar_.reset();
         return true;
       }
@@ -310,7 +310,7 @@ bool AstarAvoid::planAvoidWaypoints(int& end_of_avoid_index)
     astar_.reset();
   }
 
-  ROS_ERROR("Can't find goal...");
+  ROS_ERROR("[%s] Can't find goal...", __APP_NAME__);
   return false;
 }
 
@@ -408,9 +408,9 @@ tf::Transform AstarAvoid::getTransform(const std::string& from, const std::strin
   {
     tf_listener_.lookupTransform(from, to, ros::Time(0), stf);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
-    ROS_ERROR("%s", ex.what());
+    ROS_ERROR("[%s] %s", __APP_NAME__, ex.what());
   }
   return stf;
 }

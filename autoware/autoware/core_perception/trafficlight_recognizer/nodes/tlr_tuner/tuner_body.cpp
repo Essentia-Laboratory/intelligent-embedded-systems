@@ -158,7 +158,7 @@ void TunerBody::launch(void)
   ros::Subscriber image_sub = n.subscribe(image_topic_name, 1, image_raw_callBack);
 
   ros::Publisher tunedResult_pub =
-      n.advertise<autoware_msgs::TunedResult>("tuned_result", ADVERTISE_QUEUE_SIZE, ADVERTISE_LATCH);
+      n.advertise<autoware_msgs::TunedResult>("/tuned_result", ADVERTISE_QUEUE_SIZE, ADVERTISE_LATCH);
 
   /* valiables to check status change */
   cv::Point prev_clicked = cv::Point(-1, -1);

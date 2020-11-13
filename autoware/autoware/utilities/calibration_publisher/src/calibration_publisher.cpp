@@ -217,13 +217,13 @@ int main(int argc, char *argv[])
   std::string camera_info_name;
   std::string projection_matrix_topic;
 
-  private_nh.param<std::string>("image_topic_src", image_topic_name, "/image_raw");
+  private_nh.param<std::string>("image_topic_src", image_topic_name, "image_raw");
   ROS_INFO("[%s] image_topic_name: %s", __APP_NAME__, image_topic_name.c_str());
 
-  private_nh.param<std::string>("camera_info_topic", camera_info_name, "/camera_info");
+  private_nh.param<std::string>("camera_info_topic", camera_info_name, "camera_info");
   ROS_INFO("[%s] camera_info_name: %s", __APP_NAME__, camera_info_name.c_str());
 
-  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "/projection_matrix");
+  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "projection_matrix");
   ROS_INFO("[%s] projection_matrix_topic: %s", __APP_NAME__, projection_matrix_topic.c_str());
 
   instrinsics_parsed_ = false;

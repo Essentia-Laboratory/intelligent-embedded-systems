@@ -48,10 +48,10 @@ ContourTracker::ContourTracker()
   sub_cloud_clusters     = nh.subscribe("/cloud_clusters", 1, &ContourTracker::callbackGetCloudClusters, this);
   sub_current_pose     = nh.subscribe("/current_pose",   1, &ContourTracker::callbackGetCurrentPose,   this);
 
-  pub_AllTrackedObjects   = nh.advertise<autoware_msgs::DetectedObjectArray>("tracked_objects", 1);
-  pub_DetectedPolygonsRviz = nh.advertise<visualization_msgs::MarkerArray>("detected_polygons", 1);
-  pub_TrackedObstaclesRviz = nh.advertise<jsk_recognition_msgs::BoundingBoxArray>("op_planner_tracked_boxes", 1);
-  pub_TTC_PathRviz    = nh.advertise<visualization_msgs::MarkerArray>("ttc_direct_path", 1);
+  pub_AllTrackedObjects   = nh.advertise<autoware_msgs::DetectedObjectArray>("/tracked_objects", 1);
+  pub_DetectedPolygonsRviz = nh.advertise<visualization_msgs::MarkerArray>("/detected_polygons", 1);
+  pub_TrackedObstaclesRviz = nh.advertise<jsk_recognition_msgs::BoundingBoxArray>("/op_planner_tracked_boxes", 1);
+  pub_TTC_PathRviz    = nh.advertise<visualization_msgs::MarkerArray>("/ttc_direct_path", 1);
 
   //Mapping Section
   sub_lanes = nh.subscribe("/vector_map_info/lane", 1, &ContourTracker::callbackGetVMLanes,  this);

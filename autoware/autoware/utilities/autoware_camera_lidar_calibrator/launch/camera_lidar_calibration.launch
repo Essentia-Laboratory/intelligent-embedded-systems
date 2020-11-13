@@ -2,8 +2,8 @@
 roslaunch autoware_camera_lidar_calibrator camera_lidar_calibration.launch intrinsics_file:=/home/ne0/Desktop/calib_heat_camera1_rear_center_fisheye.yaml compressed_stream:=True camera_id:=camera1
 -->
 <launch>
-    <arg name="image_src" default="/image_raw" />
-    <arg name="camera_info_src" default="/camera_info" />
+    <arg name="image_src" default="image_raw" />
+    <arg name="camera_info_src" default="camera_info" />
     <arg name="camera_id" default="/" />
     <arg name="intrinsics_file" />
     <arg name="compressed_stream" default="false" />

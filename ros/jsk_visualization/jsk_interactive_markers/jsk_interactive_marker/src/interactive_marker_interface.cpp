@@ -1369,8 +1369,8 @@ void InteractiveMarkerInterface::changeMarkerOperationModelMode( std::string mk_
 InteractiveMarkerInterface::InteractiveMarkerInterface () : nh_(), pnh_("~") {
   pnh_.param("marker_name", marker_name, std::string ( "100") );
   pnh_.param("server_name", server_name, std::string ("") );
-  pnh_.param("base_frame", base_frame, std::string ("/base_link") );
-  pnh_.param("move_base_frame", move_base_frame, std::string ("/base_link") );
+  pnh_.param("base_frame", base_frame, std::string ("base_link") );
+  pnh_.param("move_base_frame", move_base_frame, std::string ("base_link") );
   pnh_.param("target_frame", target_frame, std::string ("") );
   //pnh_.param("fix_marker", fix_marker, true);
 

@@ -110,6 +110,7 @@ namespace integrated_viewer {
         times_.clear();
         last_message_time_ = -1;
         // If selected topic is not blank or empty, start callback functions
+        ROS_INFO("[%s] selected_topic=[%s]", __APP_NAME__, selected_topic);	
         topic_sub_ = node_handle_.subscribe(selected_topic,
                                             1000,
                                             &DataRateCheckerPlugin::MessageCallback,

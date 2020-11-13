@@ -109,19 +109,19 @@ VelPoseDiffChecker::VelPoseDiffChecker(const ros::NodeHandle& nh, const ros::Nod
     th->warn_value = th->error_value * error_to_warn_value_ratio;
   }
 
-  pose_sub_ = nh_.subscribe("current_pose", 10, &VelPoseDiffChecker::callbackPose, this,
+  pose_sub_ = nh_.subscribe("/current_pose", 10, &VelPoseDiffChecker::callbackPose, this,
                             ros::TransportHints().tcpNoDelay(true));
-  twist_sub_ = nh_.subscribe("current_velocity", 10, &VelPoseDiffChecker::callbackTwist, this,
+  twist_sub_ = nh_.subscribe("/current_velocity", 10, &VelPoseDiffChecker::callbackTwist, this,
                              ros::TransportHints().tcpNoDelay(true));
   timer_ = nh_.createTimer(ros::Rate(loop_rate_hz_), &VelPoseDiffChecker::callbackTimer, this);
 
   // for visualize
-  diff_position_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_position", 10);
-  diff_position_median_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_position_median", 10);
-  diff_angle_rad_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_angle_rad", 10);
-  diff_angle_rad_median_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_angle_rad_median", 10);
-  diff_angle_deg_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_angle_deg", 10);
-  diff_angle_deg_median_pub_ = private_nh_.advertise<std_msgs::Float32>("diff_angle_deg_median", 10);
+  diff_position_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_position", 10);
+  diff_position_median_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_position_median", 10);
+  diff_angle_rad_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_angle_rad", 10);
+  diff_angle_rad_median_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_angle_rad_median", 10);
+  diff_angle_deg_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_angle_deg", 10);
+  diff_angle_deg_median_pub_ = private_nh_.advertise<std_msgs::Float32>("/diff_angle_deg_median", 10);
 
   health_checker_.ENABLE();
 }

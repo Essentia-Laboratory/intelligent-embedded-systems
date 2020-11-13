@@ -1,5 +1,5 @@
 - name: "robot"
-  frame-id: "/map"
+  frame-id: "map"
   robot: true
   use_robot_description: true
   scale: 1.0

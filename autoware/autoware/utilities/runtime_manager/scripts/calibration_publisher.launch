@@ -6,9 +6,9 @@
     <arg name="camera_id" default="/"/>
     <arg name="target_frame" default="velodyne"/>
     <arg name="camera_frame" default="camera"/>
-    <arg name="image_topic_src" default="/image_raw"/>
-    <arg name="camera_info_topic" default="/camera_info"/>
-    <arg name="projection_matrix_topic" default="/projection_matrix"/>
+    <arg name="image_topic_src" default="image_raw"/>
+    <arg name="camera_info_topic" default="camera_info"/>
+    <arg name="projection_matrix_topic" default="projection_matrix"/>
 
     <node pkg="calibration_publisher" type="calibration_publisher" name="calibration_publisher" ns="$(arg camera_id)"
           output="screen">

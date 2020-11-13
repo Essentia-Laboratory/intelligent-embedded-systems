@@ -246,12 +246,12 @@ int Autoware_Rosbag_Plugin::recordReq( RecordParam &recoParam )
   ROS_INFO("%s L.%d -   max_size        [%.2fGB]", __FUNCTION__, __LINE__, recorder_opts_->max_size / 1000.0 / 1000.0 / 1000.0);
   ROS_INFO("%s L.%d -   max_duration    [%.1fmin]", __FUNCTION__, __LINE__, recorder_opts_->max_duration.toSec() / 60.0 );
   ROS_INFO("%s L.%d -   node            [%s]", __FUNCTION__, __LINE__, recorder_opts_->node.c_str() );
-  ROS_INFO("%s L.%d -   min_space       [%d]", __FUNCTION__, __LINE__, recorder_opts_->min_space );
+  ROS_INFO("%s L.%d -   min_space       [%ld]", __FUNCTION__, __LINE__, recorder_opts_->min_space );
   ROS_INFO("%s L.%d -   min_space_str   [%s]", __FUNCTION__, __LINE__, recorder_opts_->min_space_str.c_str() );
-  ROS_INFO("%s L.%d -   topic num       [%d]", __FUNCTION__, __LINE__, recorder_opts_->topics.size() );
+  ROS_INFO("%s L.%d -   topic num       [%ld]", __FUNCTION__, __LINE__, recorder_opts_->topics.size() );
 
   for( size_t i=0; i<recorder_opts_->topics.size(); i++ ) {
-    ROS_INFO("%s L.%d - [%d] %s", __FUNCTION__, __LINE__, i, recorder_opts_->topics.at(i).c_str() );
+    ROS_INFO("%s L.%d - [%ld] %s", __FUNCTION__, __LINE__, i, recorder_opts_->topics.at(i).c_str() );
   }
 
   doRecord( *recorder_opts_ );
@@ -436,7 +436,7 @@ void Autoware_Rosbag_Plugin::on_button_record_configure_clicked()
       YAML::Node conf = YAML::LoadFile(filepath.toStdString() + filename.toStdString());
       conf_topics_ = conf["topics"].as<std::vector<std::string> >();
     }
-    catch(YAML::Exception exception)
+    catch(YAML::Exception& exception)
     {
       ROS_ERROR(exception.what());
     }

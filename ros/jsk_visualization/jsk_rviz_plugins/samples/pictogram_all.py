@@ -1706,12 +1706,12 @@ counter = 0
 while not rospy.is_shutdown():
     initial_x = -int(math.sqrt(len(pictograms)))/2
     arr = PictogramArray()
-    arr.header.frame_id = "/base_link"
+    arr.header.frame_id = "base_link"
     arr.header.stamp = rospy.Time.now()
     prev_xyz = [initial_x, -10, 0]
     for character in pictograms:
         msg = Pictogram()
-        msg.header.frame_id = "/base_link"
+        msg.header.frame_id = "base_link"
         msg.action = choice(actions)
         msg.header.stamp = rospy.Time.now()
         msg.pose.position.x = prev_xyz[0] + 1

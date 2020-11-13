@@ -61,7 +61,7 @@ public:
     pnh.param("object_b", object_b_, 1.0);
     pnh.param("object_a", object_a_, 1.0);
     std::string frame_id;
-    pnh.param("frame_id", frame_id, std::string("/map"));
+    pnh.param("frame_id", frame_id, std::string("map"));
     latest_pose_.header.frame_id = frame_id;
     double initial_x, initial_y, initial_z;
     pnh.param("initial_x", initial_x, 0.0);

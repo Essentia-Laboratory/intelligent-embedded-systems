@@ -55,6 +55,6 @@ class PC2DownSampler(object):
 
 if __name__ == '__main__':
     rospy.init_node("pc2_downsampler", anonymous=True)
-    PC2DownSampler().setup("/points_map", 1.5, frame_id="map", leaf_size=(10.0, 10.0, 25.0), latch=True)
-    PC2DownSampler().setup("/points_raw", 1.0, frame_id="velodyne", leaf_size=(0.5, 0.5, 0.5))
+    PC2DownSampler().setup("points_map", 1.5, frame_id="map", leaf_size=(10.0, 10.0, 25.0), latch=True)
+    PC2DownSampler().setup("points_raw", 1.0, frame_id="velodyne", leaf_size=(0.5, 0.5, 0.5))
     rospy.spin()

@@ -375,7 +375,7 @@ void localizerCallback(const geometry_msgs::PoseStampedConstPtr &msg)
 void displayObstacle(const EControl &kind)
 {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/map";
+  marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
   marker.ns = "my_namespace";
   marker.id = 0;
@@ -415,7 +415,7 @@ void displayDetectionRange(const int &crosswalk_id, const int &num, const EContr
   visualization_msgs::Marker waypoint_marker_stop;
   visualization_msgs::Marker waypoint_marker_decelerate;
   visualization_msgs::Marker stop_line;
-  crosswalk_marker.header.frame_id = "/map";
+  crosswalk_marker.header.frame_id = "map";
   crosswalk_marker.header.stamp = ros::Time();
   crosswalk_marker.id = 0;
   crosswalk_marker.type = visualization_msgs::Marker::SPHERE_LIST;
@@ -807,27 +807,27 @@ int main(int argc, char **argv)
   bool use_crosswalk_detection;
   private_nh.param<bool>("use_crosswalk_detection", use_crosswalk_detection, true);
 
-  ros::Subscriber localizer_sub = nh.subscribe("localizer_pose", 1, localizerCallback);
-  ros::Subscriber control_pose_sub = nh.subscribe("current_pose", 1, controlCallback);
-  ros::Subscriber vscan_sub = nh.subscribe("vscan_points", 1, vscanCallback);
-  ros::Subscriber base_waypoint_sub = nh.subscribe("base_waypoints", 1, baseWaypointCallback);
-  ros::Subscriber obj_pose_sub = nh.subscribe("obj_pose", 1, objPoseCallback);
-  ros::Subscriber current_vel_sub = nh.subscribe("current_velocity", 1, currentVelCallback);
-  ros::Subscriber config_sub = nh.subscribe("config/lattice_velocity_set", 10, configCallback);
+  ros::Subscriber localizer_sub = nh.subscribe("/localizer_pose", 1, localizerCallback);
+  ros::Subscriber control_pose_sub = nh.subscribe("/current_pose", 1, controlCallback);
+  ros::Subscriber vscan_sub = nh.subscribe("/vscan_points", 1, vscanCallback);
+  ros::Subscriber base_waypoint_sub = nh.subscribe("/base_waypoints", 1, baseWaypointCallback);
+  ros::Subscriber obj_pose_sub = nh.subscribe("/obj_pose", 1, objPoseCallback);
+  ros::Subscriber current_vel_sub = nh.subscribe("/current_velocity", 1, currentVelCallback);
+  ros::Subscriber config_sub = nh.subscribe("/config/lattice_velocity_set", 10, configCallback);
 
   //------------------ Vector Map ----------------------//
-  ros::Subscriber sub_dtlane = nh.subscribe("vector_map_info/cross_walk", 1, &CrossWalk::crossWalkCallback, &vmap);
-  ros::Subscriber sub_area = nh.subscribe("vector_map_info/area", 1, &CrossWalk::areaCallback, &vmap);
-  ros::Subscriber sub_line = nh.subscribe("vector_map_info/line", 1, &CrossWalk::lineCallback, &vmap);
-  ros::Subscriber sub_point = nh.subscribe("vector_map_info/point", 1, &CrossWalk::pointCallback, &vmap);
+  ros::Subscriber sub_dtlane = nh.subscribe("/vector_map_info/cross_walk", 1, &CrossWalk::crossWalkCallback, &vmap);
+  ros::Subscriber sub_area = nh.subscribe("/vector_map_info/area", 1, &CrossWalk::areaCallback, &vmap);
+  ros::Subscriber sub_line = nh.subscribe("/vector_map_info/line", 1, &CrossWalk::lineCallback, &vmap);
+  ros::Subscriber sub_point = nh.subscribe("/vector_map_info/point", 1, &CrossWalk::pointCallback, &vmap);
   //----------------------------------------------------//
 
-  g_range_pub = nh.advertise<visualization_msgs::MarkerArray>("detection_range", 0);
-  g_sound_pub = nh.advertise<std_msgs::String>("sound_player", 10);
-  g_temporal_waypoints_pub = nh.advertise<autoware_msgs::Lane>("temporal_waypoints", 1000, true);
+  g_range_pub = nh.advertise<visualization_msgs::MarkerArray>("/detection_range", 0);
+  g_sound_pub = nh.advertise<std_msgs::String>("/sound_player", 10);
+  g_temporal_waypoints_pub = nh.advertise<autoware_msgs::Lane>("/temporal_waypoints", 1000, true);
   ros::Publisher closest_waypoint_pub;
-  closest_waypoint_pub = nh.advertise<std_msgs::Int32>("closest_waypoint", 1000);
-  g_obstacle_pub = nh.advertise<visualization_msgs::Marker>("obstacle", 0);
+  closest_waypoint_pub = nh.advertise<std_msgs::Int32>("/closest_waypoint", 1000);
+  g_obstacle_pub = nh.advertise<visualization_msgs::Marker>("/obstacle", 0);
 
   ros::Rate loop_rate(LOOP_RATE);
   while (ros::ok())

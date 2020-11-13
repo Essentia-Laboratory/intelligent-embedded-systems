@@ -23,6 +23,7 @@
 
 namespace integrated_viewer
 {
+#define __APP_NAME__ "data_rate_checker"
   class DummyMsg {
   public:
     static std::string md5;

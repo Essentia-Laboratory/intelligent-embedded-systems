@@ -93,12 +93,12 @@ MqttSender::MqttSender() :
     node_handle_("~")
 {
   // ROS Subscriber
-  Subs["can_info"] = node_handle_.subscribe("/can_info", 100, &MqttSender::canInfoCallback, this);
-  Subs["target_velocity_array"] = node_handle_.subscribe("/target_velocity_array", 1, &MqttSender::targetVelocityArrayCallback, this);
-  Subs["twist_cmd"] = node_handle_.subscribe("/twist_cmd", 1, &MqttSender::twistCmdCallback, this);
-  Subs["state"] = node_handle_.subscribe("/state", 1, &MqttSender::stateCallback, this);
-  Subs["drive_mode"] = node_handle_.subscribe("/mode_info", 1, &MqttSender::modeInfoCallback, this);
-  Subs["current_pose"] = node_handle_.subscribe("/current_pose", 1, &MqttSender::currentPoseCallback, this);
+  Subs["can_info"] = node_handle_.subscribe("can_info", 100, &MqttSender::canInfoCallback, this);
+  Subs["target_velocity_array"] = node_handle_.subscribe("target_velocity_array", 1, &MqttSender::targetVelocityArrayCallback, this);
+  Subs["twist_cmd"] = node_handle_.subscribe("twist_cmd", 1, &MqttSender::twistCmdCallback, this);
+  Subs["state"] = node_handle_.subscribe("state", 1, &MqttSender::stateCallback, this);
+  Subs["drive_mode"] = node_handle_.subscribe("mode_info", 1, &MqttSender::modeInfoCallback, this);
+  Subs["current_pose"] = node_handle_.subscribe("current_pose", 1, &MqttSender::currentPoseCallback, this);
 
   // MQTT PARAMS
   mosquitto_lib_init();
@@ -140,10 +140,10 @@ void MqttSender::on_disconnect(struct mosquitto *mosq, void *obj, int rc)
     ROS_INFO("on_disconnect: %s(%d)\n", __FUNCTION__, __LINE__);
 }
 
-static void MqttSender::load_config()
+void MqttSender::load_config()
 {
   string config_file_path = ros::package::getPath(MQTT_NODE_NAME) + MQTT_CONFIG_FILE_NAME;
-  ROS_INFO("Load Config File: %s %s(%d)\n", config_file_path.c_str(), __FUNCTION__, __LINE__);
+  ROS_INFO("[MqttSender] Load Config File: %s %s(%d)\n", config_file_path.c_str(), __FUNCTION__, __LINE__);
 
   YAML::Node config = YAML::LoadFile(config_file_path);
   vehicle_id = config["mqtt"]["VEHICLEID"].as<int>();
@@ -160,7 +160,7 @@ static void MqttSender::load_config()
   gear_r = config["mqtt"]["GEAR_R"].as<int>();
   gear_p = config["mqtt"]["GEAR_P"].as<int>();
 
-  ROS_INFO("MQTT Sender ADDR: %s:%d, ID: %s\n", mqtt_address.c_str(), mqtt_port,  mqtt_client_id.c_str());
+  ROS_INFO("[MqttSender] MQTT Sender ADDR: %s:%d, ID: %s\n", mqtt_address.c_str(), mqtt_port,  mqtt_client_id.c_str());
 
   ROS_INFO(
     "[MQTT Receiver Settings] vehicle_id: %d, \

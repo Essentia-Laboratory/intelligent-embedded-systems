@@ -1,6 +1,6 @@
 <!-- -->
 <launch>
-  <arg name="points_node" default="/points_raw" /><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
+  <arg name="points_node" default="points_raw" /><!--CHANGE THIS TO READ WHETHER FROM VSCAN OR POINTS_RAW -->
   <arg name="remove_ground" default="true" />
   <arg name="downsample_cloud" default="false" /> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
   <arg name="leaf_size" default="0.1" /><!-- Voxel Grid Filter leaf size-->
@@ -58,26 +58,26 @@
     <param name="clustering_distances"
            value="$(arg clustering_distances)"/><!-- Euclidean Clustering threshold distance for each segment -->
 
-    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+    <remap from="points_raw" to="sync_drivers/points_raw" if="$(arg sync)" />
   </node>
 
   <group if="$(arg use_vector_map)">
     <node name="object_roi_filter_clustering" pkg="roi_object_filter" type="roi_object_filter"
-          output="screen" ns="/detection/lidar_detector">
-      <param name="objects_src_topic" value="/objects"/>
+          output="screen" ns="detection/lidar_detector/">
+      <param name="objects_src_topic" value="objects"/>
       <param name="wayarea_gridmap_layer" value="$(arg wayarea_gridmap_layer)"/>
       <param name="sync_topics" value="false"/>
       <param name="exception_list" value="[person, bicycle]"/>
     </node>
     <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="cluster_detect_visualization_01"
-          output="screen" ns="/detection/lidar_detector">
-      <param name="objects_src_topic" value="/objects_filtered"/>
+          output="screen" ns="detection/lidar_detector/">
+      <param name="objects_src_topic" value="objects_filtered"/>
     </node>
   </group>
   <group unless="$(arg use_vector_map)">
     <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="cluster_detect_visualization_01"
-          output="screen" ns="/detection/lidar_detector">
-      <param name="objects_src_topic" value="/objects"/>
+          output="screen" ns="detection/lidar_detector/">
+      <param name="objects_src_topic" value="objects"/>
     </node>
   </group>
 

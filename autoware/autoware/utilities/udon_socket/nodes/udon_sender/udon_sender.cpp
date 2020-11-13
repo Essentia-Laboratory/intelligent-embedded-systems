@@ -270,8 +270,8 @@ int main(int argc, char **argv)
   ROS_INFO_STREAM("sub_mode_queue_size = " << sub_mode_queue_size);
   ROS_INFO_STREAM("sub_pose_queue_size = " << sub_pose_queue_size);
 
-  ros::Subscriber mode_sub = n.subscribe("/mode_info", sub_mode_queue_size, cache_mode);
-  ros::Subscriber pose_sub = n.subscribe("/current_pose", sub_pose_queue_size, cache_pose);
+  ros::Subscriber mode_sub = n.subscribe("mode_info", sub_mode_queue_size, cache_mode);
+  ros::Subscriber pose_sub = n.subscribe("current_pose", sub_pose_queue_size, cache_pose);
 
   try {
     std::thread server(accept_sock, backlog, bufsize, period, port);

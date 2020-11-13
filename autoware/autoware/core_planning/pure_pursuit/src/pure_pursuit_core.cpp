@@ -23,7 +23,7 @@ namespace waypoint_follower
 PurePursuitNode::PurePursuitNode()
   : private_nh_("~")
   , pp_()
-  , LOOP_RATE_(30)
+  , LOOP_RATE_(100)
   , is_waypoint_set_(false)
   , is_pose_set_(false)
   , is_velocity_set_(false)
@@ -65,31 +65,33 @@ void PurePursuitNode::initForROS()
     "minimum_lookahead_distance", minimum_lookahead_distance_, 6.0);
   nh_.param("vehicle_info/wheel_base", wheel_base_, 2.7);
 
+  ROS_INFO("[%s] subscribe to /final_waypoints", __APP_NAME__);
   // setup subscriber
-  sub1_ = nh_.subscribe("final_waypoints", 10,
+  sub1_ = nh_.subscribe("/final_waypoints", 10,
     &PurePursuitNode::callbackFromWayPoints, this);
-  sub2_ = nh_.subscribe("current_pose", 10,
+  sub2_ = nh_.subscribe("/current_pose", 10,
     &PurePursuitNode::callbackFromCurrentPose, this);
-  sub3_ = nh_.subscribe("config/waypoint_follower", 10,
+  sub3_ = nh_.subscribe("/config/waypoint_follower", 10,
     &PurePursuitNode::callbackFromConfig, this);
-  sub4_ = nh_.subscribe("current_velocity", 10,
+  sub4_ = nh_.subscribe("/current_velocity", 10,
     &PurePursuitNode::callbackFromCurrentVelocity, this);
 
+  ROS_INFO("[%s] advertise to /twist_raw", __APP_NAME__);
   // setup publisher
-  pub1_ = nh_.advertise<geometry_msgs::TwistStamped>("twist_raw", 10);
-  pub2_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("ctrl_raw", 10);
-  pub11_ = nh_.advertise<visualization_msgs::Marker>("next_waypoint_mark", 0);
-  pub12_ = nh_.advertise<visualization_msgs::Marker>("next_target_mark", 0);
-  pub13_ = nh_.advertise<visualization_msgs::Marker>("search_circle_mark", 0);
+  pub1_ = nh_.advertise<geometry_msgs::TwistStamped>("/twist_raw", 10);
+  pub2_ = nh_.advertise<autoware_msgs::ControlCommandStamped>("/ctrl_raw", 10);
+  pub11_ = nh_.advertise<visualization_msgs::Marker>("/next_waypoint_mark", 0);
+  pub12_ = nh_.advertise<visualization_msgs::Marker>("/next_target_mark", 0);
+  pub13_ = nh_.advertise<visualization_msgs::Marker>("/search_circle_mark", 0);
   // debug tool
-  pub14_ = nh_.advertise<visualization_msgs::Marker>("line_point_mark", 0);
+  pub14_ = nh_.advertise<visualization_msgs::Marker>("/line_point_mark", 0);
   pub15_ =
-    nh_.advertise<visualization_msgs::Marker>("trajectory_circle_mark", 0);
-  pub16_ = nh_.advertise<std_msgs::Float32>("angular_gravity", 0);
-  pub17_ = nh_.advertise<std_msgs::Float32>("deviation_of_current_position", 0);
+    nh_.advertise<visualization_msgs::Marker>("/trajectory_circle_mark", 0);
+  pub16_ = nh_.advertise<std_msgs::Float32>("/angular_gravity", 0);
+  pub17_ = nh_.advertise<std_msgs::Float32>("/deviation_of_current_position", 0);
   pub18_ =
-    nh_.advertise<visualization_msgs::Marker>("expanded_waypoints_mark", 0);
-  // pub7_ = nh.advertise<std_msgs::Bool>("wf_stat", 0);
+    nh_.advertise<visualization_msgs::Marker>("/expanded_waypoints_mark", 0);
+  // pub7_ = nh.advertise<std_msgs::Bool>("/wf_stat", 0);
 }
 
 void PurePursuitNode::run()
@@ -101,7 +103,9 @@ void PurePursuitNode::run()
     ros::spinOnce();
     if (!is_pose_set_ || !is_waypoint_set_ || !is_velocity_set_)
     {
-      ROS_WARN("Necessary topics are not subscribed yet ... ");
+      ROS_WARN("[%s] Necessary topics are not subscribed yet ... ", __APP_NAME__);
+      ROS_WARN("[%s] is_pose_set_=[%d], is_waypoint_set_=[%d], is_velocity_set_=[%d]", __APP_NAME__, 
+		      is_pose_set_, is_waypoint_set_, is_velocity_set_);
       loop_rate.sleep();
       continue;
     }
@@ -138,6 +142,7 @@ void PurePursuitNode::run()
     publishDeviationCurrentPosition(
       pp_.getCurrentPose().position, pp_.getCurrentWaypoints());
 
+    ROS_WARN("[%s] published and clear", __APP_NAME__);
     is_pose_set_ = false;
     is_velocity_set_ = false;
     is_waypoint_set_ = false;
@@ -238,6 +243,7 @@ double PurePursuitNode::computeAngularGravity(
 void PurePursuitNode::callbackFromConfig(
   const autoware_config_msgs::ConfigWaypointFollowerConstPtr& config)
 {
+  ROS_INFO("[%s] callbackFromConfig", __APP_NAME__);
   velocity_source_ = config->param_flag;
   const_lookahead_distance_ = config->lookahead_distance;
   const_velocity_ = config->velocity;
@@ -271,6 +277,7 @@ void PurePursuitNode::publishDeviationCurrentPosition(
 void PurePursuitNode::callbackFromCurrentPose(
   const geometry_msgs::PoseStampedConstPtr& msg)
 {
+  ROS_INFO("[%s] callbackFromCurrentPose", __APP_NAME__);
   pp_.setCurrentPose(msg);
   is_pose_set_ = true;
 }
@@ -278,6 +285,7 @@ void PurePursuitNode::callbackFromCurrentPose(
 void PurePursuitNode::callbackFromCurrentVelocity(
   const geometry_msgs::TwistStampedConstPtr& msg)
 {
+  ROS_INFO("[%s] callbackFromCurrentVelocity", __APP_NAME__);
   current_linear_velocity_ = msg->twist.linear.x;
   pp_.setCurrentVelocity(current_linear_velocity_);
   is_velocity_set_ = true;
@@ -286,6 +294,7 @@ void PurePursuitNode::callbackFromCurrentVelocity(
 void PurePursuitNode::callbackFromWayPoints(
   const autoware_msgs::LaneConstPtr& msg)
 {
+  ROS_INFO("[%s] callbackFromWayPoints", __APP_NAME__);
   command_linear_velocity_ =
     (!msg->waypoints.empty()) ? msg->waypoints.at(0).twist.twist.linear.x : 0;
   if (add_virtual_end_waypoints_)
@@ -303,6 +312,7 @@ void PurePursuitNode::callbackFromWayPoints(
   {
     pp_.setCurrentWaypoints(msg->waypoints);
   }
+  ROS_INFO("[%s] is_waypoint_set_ = true", __APP_NAME__);
   is_waypoint_set_ = true;
 }
 

@@ -59,6 +59,8 @@ extern void      detach_ShareMem(void);
 #define SHOW_DETAIL // if this macro is valid, grayscale/edge/half images are displayed
 #endif
 
+#define __APP_NAME__ "line_ocv"
+
 static ros::Publisher image_lane_objects;
 
 // clip portion of the image
@@ -569,16 +571,16 @@ int main(int argc, char *argv[])
 
   detach_ShareMem();
 #else
-  ros::init(argc, argv, "line_ocv");
+  ros::init(argc, argv, __APP_NAME__ );
   ros::NodeHandle n;
   ros::NodeHandle private_nh("~");
   std::string image_topic_name;
   private_nh.param<std::string>("image_raw_topic", image_topic_name, "/image_raw");
-  ROS_INFO("Setting image topic to %s", image_topic_name.c_str());
+  ROS_INFO("[%s] Setting image topic to %s", __APP_NAME__, image_topic_name.c_str());
 
   ros::Subscriber subscriber = n.subscribe(image_topic_name, 1, lane_cannyhough_callback);
 
-  image_lane_objects = n.advertise<autoware_msgs::ImageLaneObjects>("lane_pos_xy", 1);
+  image_lane_objects = n.advertise<autoware_msgs::ImageLaneObjects>("/lane_pos_xy", 1);
 
   ros::spin();
 #endif

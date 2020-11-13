@@ -38,6 +38,7 @@
 
 namespace waypoint_follower
 {
+#define __APP_NAME__ "pure_pursuit"
 enum class Mode : int32_t
 {
   waypoint,

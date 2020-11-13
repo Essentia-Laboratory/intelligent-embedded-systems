@@ -124,7 +124,7 @@ static void dbg_out_pictogram(jsk_rviz_plugins::Pictogram pictogram) {
 static void update_pictograms(int id, ros::Time now, jsk_rviz_plugins::Pictogram pictogram) {
   vector<int>::iterator itr = find(car_ids.begin(), car_ids.end(), id);
 
-  pictograms_array.header.frame_id = "/map";
+  pictograms_array.header.frame_id = "map";
   pictograms_array.header.stamp = now;
 
   if (itr == car_ids.end()) {
@@ -139,7 +139,7 @@ static void update_pictograms(int id, ros::Time now, jsk_rviz_plugins::Pictogram
 static void publish_car(int id, int is_current, ros::Time now,
   geometry_msgs::Pose& pose, int diffmsec) {
   jsk_rviz_plugins::Pictogram pictogram;
-  pictogram.header.frame_id = "/map";
+  pictogram.header.frame_id = "map";
   pictogram.header.stamp = now;
   pictogram.pose = pose;
   pictogram.action = jsk_rviz_plugins::Pictogram::ADD;
@@ -210,7 +210,7 @@ static void publish_car_summary(ros::Time now) {
     if (prev_map.count(id) > 0 && cur <= prev_map[id]) {
       continue;
     }
-    pictogram.header.frame_id = "/map";
+    pictogram.header.frame_id = "map";
     pictogram.header.stamp = cur;
     pictogram.pose = pose;
     pictogram.action = jsk_rviz_plugins::Pictogram::ADD;
@@ -253,7 +253,7 @@ static void publish_car_summary(ros::Time now) {
 static void publish_pedestrian(int id, int is_pedestrian, ros::Time now,
   geometry_msgs::Pose& pose, int diffmsec) {
   jsk_rviz_plugins::Pictogram pictogram;
-  pictogram.header.frame_id = "/map";
+  pictogram.header.frame_id = "map";
   pictogram.header.stamp = now;
   pictogram.pose = pose;
   pictogram.action = jsk_rviz_plugins::Pictogram::ADD;

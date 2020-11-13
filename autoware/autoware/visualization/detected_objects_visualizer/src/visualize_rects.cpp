@@ -17,6 +17,7 @@
  *  v1.0: amc-nu (abrahammonrroy@yahoo.com)
  */
 
+#include "boost/algorithm/string.hpp"
 #include "visualize_rects.h"
 #include <opencv2/imgproc/imgproc_c.h>
 
@@ -41,7 +42,9 @@ VisualizeRects::VisualizeRects()
   if (found_pos!=std::string::npos)
     ros_namespace.erase(found_pos, ros_namespace.length()-found_pos);
   std::cout << ros_namespace << std::endl;
-  image_out_topic = ros_namespace + image_out_topic;
+  image_out_topic = ros_namespace + 
+	  ( boost::algorithm::ends_with( ros_namespace, "/" ) || boost::algorithm::starts_with( image_out_topic, "/" ) ? "" : "/" )
+	  + image_out_topic;
 
   image_filter_subscriber_ = new message_filters::Subscriber<sensor_msgs::Image>(private_nh_,
                                                                                  image_src_topic,

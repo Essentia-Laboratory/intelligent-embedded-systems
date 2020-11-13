@@ -148,7 +148,7 @@ protected:
     createLaneletMap();
 
     ros::NodeHandle rosnode;
-    map_bin_pub_ = rosnode.advertise<autoware_lanelet2_msgs::MapBin>("lanelet_map_bin", 1, true);
+    map_bin_pub_ = rosnode.advertise<autoware_lanelet2_msgs::MapBin>("/lanelet_map_bin", 1, true);
   };
   virtual void TearDown()
   {

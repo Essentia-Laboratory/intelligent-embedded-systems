@@ -70,15 +70,15 @@ void CostmapGeneratorLanelet2::init()
 
 void CostmapGeneratorLanelet2::run()
 {
-  pub_costmap_ = nh_.advertise<grid_map_msgs::GridMap>("semantics/costmap", 1);
-  pub_occupancy_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("semantics/costmap_generator/occupancy_grid", 1);
+  pub_costmap_ = nh_.advertise<grid_map_msgs::GridMap>("/semantics/costmap", 1);
+  pub_occupancy_grid_ = nh_.advertise<nav_msgs::OccupancyGrid>("/semantics/costmap_generator/occupancy_grid", 1);
 
   sub_objects_ =
-      nh_.subscribe("prediction/motion_predictor/objects", 1, &CostmapGeneratorLanelet2::objectsCallback, this);
+      nh_.subscribe("/prediction/motion_predictor/objects", 1, &CostmapGeneratorLanelet2::objectsCallback, this);
 
-  sub_points_ = nh_.subscribe("points_no_ground", 1, &CostmapGeneratorLanelet2::sensorPointsCallback, this);
+  sub_points_ = nh_.subscribe("/points_no_ground", 1, &CostmapGeneratorLanelet2::sensorPointsCallback, this);
 
-  sub_lanelet_bin_map_ = nh_.subscribe("lanelet_map_bin", 1, &CostmapGeneratorLanelet2::laneletBinMapCallback, this);
+  sub_lanelet_bin_map_ = nh_.subscribe("/lanelet_map_bin", 1, &CostmapGeneratorLanelet2::laneletBinMapCallback, this);
 }
 
 void CostmapGeneratorLanelet2::loadRoadAreasFromLaneletMap(const lanelet::LaneletMapPtr lanelet_map,

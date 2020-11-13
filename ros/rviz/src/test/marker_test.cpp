@@ -106,14 +106,14 @@ void publishCallback(const ros::TimerEvent& /*unused*/)
           ros::Duration(0.9), g_marker_pub);
   x_pos += 3;
   emitRow("text_view_facing", visualization_msgs::Marker::TEXT_VIEW_FACING, x_pos, 1.0, 1.0, 1.0,
-          ros::Duration(), g_marker_pub, false, "/base_link", 1.0, 1.0, 0.2);
+          ros::Duration(), g_marker_pub, false, "base_link", 1.0, 1.0, 0.2);
   x_pos += 3;
   emitRow("mesh_resource", visualization_msgs::Marker::MESH_RESOURCE, x_pos, 0.0, 1.0, 1.0,
           ros::Duration(), g_marker_pub);
   x_pos += 3;
 
   emitRow("invalid_scales", visualization_msgs::Marker::CUBE, x_pos, 0.0, 1.0, 1.0, ros::Duration(),
-          g_marker_pub, false, "/base_link", 0.0, 1.0, 1.0);
+          g_marker_pub, false, "base_link", 0.0, 1.0, 1.0);
   x_pos += 3;
 
   {

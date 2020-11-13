@@ -100,6 +100,8 @@ using vector_map::createPoleMarker;
 namespace
 {
 
+#define __APP_NAME__ "vector_map_loader"
+
 enum class LoadMode {
   FILE,
   DIRECTORY,
@@ -157,14 +159,14 @@ visualization_msgs::MarkerArray createRoadEdgeMarkerArray(const VectorMap& vmap,
   {
     if (road_edge.lid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadEdgeMarkerArray] invalid road_edge: " << road_edge);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadEdgeMarkerArray] invalid road_edge: " << road_edge);
       continue;
     }
 
     Line line = vmap.findByKey(Key<Line>(road_edge.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadEdgeMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadEdgeMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -174,7 +176,7 @@ visualization_msgs::MarkerArray createRoadEdgeMarkerArray(const VectorMap& vmap,
       if (isValidMarker(marker))
         marker_array.markers.push_back(marker);
       else
-        ROS_ERROR_STREAM("[createRoadEdgeMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadEdgeMarkerArray] failed createLinkedLineMarker: " << line);
     }
   }
   return marker_array;
@@ -189,14 +191,14 @@ visualization_msgs::MarkerArray createGutterMarkerArray(const VectorMap& vmap, C
   {
     if (gutter.aid == 0)
     {
-      ROS_ERROR_STREAM("[createGutterMarkerArray] invalid gutter: " << gutter);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGutterMarkerArray] invalid gutter: " << gutter);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(gutter.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createGutterMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGutterMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -213,13 +215,13 @@ visualization_msgs::MarkerArray createGutterMarkerArray(const VectorMap& vmap, C
       marker = createAreaMarker("gutter", id++, grating_color, vmap, area);
       break;
     default:
-      ROS_ERROR_STREAM("[createGutterMarkerArray] unknown gutter.type: " << gutter);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGutterMarkerArray] unknown gutter.type: " << gutter);
       continue;
     }
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createGutterMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGutterMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -232,14 +234,14 @@ visualization_msgs::MarkerArray createCurbMarkerArray(const VectorMap& vmap, Col
   {
     if (curb.lid == 0)
     {
-      ROS_ERROR_STREAM("[createCurbMarkerArray] invalid curb: " << curb);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurbMarkerArray] invalid curb: " << curb);
       continue;
     }
 
     Line line = vmap.findByKey(Key<Line>(curb.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createCurbMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurbMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -250,7 +252,7 @@ visualization_msgs::MarkerArray createCurbMarkerArray(const VectorMap& vmap, Col
       if (isValidMarker(marker))
         marker_array.markers.push_back(marker);
       else
-        ROS_ERROR_STREAM("[createCurbMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurbMarkerArray] failed createLinkedLineMarker: " << line);
     }
   }
   return marker_array;
@@ -265,7 +267,7 @@ visualization_msgs::MarkerArray createWhiteLineMarkerArray(const VectorMap& vmap
   {
     if (white_line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createWhiteLineMarkerArray] invalid white_line: " << white_line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWhiteLineMarkerArray] invalid white_line: " << white_line);
       continue;
     }
     if (white_line.type == WhiteLine::DASHED_LINE_BLANK) // if invisible line
@@ -274,7 +276,7 @@ visualization_msgs::MarkerArray createWhiteLineMarkerArray(const VectorMap& vmap
     Line line = vmap.findByKey(Key<Line>(white_line.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createWhiteLineMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWhiteLineMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -290,14 +292,14 @@ visualization_msgs::MarkerArray createWhiteLineMarkerArray(const VectorMap& vmap
         marker = createLinkedLineMarker("white_line", id++, yellow_color, vmap, line);
         break;
       default:
-        ROS_ERROR_STREAM("[createWhiteLineMarkerArray] unknown white_line.color: " << white_line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWhiteLineMarkerArray] unknown white_line.color: " << white_line);
         continue;
       }
       // XXX: The visualization_msgs::Marker::LINE_STRIP is difficult to deal with white_line.width.
       if (isValidMarker(marker))
         marker_array.markers.push_back(marker);
       else
-        ROS_ERROR_STREAM("[createWhiteLineMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWhiteLineMarkerArray] failed createLinkedLineMarker: " << line);
     }
   }
   return marker_array;
@@ -311,14 +313,14 @@ visualization_msgs::MarkerArray createStopLineMarkerArray(const VectorMap& vmap,
   {
     if (stop_line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createStopLineMarkerArray] invalid stop_line: " << stop_line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStopLineMarkerArray] invalid stop_line: " << stop_line);
       continue;
     }
 
     Line line = vmap.findByKey(Key<Line>(stop_line.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createStopLineMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStopLineMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -328,7 +330,7 @@ visualization_msgs::MarkerArray createStopLineMarkerArray(const VectorMap& vmap,
       if (isValidMarker(marker))
         marker_array.markers.push_back(marker);
       else
-        ROS_ERROR_STREAM("[createStopLineMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStopLineMarkerArray] failed createLinkedLineMarker: " << line);
     }
   }
   return marker_array;
@@ -342,14 +344,14 @@ visualization_msgs::MarkerArray createZebraZoneMarkerArray(const VectorMap& vmap
   {
     if (zebra_zone.aid == 0)
     {
-      ROS_ERROR_STREAM("[createZebraZoneMarkerArray] invalid zebra_zone: " << zebra_zone);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createZebraZoneMarkerArray] invalid zebra_zone: " << zebra_zone);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(zebra_zone.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createZebraZoneMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createZebraZoneMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -357,7 +359,7 @@ visualization_msgs::MarkerArray createZebraZoneMarkerArray(const VectorMap& vmap
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createZebraZoneMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createZebraZoneMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -370,14 +372,14 @@ visualization_msgs::MarkerArray createCrossWalkMarkerArray(const VectorMap& vmap
   {
     if (cross_walk.aid == 0)
     {
-      ROS_ERROR_STREAM("[createCrossWalkMarkerArray] invalid cross_walk: " << cross_walk);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossWalkMarkerArray] invalid cross_walk: " << cross_walk);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(cross_walk.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createCrossWalkMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossWalkMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -385,7 +387,7 @@ visualization_msgs::MarkerArray createCrossWalkMarkerArray(const VectorMap& vmap
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createCrossWalkMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossWalkMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -398,14 +400,14 @@ visualization_msgs::MarkerArray createRoadMarkMarkerArray(const VectorMap& vmap,
   {
     if (road_mark.aid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadMarkMarkerArray] invalid road_mark: " << road_mark);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadMarkMarkerArray] invalid road_mark: " << road_mark);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(road_mark.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadMarkMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadMarkMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -413,7 +415,7 @@ visualization_msgs::MarkerArray createRoadMarkMarkerArray(const VectorMap& vmap,
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createRoadMarkMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadMarkMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -426,14 +428,14 @@ visualization_msgs::MarkerArray createRoadPoleMarkerArray(const VectorMap& vmap,
   {
     if (road_pole.plid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadPoleMarkerArray] invalid road_pole: " << road_pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadPoleMarkerArray] invalid road_pole: " << road_pole);
       continue;
     }
 
     Pole pole = vmap.findByKey(Key<Pole>(road_pole.plid));
     if (pole.plid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadPoleMarkerArray] invalid pole: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadPoleMarkerArray] invalid pole: " << pole);
       continue;
     }
 
@@ -441,7 +443,7 @@ visualization_msgs::MarkerArray createRoadPoleMarkerArray(const VectorMap& vmap,
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createRoadPoleMarkerArray] failed createPoleMarker: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadPoleMarkerArray] failed createPoleMarker: " << pole);
   }
   return marker_array;
 }
@@ -454,14 +456,14 @@ visualization_msgs::MarkerArray createRoadSignMarkerArray(const VectorMap& vmap,
   {
     if (road_sign.vid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadSignMarkerArray] invalid road_sign: " << road_sign);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadSignMarkerArray] invalid road_sign: " << road_sign);
       continue;
     }
 
     Vector vector = vmap.findByKey(Key<Vector>(road_sign.vid));
     if (vector.vid == 0)
     {
-      ROS_ERROR_STREAM("[createRoadSignMarkerArray] invalid vector: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadSignMarkerArray] invalid vector: " << vector);
       continue;
     }
 
@@ -471,7 +473,7 @@ visualization_msgs::MarkerArray createRoadSignMarkerArray(const VectorMap& vmap,
       pole = vmap.findByKey(Key<Pole>(road_sign.plid));
       if (pole.plid == 0)
       {
-        ROS_ERROR_STREAM("[createRoadSignMarkerArray] invalid pole: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadSignMarkerArray] invalid pole: " << pole);
         continue;
       }
     }
@@ -480,7 +482,7 @@ visualization_msgs::MarkerArray createRoadSignMarkerArray(const VectorMap& vmap,
     if (isValidMarker(vector_marker))
       marker_array.markers.push_back(vector_marker);
     else
-      ROS_ERROR_STREAM("[createRoadSignMarkerArray] failed createVectorMarker: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadSignMarkerArray] failed createVectorMarker: " << vector);
 
     if (road_sign.plid != 0)
     {
@@ -488,7 +490,7 @@ visualization_msgs::MarkerArray createRoadSignMarkerArray(const VectorMap& vmap,
       if (isValidMarker(pole_marker))
         marker_array.markers.push_back(pole_marker);
       else
-        ROS_ERROR_STREAM("[createRoadSignMarkerArray] failed createPoleMarker: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRoadSignMarkerArray] failed createPoleMarker: " << pole);
     }
   }
   return marker_array;
@@ -503,14 +505,14 @@ visualization_msgs::MarkerArray createSignalMarkerArray(const VectorMap& vmap, C
   {
     if (signal.vid == 0)
     {
-      ROS_ERROR_STREAM("[createSignalMarkerArray] invalid signal: " << signal);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] invalid signal: " << signal);
       continue;
     }
 
     Vector vector = vmap.findByKey(Key<Vector>(signal.vid));
     if (vector.vid == 0)
     {
-      ROS_ERROR_STREAM("[createSignalMarkerArray] invalid vector: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] invalid vector: " << vector);
       continue;
     }
 
@@ -520,7 +522,7 @@ visualization_msgs::MarkerArray createSignalMarkerArray(const VectorMap& vmap, C
       pole = vmap.findByKey(Key<Pole>(signal.plid));
       if (pole.plid == 0)
       {
-        ROS_ERROR_STREAM("[createSignalMarkerArray] invalid pole: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] invalid pole: " << pole);
         continue;
       }
     }
@@ -552,14 +554,14 @@ visualization_msgs::MarkerArray createSignalMarkerArray(const VectorMap& vmap, C
       vector_marker = createVectorMarker("signal", id++, other_color, vmap, vector);
       break;
     default:
-      ROS_WARN_STREAM("[createSignalMarkerArray] unknown signal.type: " << signal.type << " Creating Marker as OTHER.");
+      ROS_WARN_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] unknown signal.type: " << signal.type << " Creating Marker as OTHER.");
       vector_marker = createVectorMarker("signal", id++, Color::GRAY, vmap, vector);
       break;
     }
     if (isValidMarker(vector_marker))
       marker_array.markers.push_back(vector_marker);
     else
-      ROS_ERROR_STREAM("[createSignalMarkerArray] failed createVectorMarker: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] failed createVectorMarker: " << vector);
 
     if (signal.plid != 0)
     {
@@ -567,7 +569,7 @@ visualization_msgs::MarkerArray createSignalMarkerArray(const VectorMap& vmap, C
       if (isValidMarker(pole_marker))
         marker_array.markers.push_back(pole_marker);
       else
-        ROS_ERROR_STREAM("[createSignalMarkerArray] failed createPoleMarker: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSignalMarkerArray] failed createPoleMarker: " << pole);
     }
   }
   return marker_array;
@@ -582,14 +584,14 @@ visualization_msgs::MarkerArray createStreetLightMarkerArray(const VectorMap& vm
   {
     if (street_light.lid == 0)
     {
-      ROS_ERROR_STREAM("[createStreetLightMarkerArray] invalid street_light: " << street_light);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStreetLightMarkerArray] invalid street_light: " << street_light);
       continue;
     }
 
     Line line = vmap.findByKey(Key<Line>(street_light.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createStreetLightMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStreetLightMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -599,7 +601,7 @@ visualization_msgs::MarkerArray createStreetLightMarkerArray(const VectorMap& vm
       pole = vmap.findByKey(Key<Pole>(street_light.plid));
       if (pole.plid == 0)
       {
-        ROS_ERROR_STREAM("[createStreetLightMarkerArray] invalid pole: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStreetLightMarkerArray] invalid pole: " << pole);
         continue;
       }
     }
@@ -610,7 +612,7 @@ visualization_msgs::MarkerArray createStreetLightMarkerArray(const VectorMap& vm
       if (isValidMarker(line_marker))
         marker_array.markers.push_back(line_marker);
       else
-        ROS_ERROR_STREAM("[createStreetLightMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStreetLightMarkerArray] failed createLinkedLineMarker: " << line);
     }
 
     if (street_light.plid != 0)
@@ -619,7 +621,7 @@ visualization_msgs::MarkerArray createStreetLightMarkerArray(const VectorMap& vm
       if (isValidMarker(pole_marker))
         marker_array.markers.push_back(pole_marker);
       else
-        ROS_ERROR_STREAM("[createStreetLightMarkerArray] failed createPoleMarker: " << pole);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createStreetLightMarkerArray] failed createPoleMarker: " << pole);
     }
   }
   return marker_array;
@@ -633,14 +635,14 @@ visualization_msgs::MarkerArray createUtilityPoleMarkerArray(const VectorMap& vm
   {
     if (utility_pole.plid == 0)
     {
-      ROS_ERROR_STREAM("[createUtilityPoleMarkerArray] invalid utility_pole: " << utility_pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createUtilityPoleMarkerArray] invalid utility_pole: " << utility_pole);
       continue;
     }
 
     Pole pole = vmap.findByKey(Key<Pole>(utility_pole.plid));
     if (pole.plid == 0)
     {
-      ROS_ERROR_STREAM("[createUtilityPoleMarkerArray] invalid pole: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createUtilityPoleMarkerArray] invalid pole: " << pole);
       continue;
     }
 
@@ -648,7 +650,7 @@ visualization_msgs::MarkerArray createUtilityPoleMarkerArray(const VectorMap& vm
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createUtilityPoleMarkerArray] failed createPoleMarker: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createUtilityPoleMarkerArray] failed createPoleMarker: " << pole);
   }
   return marker_array;
 }
@@ -661,14 +663,14 @@ visualization_msgs::MarkerArray createGuardRailMarkerArray(const VectorMap& vmap
   {
     if (guard_rail.aid == 0)
     {
-      ROS_ERROR_STREAM("[createGuardRailMarkerArray] invalid guard_rail: " << guard_rail);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGuardRailMarkerArray] invalid guard_rail: " << guard_rail);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(guard_rail.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createGuardRailMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGuardRailMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -676,7 +678,7 @@ visualization_msgs::MarkerArray createGuardRailMarkerArray(const VectorMap& vmap
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createGuardRailMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createGuardRailMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -689,14 +691,14 @@ visualization_msgs::MarkerArray createSideWalkMarkerArray(const VectorMap& vmap,
   {
     if (side_walk.aid == 0)
     {
-      ROS_ERROR_STREAM("[createSideWalkMarkerArray] invalid side_walk: " << side_walk);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideWalkMarkerArray] invalid side_walk: " << side_walk);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(side_walk.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createSideWalkMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideWalkMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -704,7 +706,7 @@ visualization_msgs::MarkerArray createSideWalkMarkerArray(const VectorMap& vmap,
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createSideWalkMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideWalkMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -717,14 +719,14 @@ visualization_msgs::MarkerArray createDriveOnPortionMarkerArray(const VectorMap&
   {
     if (drive_on_portion.aid == 0)
     {
-      ROS_ERROR_STREAM("[createDriveOnPortionMarkerArray] invalid drive_on_portion: " << drive_on_portion);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createDriveOnPortionMarkerArray] invalid drive_on_portion: " << drive_on_portion);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(drive_on_portion.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createDriveOnPortionMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createDriveOnPortionMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -732,7 +734,7 @@ visualization_msgs::MarkerArray createDriveOnPortionMarkerArray(const VectorMap&
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createDriveOnPortionMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createDriveOnPortionMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -745,14 +747,14 @@ visualization_msgs::MarkerArray createCrossRoadMarkerArray(const VectorMap& vmap
   {
     if (cross_road.aid == 0)
     {
-      ROS_ERROR_STREAM("[createCrossRoadMarkerArray] invalid cross_road: " << cross_road);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossRoadMarkerArray] invalid cross_road: " << cross_road);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(cross_road.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createCrossRoadMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossRoadMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -760,7 +762,7 @@ visualization_msgs::MarkerArray createCrossRoadMarkerArray(const VectorMap& vmap
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createCrossRoadMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCrossRoadMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -773,14 +775,14 @@ visualization_msgs::MarkerArray createSideStripMarkerArray(const VectorMap& vmap
   {
     if (side_strip.lid == 0)
     {
-      ROS_ERROR_STREAM("[createSideStripMarkerArray] invalid side_strip: " << side_strip);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideStripMarkerArray] invalid side_strip: " << side_strip);
       continue;
     }
 
     Line line = vmap.findByKey(Key<Line>(side_strip.lid));
     if (line.lid == 0)
     {
-      ROS_ERROR_STREAM("[createSideStripMarkerArray] invalid line: " << line);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideStripMarkerArray] invalid line: " << line);
       continue;
     }
 
@@ -790,7 +792,7 @@ visualization_msgs::MarkerArray createSideStripMarkerArray(const VectorMap& vmap
       if (isValidMarker(marker))
         marker_array.markers.push_back(marker);
       else
-        ROS_ERROR_STREAM("[createSideStripMarkerArray] failed createLinkedLineMarker: " << line);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createSideStripMarkerArray] failed createLinkedLineMarker: " << line);
     }
   }
   return marker_array;
@@ -805,21 +807,21 @@ visualization_msgs::MarkerArray createCurveMirrorMarkerArray(const VectorMap& vm
   {
     if (curve_mirror.vid == 0 || curve_mirror.plid == 0)
     {
-      ROS_ERROR_STREAM("[createCurveMirrorMarkerArray] invalid curve_mirror: " << curve_mirror);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurveMirrorMarkerArray] invalid curve_mirror: " << curve_mirror);
       continue;
     }
 
     Vector vector = vmap.findByKey(Key<Vector>(curve_mirror.vid));
     if (vector.vid == 0)
     {
-      ROS_ERROR_STREAM("[createCurveMirrorMarkerArray] invalid vector: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurveMirrorMarkerArray] invalid vector: " << vector);
       continue;
     }
 
     Pole pole = vmap.findByKey(Key<Pole>(curve_mirror.plid));
     if (pole.plid == 0)
     {
-      ROS_ERROR_STREAM("[createCurveMirrorMarkerArray] invalid pole: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurveMirrorMarkerArray] invalid pole: " << pole);
       continue;
     }
 
@@ -827,13 +829,13 @@ visualization_msgs::MarkerArray createCurveMirrorMarkerArray(const VectorMap& vm
     if (isValidMarker(vector_marker))
       marker_array.markers.push_back(vector_marker);
     else
-      ROS_ERROR_STREAM("[createCurveMirrorMarkerArray] failed createVectorMarker: " << vector);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurveMirrorMarkerArray] failed createVectorMarker: " << vector);
 
     visualization_msgs::Marker pole_marker = createPoleMarker("curve_mirror", id++, pole_color, vmap, pole);
     if (isValidMarker(pole_marker))
       marker_array.markers.push_back(pole_marker);
     else
-      ROS_ERROR_STREAM("[createCurveMirrorMarkerArray] failed createPoleMarker: " << pole);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createCurveMirrorMarkerArray] failed createPoleMarker: " << pole);
   }
   return marker_array;
 }
@@ -846,14 +848,14 @@ visualization_msgs::MarkerArray createWallMarkerArray(const VectorMap& vmap, Col
   {
     if (wall.aid == 0)
     {
-      ROS_ERROR_STREAM("[createWallMarkerArray] invalid wall: " << wall);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWallMarkerArray] invalid wall: " << wall);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(wall.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createWallMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWallMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -861,7 +863,7 @@ visualization_msgs::MarkerArray createWallMarkerArray(const VectorMap& vmap, Col
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createWallMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createWallMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -874,14 +876,14 @@ visualization_msgs::MarkerArray createFenceMarkerArray(const VectorMap& vmap, Co
   {
     if (fence.aid == 0)
     {
-      ROS_ERROR_STREAM("[createFenceMarkerArray] invalid fence: " << fence);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createFenceMarkerArray] invalid fence: " << fence);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(fence.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createFenceMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createFenceMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -889,7 +891,7 @@ visualization_msgs::MarkerArray createFenceMarkerArray(const VectorMap& vmap, Co
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createFenceMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createFenceMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -902,14 +904,14 @@ visualization_msgs::MarkerArray createRailCrossingMarkerArray(const VectorMap& v
   {
     if (rail_crossing.aid == 0)
     {
-      ROS_ERROR_STREAM("[createRailCrossingMarkerArray] invalid rail_crossing: " << rail_crossing);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRailCrossingMarkerArray] invalid rail_crossing: " << rail_crossing);
       continue;
     }
 
     Area area = vmap.findByKey(Key<Area>(rail_crossing.aid));
     if (area.aid == 0)
     {
-      ROS_ERROR_STREAM("[createRailCrossingMarkerArray] invalid area: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRailCrossingMarkerArray] invalid area: " << area);
       continue;
     }
 
@@ -917,7 +919,7 @@ visualization_msgs::MarkerArray createRailCrossingMarkerArray(const VectorMap& v
     if (isValidMarker(marker))
       marker_array.markers.push_back(marker);
     else
-      ROS_ERROR_STREAM("[createRailCrossingMarkerArray] failed createAreaMarker: " << area);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "][createRailCrossingMarkerArray] failed createAreaMarker: " << area);
   }
   return marker_array;
 }
@@ -930,16 +932,18 @@ void insertMarkerArray(visualization_msgs::MarkerArray& a1, const visualization_
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "vector_map_loader");
+  ros::init(argc, argv, __APP_NAME__);
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
 
+  ROS_INFO("[%s] has param load_mode", __APP_NAME__);
   LoadMode load_mode = LoadMode::FILE;
   if (pnh.hasParam("load_mode"))
   {
     // Set mode based on rosparam
     std::string load_mode_param;
     pnh.getParam("load_mode", load_mode_param);
+    ROS_INFO("[%s] load_mode=[%s]", __APP_NAME__, load_mode_param.c_str());
     if (load_mode_param == "file")
     {
       load_mode = LoadMode::FILE;
@@ -959,9 +963,11 @@ int main(int argc, char **argv)
   }
   else
   {
+    ROS_INFO("[%s] has no load_mode", __APP_NAME__);
     // Set mode based on args
     if (argc < 2)
     {
+      ROS_INFO("[%s] argc under 2... exit", __APP_NAME__);
       printUsage();
       ros::shutdown();
     }
@@ -981,6 +987,7 @@ int main(int argc, char **argv)
   std::string map_dir;
   pnh.param<std::string>("map_dir", map_dir, "");
 
+  ROS_INFO("[%s] map_dir=[%s]", __APP_NAME__, map_dir.c_str());
   // Vector map publishers will be initialized later as data is loaded.
   ros::Publisher area_pub;
   ros::Publisher box_pub;
@@ -1015,8 +1022,8 @@ int main(int argc, char **argv)
   ros::Publisher white_line_pub;
   ros::Publisher zebra_zone_pub;
 
-  ros::Publisher marker_array_pub = nh.advertise<visualization_msgs::MarkerArray>("vector_map", 1, true);
-  ros::Publisher stat_pub = nh.advertise<std_msgs::Bool>("vmap_stat", 1, true);
+  ros::Publisher marker_array_pub = nh.advertise<visualization_msgs::MarkerArray>("/vector_map", 1, true);
+  ros::Publisher stat_pub = nh.advertise<std_msgs::Bool>("/vmap_stat", 1, true);
 
   std_msgs::Bool stat;
   stat.data = false;
@@ -1062,7 +1069,7 @@ int main(int argc, char **argv)
 
   if (load_mode == LoadMode::DOWNLOAD)
   {
-    ROS_INFO("Load Mode: Download");
+    ROS_INFO("[%s] Load Mode: Download", __APP_NAME__);
     std::string host_name;
     pnh.param<std::string>("host_name", host_name, HTTP_HOSTNAME);
     int port;
@@ -1099,12 +1106,12 @@ int main(int argc, char **argv)
       if (gf.GetHTTPFile(remote_path + "/" + file_name) == 0)
         file_paths.push_back("/tmp" + remote_path + "/" + file_name);
       else
-        ROS_ERROR_STREAM("download failure: " << remote_path + "/" + file_name);
+        ROS_ERROR_STREAM("[" << __APP_NAME__ << "] download failure: " << remote_path + "/" + file_name);
     }
   }
   else if (load_mode == LoadMode::DIRECTORY)
   {
-    ROS_INFO("Load Mode: Directory");
+    ROS_INFO("[%s] Load Mode: Directory", __APP_NAME__);
     // add slash if it doesn't exist
     if (map_dir.back() != '/')
     {
@@ -1121,7 +1128,7 @@ int main(int argc, char **argv)
   }
   else if (load_mode == LoadMode::FILE)
   {
-    ROS_INFO("Load Mode: File");
+    ROS_INFO("[%s] Load Mode: File", __APP_NAME__ );
     for (int i = 1; i < argc; ++i)
     {
       std::string file_path(argv[i]);
@@ -1139,139 +1146,139 @@ int main(int argc, char **argv)
     }
     else if (file_name == "point.csv")
     {
-      category |= registerVectormapPortion<Point, PointArray>(file_path, &point_pub, "vector_map_info/point", Category::POINT, &nh);
+      category |= registerVectormapPortion<Point, PointArray>(file_path, &point_pub, "/vector_map_info/point", Category::POINT, &nh);
     }
     else if (file_name == "vector.csv")
     {
-      category |= registerVectormapPortion<Vector, VectorArray>(file_path, &vector_pub, "vector_map_info/vector", Category::VECTOR, &nh);
+      category |= registerVectormapPortion<Vector, VectorArray>(file_path, &vector_pub, "/vector_map_info/vector", Category::VECTOR, &nh);
     }
     else if (file_name == "line.csv")
     {
-      category |= registerVectormapPortion<Line, LineArray>(file_path, &line_pub, "vector_map_info/line", Category::LINE, &nh);
+      category |= registerVectormapPortion<Line, LineArray>(file_path, &line_pub, "/vector_map_info/line", Category::LINE, &nh);
     }
     else if (file_name == "area.csv")
     {
-      category |= registerVectormapPortion<Area, AreaArray>(file_path, &area_pub, "vector_map_info/area", Category::AREA, &nh);
+      category |= registerVectormapPortion<Area, AreaArray>(file_path, &area_pub, "/vector_map_info/area", Category::AREA, &nh);
     }
     else if (file_name == "pole.csv")
     {
-      category |= registerVectormapPortion<Pole, PoleArray>(file_path, &pole_pub, "vector_map_info/pole", Category::POLE, &nh);
+      category |= registerVectormapPortion<Pole, PoleArray>(file_path, &pole_pub, "/vector_map_info/pole", Category::POLE, &nh);
     }
     else if (file_name == "box.csv")
     {
-      category |= registerVectormapPortion<Box, BoxArray>(file_path, &box_pub, "vector_map_info/box", Category::BOX, &nh);
+      category |= registerVectormapPortion<Box, BoxArray>(file_path, &box_pub, "/vector_map_info/box", Category::BOX, &nh);
     }
     else if (file_name == "dtlane.csv")
     {
-      category |= registerVectormapPortion<DTLane, DTLaneArray>(file_path, &dtlane_pub, "vector_map_info/dtlane", Category::DTLANE, &nh);
+      category |= registerVectormapPortion<DTLane, DTLaneArray>(file_path, &dtlane_pub, "/vector_map_info/dtlane", Category::DTLANE, &nh);
     }
     else if (file_name == "node.csv")
     {
-      category |= registerVectormapPortion<Node, NodeArray>(file_path, &node_pub, "vector_map_info/node", Category::NODE, &nh);
+      category |= registerVectormapPortion<Node, NodeArray>(file_path, &node_pub, "/vector_map_info/node", Category::NODE, &nh);
     }
     else if (file_name == "lane.csv")
     {
-      category |= registerVectormapPortion<Lane, LaneArray>(file_path, &lane_pub, "vector_map_info/lane", Category::LANE, &nh);
+      category |= registerVectormapPortion<Lane, LaneArray>(file_path, &lane_pub, "/vector_map_info/lane", Category::LANE, &nh);
     }
     else if (file_name == "wayarea.csv")
     {
-      category |= registerVectormapPortion<WayArea, WayAreaArray>(file_path, &way_area_pub, "vector_map_info/way_area", Category::WAY_AREA, &nh);
+      category |= registerVectormapPortion<WayArea, WayAreaArray>(file_path, &way_area_pub, "/vector_map_info/way_area", Category::WAY_AREA, &nh);
     }
     else if (file_name == "roadedge.csv")
     {
-      category |= registerVectormapPortion<RoadEdge, RoadEdgeArray>(file_path, &road_edge_pub, "vector_map_info/road_edge", Category::ROAD_EDGE, &nh);
+      category |= registerVectormapPortion<RoadEdge, RoadEdgeArray>(file_path, &road_edge_pub, "/vector_map_info/road_edge", Category::ROAD_EDGE, &nh);
     }
     else if (file_name == "gutter.csv")
     {
-      category |= registerVectormapPortion<Gutter, GutterArray>(file_path, &gutter_pub, "vector_map_info/gutter", Category::GUTTER, &nh);
+      category |= registerVectormapPortion<Gutter, GutterArray>(file_path, &gutter_pub, "/vector_map_info/gutter", Category::GUTTER, &nh);
     }
     else if (file_name == "curb.csv")
     {
-      category |= registerVectormapPortion<Curb, CurbArray>(file_path, &curb_pub, "vector_map_info/curb", Category::CURB, &nh);
+      category |= registerVectormapPortion<Curb, CurbArray>(file_path, &curb_pub, "/vector_map_info/curb", Category::CURB, &nh);
     }
     else if (file_name == "whiteline.csv")
     {
-      category |= registerVectormapPortion<WhiteLine, WhiteLineArray>(file_path, &white_line_pub, "vector_map_info/white_line", Category::WHITE_LINE, &nh);
+      category |= registerVectormapPortion<WhiteLine, WhiteLineArray>(file_path, &white_line_pub, "/vector_map_info/white_line", Category::WHITE_LINE, &nh);
     }
     else if (file_name == "stopline.csv")
     {
-      category |= registerVectormapPortion<StopLine, StopLineArray>(file_path, &stop_line_pub, "vector_map_info/stop_line", Category::STOP_LINE, &nh);
+      category |= registerVectormapPortion<StopLine, StopLineArray>(file_path, &stop_line_pub, "/vector_map_info/stop_line", Category::STOP_LINE, &nh);
     }
     else if (file_name == "zebrazone.csv")
     {
-      category |= registerVectormapPortion<ZebraZone, ZebraZoneArray>(file_path, &zebra_zone_pub, "vector_map_info/zebra_zone", Category::ZEBRA_ZONE, &nh);
+      category |= registerVectormapPortion<ZebraZone, ZebraZoneArray>(file_path, &zebra_zone_pub, "/vector_map_info/zebra_zone", Category::ZEBRA_ZONE, &nh);
     }
     else if (file_name == "crosswalk.csv")
     {
-      category |= registerVectormapPortion<CrossWalk, CrossWalkArray>(file_path, &cross_walk_pub, "vector_map_info/cross_walk", Category::CROSS_WALK, &nh);
+      category |= registerVectormapPortion<CrossWalk, CrossWalkArray>(file_path, &cross_walk_pub, "/vector_map_info/cross_walk", Category::CROSS_WALK, &nh);
     }
     else if (file_name == "road_surface_mark.csv")
     {
-      category |= registerVectormapPortion<RoadMark, RoadMarkArray>(file_path, &road_mark_pub, "vector_map_info/road_mark", Category::ROAD_MARK, &nh);
+      category |= registerVectormapPortion<RoadMark, RoadMarkArray>(file_path, &road_mark_pub, "/vector_map_info/road_mark", Category::ROAD_MARK, &nh);
     }
     else if (file_name == "poledata.csv")
     {
-      category |= registerVectormapPortion<RoadPole, RoadPoleArray>(file_path, &road_pole_pub, "vector_map_info/road_pole", Category::ROAD_POLE, &nh);
+      category |= registerVectormapPortion<RoadPole, RoadPoleArray>(file_path, &road_pole_pub, "/vector_map_info/road_pole", Category::ROAD_POLE, &nh);
     }
     else if (file_name == "roadsign.csv")
     {
-      category |= registerVectormapPortion<RoadSign, RoadSignArray>(file_path, &road_sign_pub, "vector_map_info/road_sign", Category::ROAD_SIGN, &nh);
+      category |= registerVectormapPortion<RoadSign, RoadSignArray>(file_path, &road_sign_pub, "/vector_map_info/road_sign", Category::ROAD_SIGN, &nh);
     }
     else if (file_name == "signaldata.csv")
     {
-      category |= registerVectormapPortion<Signal, SignalArray>(file_path, &signal_pub, "vector_map_info/signal", Category::SIGNAL, &nh);
+      category |= registerVectormapPortion<Signal, SignalArray>(file_path, &signal_pub, "/vector_map_info/signal", Category::SIGNAL, &nh);
     }
     else if (file_name == "streetlight.csv")
     {
-      category |= registerVectormapPortion<StreetLight, StreetLightArray>(file_path, &street_light_pub, "vector_map_info/street_light", Category::STREET_LIGHT, &nh);
+      category |= registerVectormapPortion<StreetLight, StreetLightArray>(file_path, &street_light_pub, "/vector_map_info/street_light", Category::STREET_LIGHT, &nh);
     }
     else if (file_name == "utilitypole.csv")
     {
-      category |= registerVectormapPortion<UtilityPole, UtilityPoleArray>(file_path, &utility_pole_pub, "vector_map_info/utility_pole", Category::UTILITY_POLE, &nh);
+      category |= registerVectormapPortion<UtilityPole, UtilityPoleArray>(file_path, &utility_pole_pub, "/vector_map_info/utility_pole", Category::UTILITY_POLE, &nh);
     }
     else if (file_name == "guardrail.csv")
     {
-      category |= registerVectormapPortion<GuardRail, GuardRailArray>(file_path, &guard_rail_pub, "vector_map_info/guard_rail", Category::GUARD_RAIL, &nh);
+      category |= registerVectormapPortion<GuardRail, GuardRailArray>(file_path, &guard_rail_pub, "/vector_map_info/guard_rail", Category::GUARD_RAIL, &nh);
     }
     else if (file_name == "sidewalk.csv")
     {
-      category |= registerVectormapPortion<SideWalk, SideWalkArray>(file_path, &side_walk_pub, "vector_map_info/side_walk", Category::SIDE_WALK, &nh);
+      category |= registerVectormapPortion<SideWalk, SideWalkArray>(file_path, &side_walk_pub, "/vector_map_info/side_walk", Category::SIDE_WALK, &nh);
     }
     else if (file_name == "driveon_portion.csv")
     {
-      category |= registerVectormapPortion<DriveOnPortion, DriveOnPortionArray>(file_path, &drive_on_portion_pub, "vector_map_info/drive_on_portion", Category::DRIVE_ON_PORTION, &nh);
+      category |= registerVectormapPortion<DriveOnPortion, DriveOnPortionArray>(file_path, &drive_on_portion_pub, "/vector_map_info/drive_on_portion", Category::DRIVE_ON_PORTION, &nh);
     }
     else if (file_name == "intersection.csv")
     {
-      category |= registerVectormapPortion<CrossRoad, CrossRoadArray>(file_path, &cross_road_pub, "vector_map_info/cross_road", Category::CROSS_ROAD, &nh);
+      category |= registerVectormapPortion<CrossRoad, CrossRoadArray>(file_path, &cross_road_pub, "/vector_map_info/cross_road", Category::CROSS_ROAD, &nh);
     }
     else if (file_name == "sidestrip.csv")
     {
-      category |= registerVectormapPortion<SideStrip, SideStripArray>(file_path, &side_strip_pub, "vector_map_info/side_strip", Category::SIDE_STRIP, &nh);
+      category |= registerVectormapPortion<SideStrip, SideStripArray>(file_path, &side_strip_pub, "/vector_map_info/side_strip", Category::SIDE_STRIP, &nh);
     }
     else if (file_name == "curvemirror.csv")
     {
-      category |= registerVectormapPortion<CurveMirror, CurveMirrorArray>(file_path, &curve_mirror_pub, "vector_map_info/curve_mirror", Category::CURVE_MIRROR, &nh);
+      category |= registerVectormapPortion<CurveMirror, CurveMirrorArray>(file_path, &curve_mirror_pub, "/vector_map_info/curve_mirror", Category::CURVE_MIRROR, &nh);
     }
     else if (file_name == "wall.csv")
     {
-      category |= registerVectormapPortion<Wall, WallArray>(file_path, &wall_pub, "vector_map_info/wall", Category::WALL, &nh);
+      category |= registerVectormapPortion<Wall, WallArray>(file_path, &wall_pub, "/vector_map_info/wall", Category::WALL, &nh);
     }
     else if (file_name == "fence.csv")
     {
-      category |= registerVectormapPortion<Fence, FenceArray>(file_path, &fence_pub, "vector_map_info/fence", Category::FENCE, &nh);
+      category |= registerVectormapPortion<Fence, FenceArray>(file_path, &fence_pub, "/vector_map_info/fence", Category::FENCE, &nh);
     }
     else if (file_name == "railroad_crossing.csv")
     {
-      category |= registerVectormapPortion<RailCrossing, RailCrossingArray>(file_path, &rail_crossing_pub, "vector_map_info/rail_crossing", Category::RAIL_CROSSING, &nh);
+      category |= registerVectormapPortion<RailCrossing, RailCrossingArray>(file_path, &rail_crossing_pub, "/vector_map_info/rail_crossing", Category::RAIL_CROSSING, &nh);
     }
     else
     {
-      ROS_ERROR_STREAM("unknown csv file: " << file_path);
+      ROS_ERROR_STREAM("[" << __APP_NAME__ << "] unknown csv file: " << file_path);
     }
   }
 
-  ROS_INFO("Published vector_map_info topics");
+  ROS_INFO("[%s] Published vector_map_info topics", __APP_NAME__);
 
   VectorMap vmap;
   vmap.subscribe(nh, category);
@@ -1301,7 +1308,7 @@ int main(int argc, char **argv)
   insertMarkerArray(marker_array, createFenceMarkerArray(vmap, Color::LIGHT_RED));
   insertMarkerArray(marker_array, createRailCrossingMarkerArray(vmap, Color::LIGHT_MAGENTA));
   marker_array_pub.publish(marker_array);
-  ROS_INFO("Published vector_map visualization");
+  ROS_INFO("[%s] Published vector_map visualization", __APP_NAME__ );
 
   stat.data = true;
   stat_pub.publish(stat);

@@ -529,25 +529,25 @@ int main(int argc, char **argv)
   ROS_INFO_STREAM("mkz_mode : " << g_mkz_mode);
 
   // Publish the following topics: 
-  g_vis_pub = nh.advertise<visualization_msgs::Marker>("next_waypoint_mark", 1);
-  g_stat_pub = nh.advertise<std_msgs::Bool>("wf_stat", 0);
+  g_vis_pub = nh.advertise<visualization_msgs::Marker>("/next_waypoint_mark", 1);
+  g_stat_pub = nh.advertise<std_msgs::Bool>("/wf_stat", 0);
   // Publish the curvature information:
-  ros::Publisher spline_parameters_pub = nh.advertise<std_msgs::Float64MultiArray>("spline", 10);
-  ros::Publisher state_parameters_pub = nh.advertise<std_msgs::Float64MultiArray>("state", 10);
+  ros::Publisher spline_parameters_pub = nh.advertise<std_msgs::Float64MultiArray>("/spline", 10);
+  ros::Publisher state_parameters_pub = nh.advertise<std_msgs::Float64MultiArray>("/state", 10);
   // Publish the trajectory visualization
-  g_marker_pub = nh.advertise<visualization_msgs::Marker>("cubic_splines_viz", 10);
+  g_marker_pub = nh.advertise<visualization_msgs::Marker>("/cubic_splines_viz", 10);
 
   // Subscribe to the following topics: 
-  ros::Subscriber waypoint_subcscriber = nh.subscribe("final_waypoints", 1, WayPointCallback);
-  ros::Subscriber current_pose_subscriber = nh.subscribe("current_pose", 1, currentPoseCallback);
-  ros::Subscriber current_vel_subscriber = nh.subscribe("current_velocity", 1, currentVelCallback);
-  ros::Subscriber config_subscriber = nh.subscribe("config/waypoint_follower", 1, ConfigCallback);
+  ros::Subscriber waypoint_subcscriber = nh.subscribe("/final_waypoints", 1, WayPointCallback);
+  ros::Subscriber current_pose_subscriber = nh.subscribe("/current_pose", 1, currentPoseCallback);
+  ros::Subscriber current_vel_subscriber = nh.subscribe("/current_velocity", 1, currentVelCallback);
+  ros::Subscriber config_subscriber = nh.subscribe("/config/waypoint_follower", 1, ConfigCallback);
   ros::Subscriber sub_steering;
   ros::Subscriber can_info;
 
   if(g_prius_mode)
   {
-    can_info = nh.subscribe("can_info", 1, canInfoCallback);
+    can_info = nh.subscribe("/can_info", 1, canInfoCallback);
   }
 
   

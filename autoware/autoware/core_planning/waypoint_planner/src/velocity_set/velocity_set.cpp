@@ -53,7 +53,7 @@ void obstacleColorByKind(const EControl kind, std_msgs::ColorRGBA &color, const 
 void displayObstacle(const EControl& kind, const ObstaclePoints& obstacle_points, const ros::Publisher& obstacle_pub)
 {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/map";
+  marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
   marker.ns = "my_namespace";
   marker.id = 0;
@@ -93,7 +93,7 @@ void displayDetectionRange(const autoware_msgs::Lane& lane, const CrossWalk& cro
   visualization_msgs::Marker waypoint_marker_stop;
   visualization_msgs::Marker waypoint_marker_decelerate;
   visualization_msgs::Marker stop_line;
-  crosswalk_marker.header.frame_id = "/map";
+  crosswalk_marker.header.frame_id = "map";
   crosswalk_marker.header.stamp = ros::Time();
   crosswalk_marker.id = 0;
   crosswalk_marker.type = visualization_msgs::Marker::SPHERE_LIST;
@@ -535,7 +535,7 @@ int main(int argc, char** argv)
   private_nh.param<bool>("enable_multiple_crosswalk_detection", enable_multiple_crosswalk_detection, true);
 
 
-  private_nh.param<std::string>("points_topic", points_topic, "points_lanes");
+  private_nh.param<std::string>("points_topic", points_topic, "/points_lanes");
 
   // class
   CrossWalk crosswalk;
@@ -543,33 +543,33 @@ int main(int argc, char** argv)
   VelocitySetInfo vs_info;
 
   // velocity set subscriber
-  ros::Subscriber waypoints_sub = nh.subscribe("safety_waypoints", 1, &VelocitySetPath::waypointsCallback, &vs_path);
+  ros::Subscriber waypoints_sub = nh.subscribe("/safety_waypoints", 1, &VelocitySetPath::waypointsCallback, &vs_path);
   ros::Subscriber current_vel_sub =
-      nh.subscribe("current_velocity", 1, &VelocitySetPath::currentVelocityCallback, &vs_path);
+      nh.subscribe("/current_velocity", 1, &VelocitySetPath::currentVelocityCallback, &vs_path);
 
 
 
   // velocity set info subscriber
-  ros::Subscriber config_sub = nh.subscribe("config/velocity_set", 1, &VelocitySetInfo::configCallback, &vs_info);
+  ros::Subscriber config_sub = nh.subscribe("/config/velocity_set", 1, &VelocitySetInfo::configCallback, &vs_info);
   ros::Subscriber points_sub = nh.subscribe(points_topic, 1, &VelocitySetInfo::pointsCallback, &vs_info);
-  ros::Subscriber localizer_sub = nh.subscribe("localizer_pose", 1, &VelocitySetInfo::localizerPoseCallback, &vs_info);
-  ros::Subscriber control_pose_sub = nh.subscribe("current_pose", 1, &VelocitySetInfo::controlPoseCallback, &vs_info);
+  ros::Subscriber localizer_sub = nh.subscribe("/localizer_pose", 1, &VelocitySetInfo::localizerPoseCallback, &vs_info);
+  ros::Subscriber control_pose_sub = nh.subscribe("/current_pose", 1, &VelocitySetInfo::controlPoseCallback, &vs_info);
   ros::Subscriber detectionresult_sub = nh.subscribe("/state/stopline_wpidx", 1, &VelocitySetInfo::detectionCallback, &vs_info);
 
   // vector map subscriber
-  ros::Subscriber sub_dtlane = nh.subscribe("vector_map_info/cross_walk", 1, &CrossWalk::crossWalkCallback, &crosswalk);
-  ros::Subscriber sub_area = nh.subscribe("vector_map_info/area", 1, &CrossWalk::areaCallback, &crosswalk);
-  ros::Subscriber sub_line = nh.subscribe("vector_map_info/line", 1, &CrossWalk::lineCallback, &crosswalk);
-  ros::Subscriber sub_point = nh.subscribe("vector_map_info/point", 1, &CrossWalk::pointCallback, &crosswalk);
+  ros::Subscriber sub_dtlane = nh.subscribe("/vector_map_info/cross_walk", 1, &CrossWalk::crossWalkCallback, &crosswalk);
+  ros::Subscriber sub_area = nh.subscribe("/vector_map_info/area", 1, &CrossWalk::areaCallback, &crosswalk);
+  ros::Subscriber sub_line = nh.subscribe("/vector_map_info/line", 1, &CrossWalk::lineCallback, &crosswalk);
+  ros::Subscriber sub_point = nh.subscribe("/vector_map_info/point", 1, &CrossWalk::pointCallback, &crosswalk);
 
   // publisher
-  ros::Publisher detection_range_pub = nh.advertise<visualization_msgs::MarkerArray>("detection_range", 1);
-  ros::Publisher obstacle_pub = nh.advertise<visualization_msgs::Marker>("obstacle", 1);
-  ros::Publisher obstacle_waypoint_pub = nh.advertise<std_msgs::Int32>("obstacle_waypoint", 1, true);
-  ros::Publisher stopline_waypoint_pub = nh.advertise<std_msgs::Int32>("stopline_waypoint", 1, true);
+  ros::Publisher detection_range_pub = nh.advertise<visualization_msgs::MarkerArray>("/detection_range", 1);
+  ros::Publisher obstacle_pub = nh.advertise<visualization_msgs::Marker>("/obstacle", 1);
+  ros::Publisher obstacle_waypoint_pub = nh.advertise<std_msgs::Int32>("/obstacle_waypoint", 1, true);
+  ros::Publisher stopline_waypoint_pub = nh.advertise<std_msgs::Int32>("/stopline_waypoint", 1, true);
 
   ros::Publisher final_waypoints_pub;
-  final_waypoints_pub = nh.advertise<autoware_msgs::Lane>("final_waypoints", 1, true);
+  final_waypoints_pub = nh.advertise<autoware_msgs::Lane>("/final_waypoints", 1, true);
 
   ros::Rate loop_rate(LOOP_RATE);
   while (ros::ok())

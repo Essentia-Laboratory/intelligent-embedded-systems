@@ -104,7 +104,7 @@ int main(int argc, char** argv)
   ros::Subscriber bin_map_sub;
 
   bin_map_sub = rosnode.subscribe("/lanelet_map_bin", 1, binMapCallback);
-  g_map_pub = rosnode.advertise<visualization_msgs::MarkerArray>("lanelet2_map_viz", 1, true);
+  g_map_pub = rosnode.advertise<visualization_msgs::MarkerArray>("/lanelet2_map_viz", 1, true);
 
   ros::spin();
 

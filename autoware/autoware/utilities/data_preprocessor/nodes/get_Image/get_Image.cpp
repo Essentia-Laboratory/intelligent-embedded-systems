@@ -33,6 +33,7 @@ void SaveImage::sub_image(int argc, char* argv[])
 {
   ros::init(argc, argv, "Image_Subscriber");
   ros::NodeHandle n;
+  ROS_INFO("[%s] subscribe topic_name_2=[%s]", "Image_Subscriber", topic_name_.c_str());
   ros::Subscriber sub = n.subscribe(topic_name_, 1, &SaveImage::save_image, this);
   ros::spin();
 }

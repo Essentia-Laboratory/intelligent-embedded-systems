@@ -97,22 +97,22 @@ PlannerX::PlannerX()
   pub_LocalBasePath = nh.advertise<autoware_msgs::Lane>(topic_prefix + "/base_waypoints", 100,true);
   pub_ClosestIndex = nh.advertise<std_msgs::Int32>(topic_prefix + "/closest_waypoint", 100,true);
 
-  pub_BehaviorState = nh.advertise<geometry_msgs::TwistStamped>("current_behavior", 1);
-  pub_GlobalPlanNodes = nh.advertise<geometry_msgs::PoseArray>("global_plan_nodes", 1);
-  pub_StartPoint = nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("GlobalStartpose", 1);
-  pub_GoalPoint = nh.advertise<geometry_msgs::PoseStamped>("GlobalGoalPose", 1);
-  pub_AStarStartPoint = nh.advertise<geometry_msgs::PoseStamped>("global_plan_start", 1);
-  pub_AStarGoalPoint = nh.advertise<geometry_msgs::PoseStamped>("global_plan_goal", 1);
+  pub_BehaviorState = nh.advertise<geometry_msgs::TwistStamped>("/current_behavior", 1);
+  pub_GlobalPlanNodes = nh.advertise<geometry_msgs::PoseArray>("/global_plan_nodes", 1);
+  pub_StartPoint = nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("/GlobalStartpose", 1);
+  pub_GoalPoint = nh.advertise<geometry_msgs::PoseStamped>("/GlobalGoalPose", 1);
+  pub_AStarStartPoint = nh.advertise<geometry_msgs::PoseStamped>("/global_plan_start", 1);
+  pub_AStarGoalPoint = nh.advertise<geometry_msgs::PoseStamped>("/global_plan_goal", 1);
 
-  pub_DetectedPolygonsRviz = nh.advertise<visualization_msgs::MarkerArray>("detected_polygons", 1, true);
-  pub_TrackedObstaclesRviz = nh.advertise<jsk_recognition_msgs::BoundingBoxArray>("dp_planner_tracked_boxes", 1);
-  pub_LocalTrajectoriesRviz = nh.advertise<visualization_msgs::MarkerArray>("local_trajectories", 1);
+  pub_DetectedPolygonsRviz = nh.advertise<visualization_msgs::MarkerArray>("/detected_polygons", 1, true);
+  pub_TrackedObstaclesRviz = nh.advertise<jsk_recognition_msgs::BoundingBoxArray>("/dp_planner_tracked_boxes", 1);
+  pub_LocalTrajectoriesRviz = nh.advertise<visualization_msgs::MarkerArray>("/local_trajectories", 1);
   
-  pub_TestLineRviz  = nh.advertise<visualization_msgs::MarkerArray>("testing_line", 1);
-  pub_BehaviorStateRviz = nh.advertise<visualization_msgs::Marker>("behavior_state", 1);
-  pub_SafetyBorderRviz  = nh.advertise<visualization_msgs::Marker>("safety_border", 1);
-  pub_cluster_cloud = nh.advertise<sensor_msgs::PointCloud2>("simu_points_cluster",1);
-  pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 100);
+  pub_TestLineRviz  = nh.advertise<visualization_msgs::MarkerArray>("/testing_line", 1);
+  pub_BehaviorStateRviz = nh.advertise<visualization_msgs::Marker>("/behavior_state", 1);
+  pub_SafetyBorderRviz  = nh.advertise<visualization_msgs::Marker>("/safety_border", 1);
+  pub_cluster_cloud = nh.advertise<sensor_msgs::PointCloud2>("/simu_points_cluster",1);
+  pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("/sim_box_pose_ego", 100);
 
 
   sub_initialpose   = nh.subscribe("/initialpose",         1,    &PlannerX::callbackGetInitPose,     this);

@@ -149,7 +149,7 @@ static bool _imu_upside_down = false;
 
 static bool _incremental_voxel_update = false;
 
-static std::string _imu_topic = "/imu_raw";
+static std::string _imu_topic = "imu_raw";
 
 static double fitness_score;
 static bool has_converged;

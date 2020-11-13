@@ -112,7 +112,7 @@ class InteractiveMarkerTest:
         server = InteractiveMarkerServer("goal_marker")
         self.server = server
         int_marker = InteractiveMarker()
-        int_marker.header.frame_id = "/map"
+        int_marker.header.frame_id = "map"
         int_marker.name = "control"
         int_marker.scale = 0.3
 
@@ -183,7 +183,7 @@ class InteractiveMarkerTest:
             for i in range(size*size*size):
                 msg = Marker()
                 msg.header.stamp = rospy.get_rostime()
-                msg.header.frame_id = '/map'
+                msg.header.frame_id = 'map'
                 msg.mesh_use_embedded_materials = False
                 msg.mesh_resource = goal_mesh
                 msg.type = Marker.MESH_RESOURCE
@@ -196,7 +196,7 @@ class InteractiveMarkerTest:
             if self.done_time:
                 msg = Marker()
                 msg.header.stamp = rospy.get_rostime()
-                msg.header.frame_id = '/map'
+                msg.header.frame_id = 'map'
                 msg.type = Marker.TEXT_VIEW_FACING
                 msg.scale.z = 0.14
                 msg.color.r = 1.0

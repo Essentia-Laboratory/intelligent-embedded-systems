@@ -48,7 +48,7 @@
     <remap if="$(arg use_twist_with_covariance)" from="in_twist" to="input_twist_UNUSED"/>
     <remap if="$(arg use_twist_with_covariance)" from="in_twist_with_covariance" to="$(arg input_twist_with_cov_name)"/>
 
-    <remap from="initialpose" to="/initialpose"/>
+    <remap from="initialpose" to="initialpose"/>
 
     <param name="pose_frame_id" value="map"/>
 

@@ -80,7 +80,7 @@ void WaypointLoaderNode::createLaneWaypoint(const std::string& file_path, autowa
   {
     loadWaypointsForVer3(file_path.c_str(), &wps);
   }
-  lane->header.frame_id = "/map";
+  lane->header.frame_id = "map";
   lane->header.stamp = ros::Time(0);
   lane->waypoints = wps;
 }

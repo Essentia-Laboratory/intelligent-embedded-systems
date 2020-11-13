@@ -30,7 +30,7 @@ WayareaToGridLanelet2::WayareaToGridLanelet2() : private_node_handle_("~")
 void WayareaToGridLanelet2::initAreaPointsFromLaneletMap()
 {
   ros::Subscriber sub_lanelet_bin_map =
-      node_handle_.subscribe("lanelet_map_bin", 1, &WayareaToGridLanelet2::laneletBinMapCallback, this);
+      node_handle_.subscribe("/lanelet_map_bin", 1, &WayareaToGridLanelet2::laneletBinMapCallback, this);
 
   while (ros::ok() && !loaded_lanelet_map_)
   {
@@ -76,8 +76,8 @@ void WayareaToGridLanelet2::InitializeROSIo()
   private_node_handle_.param<double>("grid_position_y", grid_position_y_, 0);
   private_node_handle_.param<double>("grid_position_z", grid_position_z_, -2.f);
 
-  publisher_grid_map_ = node_handle_.advertise<grid_map_msgs::GridMap>("grid_map_wayarea", 1, true);
-  publisher_occupancy_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("occupancy_wayarea", 1, true);
+  publisher_grid_map_ = node_handle_.advertise<grid_map_msgs::GridMap>("/grid_map_wayarea", 1, true);
+  publisher_occupancy_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("/occupancy_wayarea", 1, true);
 }
 
 void WayareaToGridLanelet2::laneletBinMapCallback(const autoware_lanelet2_msgs::MapBin& msg)

@@ -27,9 +27,9 @@ HealthAnalyzer::HealthAnalyzer(ros::NodeHandle nh, ros::NodeHandle pnh)
   using SystemStatus = autoware_system_msgs::SystemStatus;
   pnh_.param("warn_nodes_count_threshold", warn_nodes_count_threshold_, 30);
   system_status_summary_pub_ =
-    nh_.advertise<SystemStatus>("system_status/summary", 1);
+    nh_.advertise<SystemStatus>("/system_status/summary", 1);
   system_status_sub_ = nh_.subscribe(
-    "system_status", 1, &HealthAnalyzer::systemStatusCallback, this);
+    "/system_status", 1, &HealthAnalyzer::systemStatusCallback, this);
 }
 
 HealthAnalyzer::~HealthAnalyzer()

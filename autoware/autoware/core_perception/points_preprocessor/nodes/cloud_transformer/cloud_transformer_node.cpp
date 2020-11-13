@@ -152,13 +152,13 @@ public:
   void Run()
   {
     ROS_INFO("Initializing Cloud Transformer, please wait...");
-    node_handle_.param<std::string>("input_point_topic", input_point_topic_, "/points_raw");
+    node_handle_.param<std::string>("input_point_topic", input_point_topic_, "points_raw");
     ROS_INFO("Input point_topic: %s", input_point_topic_.c_str());
 
     node_handle_.param<std::string>("target_frame", target_frame_, "velodyne");
     ROS_INFO("Target Frame in TF (target_frame) : %s", target_frame_.c_str());
 
-    node_handle_.param<std::string>("output_point_topic", output_point_topic_, "/points_transformed");
+    node_handle_.param<std::string>("output_point_topic", output_point_topic_, "points_transformed");
     ROS_INFO("output_point_topic: %s", output_point_topic_.c_str());
 
     ROS_INFO("Subscribing to... %s", input_point_topic_.c_str());

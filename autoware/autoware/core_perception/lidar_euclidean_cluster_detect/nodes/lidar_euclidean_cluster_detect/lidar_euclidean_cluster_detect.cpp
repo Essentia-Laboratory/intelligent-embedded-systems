@@ -149,7 +149,7 @@ tf::StampedTransform findTransform(const std::string &in_target_frame, const std
     // What time should we use?
     _vectormap_transform_listener->lookupTransform(in_target_frame, in_source_frame, ros::Time(0), transform);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
     return transform;
@@ -661,7 +661,9 @@ void segmentByDistance(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr,
   if (mid_clusters.size() > 0)
     checkAllForMerge(mid_clusters, final_clusters, _cluster_merge_threshold);
   else
+  {
     final_clusters = mid_clusters;
+  }
 
     // Get final PointCloud to be published
     for (unsigned int i = 0; i < final_clusters.size(); i++)

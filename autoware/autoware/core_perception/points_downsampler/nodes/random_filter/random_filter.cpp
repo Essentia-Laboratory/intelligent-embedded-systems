@@ -145,7 +145,7 @@ int main(int argc, char** argv)
   points_downsampler_info_pub = nh.advertise<points_downsampler::PointsDownsamplerInfo>("/points_downsampler_info", 1000);
 
   // Subscribers
-  ros::Subscriber config_sub = nh.subscribe("config/random_filter", 10, config_callback);
+  ros::Subscriber config_sub = nh.subscribe("/config/random_filter", 10, config_callback);
   ros::Subscriber scan_sub = nh.subscribe(POINTS_TOPIC, 10, scan_callback);
 
   ros::spin();

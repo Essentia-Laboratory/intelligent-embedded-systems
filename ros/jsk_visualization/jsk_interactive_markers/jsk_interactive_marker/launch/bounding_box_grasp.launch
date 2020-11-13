@@ -9,7 +9,7 @@
 	<include file="$(find jsk_pcl_ros)/launch/organized_multi_plane_segmentation.launch">
 	<param name="INPUT" value="/openni/depth_registered/points_throttle"/>
 	<param name="HANDLE_ESTIMATOR" value="true"/>
-	<param name="BASE_FRAME_ID" value="/base_link"/>
+	<param name="BASE_FRAME_ID" value="base_link"/>
 	</include>
     -->
     <node pkg="jsk_interactive_marker" type="interactive_point_cloud" name="interactive_point_cloud" output="screen">

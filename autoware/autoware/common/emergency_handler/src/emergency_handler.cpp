@@ -51,7 +51,7 @@ EmergencyHandler::EmergencyHandler(const ros::NodeHandle& nh, const ros::NodeHan
     }
   }
 
-  vehicle_cmd_sub_ = nh_.subscribe("vehicle_cmd", 1, &EmergencyHandler::vehicleCmdCallback, this);
+  vehicle_cmd_sub_ = nh_.subscribe("/vehicle_cmd", 1, &EmergencyHandler::vehicleCmdCallback, this);
   EmergencyHandler::setupPublisher();
 
   priority_ = priority_table.no_error;
@@ -67,11 +67,11 @@ EmergencyHandler::EmergencyHandler(const ros::NodeHandle& nh, const ros::NodeHan
 
 void EmergencyHandler::setupPublisher(void)
 {
-  statecmd_pub_ = nh_.advertise<std_msgs::String>("state_cmd", 1, true);
-  recordcmd_pub_ = nh_.advertise<std_msgs::Header>("record_cmd", 1, true);
-  estatus_pub_ = nh_.advertise<autoware_system_msgs::DiagnosticStatusArray>("error_status", 1, false);
-  emlane_pub_ = nh_.advertise<autoware_msgs::Lane>("emergency_waypoints", 1, false);
-  emvel_pub_ = nh_.advertise<autoware_msgs::VehicleCmd>("emergency_velocity", 1, false);
+  statecmd_pub_ = nh_.advertise<std_msgs::String>("/state_cmd", 1, true);
+  recordcmd_pub_ = nh_.advertise<std_msgs::Header>("/record_cmd", 1, true);
+  estatus_pub_ = nh_.advertise<autoware_system_msgs::DiagnosticStatusArray>("/error_status", 1, false);
+  emlane_pub_ = nh_.advertise<autoware_msgs::Lane>("/emergency_waypoints", 1, false);
+  emvel_pub_ = nh_.advertise<autoware_msgs::VehicleCmd>("/emergency_velocity", 1, false);
 }
 
 // Regiser EmergencyPlans

@@ -101,9 +101,9 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");
   private_nh.getParam("plane", _plane);
-  pose_publisher = nh.advertise<geometry_msgs::PoseStamped>("gnss_pose", 1000);
+  pose_publisher = nh.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 1000);
   stat_publisher = nh.advertise<std_msgs::Bool>("/gnss_stat", 1000);
-  ros::Subscriber gnss_pose_subscriber = nh.subscribe("fix", 100, GNSSCallback);
+  ros::Subscriber gnss_pose_subscriber = nh.subscribe("/fix", 100, GNSSCallback);
 
   ros::spin();
   return 0;

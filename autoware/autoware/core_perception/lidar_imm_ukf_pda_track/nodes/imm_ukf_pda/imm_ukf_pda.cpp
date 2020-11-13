@@ -119,7 +119,7 @@ bool ImmUkfPda::updateNecessaryTransform()
     tf_listener_.waitForTransform(input_header_.frame_id, tracking_frame_, ros::Time(0), ros::Duration(1.0));
     tf_listener_.lookupTransform(tracking_frame_, input_header_.frame_id, ros::Time(0), local2global_);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
     success = false;
@@ -132,7 +132,7 @@ bool ImmUkfPda::updateNecessaryTransform()
       tf_listener_.lookupTransform(vectormap_frame_, tracking_frame_, ros::Time(0), tracking_frame2lane_frame_);
       tf_listener_.lookupTransform(tracking_frame_, vectormap_frame_, ros::Time(0), lane_frame2tracking_frame_);
     }
-    catch (tf::TransformException ex)
+    catch (tf::TransformException& ex)
     {
       ROS_ERROR("%s", ex.what());
     }

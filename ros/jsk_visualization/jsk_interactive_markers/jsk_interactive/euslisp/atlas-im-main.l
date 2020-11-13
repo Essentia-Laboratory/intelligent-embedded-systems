@@ -17,6 +17,6 @@
   (send *irtviewer* :title "Interactive Marker Endcoords")
   (send *irtviewer* :draw-objects))
 
-(setq *atlas-im* (instance atlas-im :init :robot *atlas* :ri *ri* :base-frame "/map"))
+(setq *atlas-im* (instance atlas-im :init :robot *atlas* :ri *ri* :base-frame "map"))
 
 (send *atlas-im* :main-loop)

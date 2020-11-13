@@ -75,7 +75,7 @@ pcl::EarClippingPatched::triangulate (const Vertices& vertices, PolygonMesh& out
     return;
   }
 
-  std::vector<uint32_t> remaining_vertices = vertices.vertices;
+  std::vector<std::uint32_t> remaining_vertices = vertices.vertices;
   size_t count = triangulateClockwiseVertices(remaining_vertices, output);
 
   // if the input vertices order is anti-clockwise, it always left a
@@ -92,7 +92,7 @@ pcl::EarClippingPatched::triangulate (const Vertices& vertices, PolygonMesh& out
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 size_t
-pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<uint32_t>& vertices, PolygonMesh& output)
+pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<std::uint32_t>& vertices, PolygonMesh& output)
 {
   // triangles count
   size_t count = 0;
@@ -127,7 +127,7 @@ pcl::EarClippingPatched::triangulateClockwiseVertices (std::vector<uint32_t>& ve
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 bool
-pcl::EarClippingPatched::isEar (int u, int v, int w, const std::vector<uint32_t>& vertices)
+pcl::EarClippingPatched::isEar (int u, int v, int w, const std::vector<std::uint32_t>& vertices)
 {
   Eigen::Vector3f p_u, p_v, p_w;
   p_u = points_->points[vertices[u]].getVector3fMap();

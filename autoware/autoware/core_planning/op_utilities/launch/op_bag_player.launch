@@ -6,13 +6,13 @@
   
   <arg name="rosbag_file"         default="/media/hatem/8ac0c5d5-8793-4b98-8728-55f8d67ec0f4/data/Moriyama_assure/rosbag/BusLane-assure-ready.bag" />
   
-  <arg name="pose_topic_bag"           default="/ndt_pose" />
-  <arg name="lidar_topic_bag"         default="/points_raw" />
-  <arg name="image_topic_bag"         default="/image_raw" />
+  <arg name="pose_topic_bag"           default="ndt_pose" />
+  <arg name="lidar_topic_bag"         default="points_raw" />
+  <arg name="image_topic_bag"         default="image_raw" />
   
-  <arg name="pose_topic_pub"           default="/ndt_pose" />
-  <arg name="lidar_topic_pub"         default="/points_raw" />
-  <arg name="image_topic_pub"         default="/image_raw" />
+  <arg name="pose_topic_pub"           default="ndt_pose" />
+  <arg name="lidar_topic_pub"         default="points_raw" />
+  <arg name="image_topic_pub"         default="image_raw" />
   
   <arg name="testing_mode"         default="1" /> <!-- Simulation Mode: 0, ROSbag playback mode: 1, actual sensing mode: 2 --> 
   

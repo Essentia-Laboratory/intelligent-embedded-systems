@@ -130,7 +130,7 @@ static bool _use_imu = false;
 static bool _use_odom = false;
 static bool _imu_upside_down = false;
 
-static std::string _imu_topic = "/imu_raw";
+static std::string _imu_topic = "imu_raw";
 
 static double fitness_score;
 

@@ -10,7 +10,7 @@ def getargs():
     parser.add_argument("--dir", default=common.TMP_PATH)
     parser.add_argument("--prefix", default=common.BAG_PREFIX)
     parser.add_argument("--topics", type=str, nargs='+',
-        default=["/velodyne_packets", "/image_raw", "/can_info"])
+        default=["velodyne_packets", "image_raw", "can_info"])
     parser.add_argument("--size", type=int, default=10)   # [GB]
     parser.add_argument("--all", action="store_true")
     args = parser.parse_args()

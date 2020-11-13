@@ -416,22 +416,22 @@ int main(int argc, char** argv)
   ros::NodeHandle private_nh("~");
 
   // subscribe traffic light
-  ros::Subscriber light_sub = nh.subscribe("light_color", 10, receiveAutoDetection);
-  ros::Subscriber light_managed_sub = nh.subscribe("light_color_managed", 10, receiveManualDetection);
+  ros::Subscriber light_sub = nh.subscribe("/light_color", 10, receiveAutoDetection);
+  ros::Subscriber light_managed_sub = nh.subscribe("/light_color_managed", 10, receiveManualDetection);
 
   // subscribe global waypoints
-  ros::Subscriber lane_array_sub = nh.subscribe("lane_waypoints_array", 10, laneArrayCallback);
-  ros::Subscriber traffic_array_sub = nh.subscribe("traffic_waypoints_array", 10, laneArrayCallback);
+  ros::Subscriber lane_array_sub = nh.subscribe("/lane_waypoints_array", 10, laneArrayCallback);
+  ros::Subscriber traffic_array_sub = nh.subscribe("/traffic_waypoints_array", 10, laneArrayCallback);
 
   // subscribe local waypoints
-  ros::Subscriber final_sub = nh.subscribe("final_waypoints", 10, finalCallback);
-  ros::Subscriber closest_sub = nh.subscribe("closest_waypoint", 10, closestCallback);
+  ros::Subscriber final_sub = nh.subscribe("/final_waypoints", 10, finalCallback);
+  ros::Subscriber closest_sub = nh.subscribe("/closest_waypoint", 10, closestCallback);
 
   // subscribe config
-  ros::Subscriber config_sub = nh.subscribe("config/lane_stop", 10, configParameter);
+  ros::Subscriber config_sub = nh.subscribe("/config/lane_stop", 10, configParameter);
 
-  g_local_mark_pub = nh.advertise<visualization_msgs::MarkerArray>("local_waypoints_mark", 10, true);
-  g_global_mark_pub = nh.advertise<visualization_msgs::MarkerArray>("global_waypoints_mark", 10, true);
+  g_local_mark_pub = nh.advertise<visualization_msgs::MarkerArray>("/local_waypoints_mark", 10, true);
+  g_global_mark_pub = nh.advertise<visualization_msgs::MarkerArray>("/global_waypoints_mark", 10, true);
 
   // initialize path color
   _initial_color.g = 0.7;

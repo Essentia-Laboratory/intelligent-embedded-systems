@@ -45,8 +45,8 @@ def rosbag_data_extract_sample():
 
     rospy.init_node('rosbag_data_extract_unsync', anonymous=True)
 
-    rospy.Subscriber("/camera1/image_raw", Image, img_loader_1)
-    rospy.Subscriber("/points_raw", PointCloud2, cloud_loader)
+    rospy.Subscriber("camera1/image_raw", Image, img_loader_1)
+    rospy.Subscriber("points_raw", PointCloud2, cloud_loader)
     rospy.spin()
 
 if __name__ == '__main__':

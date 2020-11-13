@@ -23,19 +23,19 @@ class TwistGateTestClass {
 public:
   TwistGateTestClass() {
     twist_cmd_publisher =
-        nh.advertise<geometry_msgs::TwistStamped>("twist_cmd", 0);
+        nh.advertise<geometry_msgs::TwistStamped>("/twist_cmd", 0);
     control_cmd_publisher =
-        nh.advertise<autoware_msgs::ControlCommandStamped>("ctrl_cmd", 0);
+        nh.advertise<autoware_msgs::ControlCommandStamped>("/ctrl_cmd", 0);
     decision_maker_state_publisher =
-        nh.advertise<std_msgs::String>("decision_maker/state", 0);
-    remote_cmd_publisher = nh.advertise<autoware_msgs::RemoteCmd>("remote_cmd", 0);
-    mode_cmd_publisher = nh.advertise<tablet_socket_msgs::mode_cmd>("mode_cmd", 0);
-    gear_cmd_publisher = nh.advertise<tablet_socket_msgs::gear_cmd>("gear_cmd", 0);
-    accel_cmd_publisher = nh.advertise<autoware_msgs::AccelCmd>("accel_cmd", 0);
-    steer_cmd_publisher = nh.advertise<autoware_msgs::SteerCmd>("steer_cmd", 0);
-    brake_cmd_publisher = nh.advertise<autoware_msgs::BrakeCmd>("brake_cmd", 0);
-    lamp_cmd_publisher = nh.advertise<autoware_msgs::LampCmd>("lamp_cmd", 0);
-    emergency_vehicle_cmd_publisher = nh.advertise<autoware_msgs::VehicleCmd>("emergency_velocity", 0);
+        nh.advertise<std_msgs::String>("/decision_maker/state", 0);
+    remote_cmd_publisher = nh.advertise<autoware_msgs::RemoteCmd>("/remote_cmd", 0);
+    mode_cmd_publisher = nh.advertise<tablet_socket_msgs::mode_cmd>("/mode_cmd", 0);
+    gear_cmd_publisher = nh.advertise<tablet_socket_msgs::gear_cmd>("/gear_cmd", 0);
+    accel_cmd_publisher = nh.advertise<autoware_msgs::AccelCmd>("/accel_cmd", 0);
+    steer_cmd_publisher = nh.advertise<autoware_msgs::SteerCmd>("/steer_cmd", 0);
+    brake_cmd_publisher = nh.advertise<autoware_msgs::BrakeCmd>("/brake_cmd", 0);
+    lamp_cmd_publisher = nh.advertise<autoware_msgs::LampCmd>("/lamp_cmd", 0);
+    emergency_vehicle_cmd_publisher = nh.advertise<autoware_msgs::VehicleCmd>("/emergency_velocity", 0);
     vehicle_cmd_subscriber = nh.subscribe(
         "/vehicle_cmd", 1, &TwistGateTestClass::vehicleCmdCallback, this);
   }

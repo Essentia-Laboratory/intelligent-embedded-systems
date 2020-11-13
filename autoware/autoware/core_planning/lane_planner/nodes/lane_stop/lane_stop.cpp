@@ -24,6 +24,8 @@
 
 namespace {
 
+#define __APP_NAME__ "lane_stop" 
+
 bool config_manual_detection = true;
 
 ros::Publisher traffic_pub;
@@ -56,7 +58,9 @@ void select_current_lane(const autoware_msgs::TrafficLight& msg)
     return;
   }
 
+  ROS_INFO("[%s] --> traffic_pub.publish(current)", __APP_NAME__);
   traffic_pub.publish(*current);
+  ROS_INFO("[%s] --> traffic_pub.publish(current)", __APP_NAME__);
 
   previous_lane = current;
 }
@@ -106,11 +110,13 @@ int main(int argc, char **argv)
   n.param<int>("/lane_stop/pub_waypoint_queue_size", pub_waypoint_queue_size, 1);
   bool pub_waypoint_latch;
   n.param<bool>("/lane_stop/pub_waypoint_latch", pub_waypoint_latch, true);
-  n.param<bool>("/lane_stop/manual_detection", config_manual_detection, true);
+  n.param<bool>("/lane_stop/manual_detection", config_manual_detection, false);
 
+  ROS_INFO("[%s] advertise", __APP_NAME__);
   traffic_pub = n.advertise<autoware_msgs::LaneArray>("/traffic_waypoints_array", pub_waypoint_queue_size,
                 pub_waypoint_latch);
 
+  ROS_INFO("[%s] subscribe", __APP_NAME__);
   ros::Subscriber light_sub = n.subscribe("/light_color", sub_light_queue_size, receive_auto_detection);
   ros::Subscriber light_managed_sub = n.subscribe("/light_color_managed", sub_light_queue_size,
               receive_manual_detection);

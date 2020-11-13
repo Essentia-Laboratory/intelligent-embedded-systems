@@ -38,8 +38,8 @@ namespace object_map
     private_node_handle_.param<double>("grid_position_y", grid_position_y_, 0);
     private_node_handle_.param<double>("grid_position_z", grid_position_z_, -2.f);
 
-    publisher_grid_map_ = node_handle_.advertise<grid_map_msgs::GridMap>("grid_map_wayarea", 1, true);
-    publisher_occupancy_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("occupancy_wayarea", 1, true);
+    publisher_grid_map_ = node_handle_.advertise<grid_map_msgs::GridMap>("/grid_map_wayarea", 1, true);
+    publisher_occupancy_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("/occupancy_wayarea", 1, true);
   }
 
   void WayareaToGrid::Run()
@@ -67,8 +67,13 @@ namespace object_map
         FillPolygonAreas(gridmap_, area_points_, grid_layer_name_, OCCUPANCY_NO_ROAD, OCCUPANCY_ROAD, grid_min_value_,
                          grid_max_value_, sensor_frame_, map_frame_,
                          tf_listener_);
+        ROS_INFO("[wayarea2grid] published to grid_map_wayarea.");
         PublishGridMap(gridmap_, publisher_grid_map_);
         PublishOccupancyGrid(gridmap_, publisher_occupancy_, grid_layer_name_, grid_min_value_, grid_max_value_, grid_position_z_);
+      }
+      else
+      {
+        ROS_INFO("[wayarea2grid] area_points is empty.");
       }
 
       // timer end

@@ -10,7 +10,7 @@ args:
 - {name: sync_topics, type: bool, default: false}
 - {name: overlap_threshold, type: real, default: 0.6}
 - {name: use_vector_map, type: bool, default: false}
-- {name: namespace, type: str, default: /detection/fusion_tools}
+- {name: namespace, type: str, default: /detection/fusion_tools/}
 
 panel:
   widget: node.panel

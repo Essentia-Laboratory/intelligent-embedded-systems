@@ -1,7 +1,7 @@
 <launch>
   <arg name="gui" default="true"/>
 
-  <arg name="PARENT_FRAME" default="/map"/>
+  <arg name="PARENT_FRAME" default="map"/>
   <arg name="CAMERA_FRAME" default="/head_mount_kinect_rgb_optical_frame"/>
   <arg name="TRANSFORM" default="5.526 6.230 1.627 0.747 0.387 -0.246 -0.482"/>
 

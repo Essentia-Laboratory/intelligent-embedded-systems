@@ -228,7 +228,7 @@ void Recorder::stop() {
 }
 
 shared_ptr<ros::Subscriber> Recorder::subscribe(string const& topic) {
-  ROS_INFO("Subscribing to %s", topic.c_str());
+  ROS_INFO("[%s] Subscribing to %s", "recorder", topic.c_str());
 
     ros::NodeHandle nh;
     shared_ptr<int> count(new int(options_.limit));
@@ -387,7 +387,7 @@ void Recorder::startWriting() {
     try {
         bag_.open(write_filename_, bagmode::Write);
     }
-    catch (rosbag::BagException e) {
+    catch (rosbag::BagException& e) {
         ROS_ERROR("Error writing: %s", e.what());
         recorder_error_ = 1;
     }
@@ -524,7 +524,7 @@ void Recorder::doRecord() {
         if (scheduledCheckDisk() && checkLogging()) {
             try {
                 bag_.write(out.topic, out.time, *out.msg, out.connection_header);
-            } catch (rosbag::BagIOException e) {
+            } catch (rosbag::BagIOException& e) {
                 ROS_ERROR("write failure");
                 recorder_error_ = 1;
                 break;
@@ -560,7 +560,7 @@ void Recorder::doRecordSnapshotter() {
         try {
             bag_.open(write_filename, bagmode::Write);
         }
-        catch (rosbag::BagException ex) {
+        catch (rosbag::BagException& ex) {
             ROS_ERROR("Error writing: %s", ex.what());
             return;
         }
@@ -628,7 +628,7 @@ void Recorder::doCheckMaster(ros::TimerEvent const& e, ros::NodeHandle& node_han
 
 void Recorder::doTrigger() {
     ros::NodeHandle nh;
-    ros::Publisher pub = nh.advertise<std_msgs::Empty>("snapshot_trigger", 1, true);
+    ros::Publisher pub = nh.advertise<std_msgs::Empty>("/snapshot_trigger", 1, true);
     pub.publish(std_msgs::Empty());
 
     ros::Timer terminate_timer = nh.createTimer(ros::Duration(1.0), boost::bind(&ros::shutdown));

@@ -22,7 +22,7 @@ namespace integrated_viewer
     SetStateInfo(initial_info);
 
     // Boot Callback function
-    signal_state_sub_ = node_handle_.subscribe("/light_color",
+    signal_state_sub_ = node_handle_.subscribe("light_color",
                                                1,
                                                &TrafficLightPlugin::SignalStateCallback,
                                                this);

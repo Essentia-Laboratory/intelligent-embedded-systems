@@ -310,7 +310,7 @@ void visualization::polygon2Triangle(const geometry_msgs::Polygon& polygon,
     }
     if (clipped_vertex < 0 || clipped_vertex >= N)
     {
-      ROS_ERROR("Could not find valid vertex for ear clipping triangulation. Triangulation result might be invalid");
+      ROS_ERROR("[%s] Could not find valid vertex for ear clipping triangulation. Triangulation result might be invalid", __FUNCTION__);
       clipped_vertex = 0;
     }
 

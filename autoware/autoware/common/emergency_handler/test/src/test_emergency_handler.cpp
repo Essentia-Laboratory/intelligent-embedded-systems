@@ -44,8 +44,8 @@ protected:
     SystemStatusFilter::vital_monitor_.initMonitoredNodeList(pnh);
     myobj_->registerEmergencyPlanners();
 
-    vehicle_cmd_pub = nh.advertise<autoware_msgs::VehicleCmd>("vehicle_cmd", 1);
-    system_status_pub = nh.advertise<autoware_system_msgs::SystemStatus>("system_status", 1);
+    vehicle_cmd_pub = nh.advertise<autoware_msgs::VehicleCmd>("/vehicle_cmd", 1);
+    system_status_pub = nh.advertise<autoware_system_msgs::SystemStatus>("/system_status", 1);
   }
 
 public:

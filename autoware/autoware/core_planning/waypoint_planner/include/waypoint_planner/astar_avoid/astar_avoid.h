@@ -32,6 +32,7 @@
 
 #include "libwaypoint_follower/libwaypoint_follower.h"
 #include "astar_search/astar_search.h"
+#define __APP_NAME__ "aster_avoid"
 
 class AstarAvoid
 {

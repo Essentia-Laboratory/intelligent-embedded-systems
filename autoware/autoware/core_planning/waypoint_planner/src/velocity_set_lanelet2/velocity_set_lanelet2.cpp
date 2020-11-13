@@ -87,7 +87,7 @@ void obstacleColorByKind(const EControl kind, std_msgs::ColorRGBA* color, const 
 void displayObstacle(const EControl& kind, const ObstaclePoints& obstacle_points, const ros::Publisher& obstacle_pub)
 {
   visualization_msgs::Marker marker;
-  marker.header.frame_id = "/map";
+  marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
   marker.ns = "my_namespace";
   marker.id = 0;
@@ -426,7 +426,7 @@ void displayDetectionRange(const autoware_msgs::Lane& lane, const lanelet::Const
   visualization_msgs::Marker waypoint_marker_stop;
   visualization_msgs::Marker waypoint_marker_decelerate;
   visualization_msgs::Marker stop_line;
-  crosswalk_marker.header.frame_id = "/map";
+  crosswalk_marker.header.frame_id = "map";
   crosswalk_marker.header.stamp = ros::Time();
   crosswalk_marker.id = 0;
   crosswalk_marker.type = visualization_msgs::Marker::SPHERE_LIST;
@@ -649,32 +649,32 @@ int main(int argc, char** argv)
   VelocitySetInfo vs_info;
 
   // map subscriber
-  ros::Subscriber bin_map_sub = rosnode.subscribe("lanelet_map_bin", 1, binMapCallback);
+  ros::Subscriber bin_map_sub = rosnode.subscribe("/lanelet_map_bin", 1, binMapCallback);
 
   // velocity set path subscriber
   ros::Subscriber waypoints_sub =
-      rosnode.subscribe("safety_waypoints", 1, &VelocitySetPath::waypointsCallback, &vs_path);
+      rosnode.subscribe("/safety_waypoints", 1, &VelocitySetPath::waypointsCallback, &vs_path);
   ros::Subscriber current_vel_sub =
-      rosnode.subscribe("current_velocity", 1, &VelocitySetPath::currentVelocityCallback, &vs_path);
+      rosnode.subscribe("/current_velocity", 1, &VelocitySetPath::currentVelocityCallback, &vs_path);
 
   // velocity set info subscriber
-  ros::Subscriber config_sub = rosnode.subscribe("config/velocity_set", 1, &VelocitySetInfo::configCallback, &vs_info);
+  ros::Subscriber config_sub = rosnode.subscribe("/config/velocity_set", 1, &VelocitySetInfo::configCallback, &vs_info);
   ros::Subscriber points_sub = rosnode.subscribe(points_topic, 1, &VelocitySetInfo::pointsCallback, &vs_info);
   ros::Subscriber localizer_sub =
-      rosnode.subscribe("localizer_pose", 1, &VelocitySetInfo::localizerPoseCallback, &vs_info);
+      rosnode.subscribe("/localizer_pose", 1, &VelocitySetInfo::localizerPoseCallback, &vs_info);
   ros::Subscriber control_pose_sub =
-      rosnode.subscribe("current_pose", 1, &VelocitySetInfo::controlPoseCallback, &vs_info);
+      rosnode.subscribe("/current_pose", 1, &VelocitySetInfo::controlPoseCallback, &vs_info);
   ros::Subscriber detectionresult_sub =
-      rosnode.subscribe("state/stopline_wpidx", 1, &VelocitySetInfo::detectionCallback, &vs_info);
+      rosnode.subscribe("/state/stopline_wpidx", 1, &VelocitySetInfo::detectionCallback, &vs_info);
 
   // publisher
-  ros::Publisher detection_range_pub = rosnode.advertise<visualization_msgs::MarkerArray>("detection_range", 1);
-  ros::Publisher obstacle_pub = rosnode.advertise<visualization_msgs::Marker>("obstacle", 1);
-  ros::Publisher obstacle_waypoint_pub = rosnode.advertise<std_msgs::Int32>("obstacle_waypoint", 1, true);
-  ros::Publisher stopline_waypoint_pub = rosnode.advertise<std_msgs::Int32>("stopline_waypoint", 1, true);
+  ros::Publisher detection_range_pub = rosnode.advertise<visualization_msgs::MarkerArray>("/detection_range", 1);
+  ros::Publisher obstacle_pub = rosnode.advertise<visualization_msgs::Marker>("/obstacle", 1);
+  ros::Publisher obstacle_waypoint_pub = rosnode.advertise<std_msgs::Int32>("/obstacle_waypoint", 1, true);
+  ros::Publisher stopline_waypoint_pub = rosnode.advertise<std_msgs::Int32>("/stopline_waypoint", 1, true);
 
   ros::Publisher final_waypoints_pub;
-  final_waypoints_pub = rosnode.advertise<autoware_msgs::Lane>("final_waypoints", 1, true);
+  final_waypoints_pub = rosnode.advertise<autoware_msgs::Lane>("/final_waypoints", 1, true);
 
   ros::Rate loop_rate(LOOP_RATE);
   while (ros::ok())

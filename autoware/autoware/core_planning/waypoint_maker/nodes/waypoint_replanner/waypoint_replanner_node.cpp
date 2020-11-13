@@ -19,6 +19,7 @@
 
 namespace waypoint_maker
 {
+#define __APP_NAME__ "waypoint_replanner"
 class WaypointReplannerNode
 {
 public:
@@ -42,6 +43,7 @@ private:
 
 WaypointReplannerNode::WaypointReplannerNode() : pnh_("~"), is_first_publish_(true)
 {
+ROS_INFO("[%s] --> WaypointReplannerNode constructor", __APP_NAME__);
   WaypointReplannerConfig temp_config;
 
   double velocity_max_kph, velocity_min_kph;
@@ -80,18 +82,22 @@ WaypointReplannerNode::WaypointReplannerNode() : pnh_("~"), is_first_publish_(tr
 
   lane_sub_ = nh_.subscribe("/based/lane_waypoints_raw", 1, &WaypointReplannerNode::laneCallback, this);
   config_sub_ = nh_.subscribe("/config/waypoint_replanner", 1, &WaypointReplannerNode::configCallback, this);
+ROS_INFO("[%s] <-- WaypointReplannerNode constructor", __APP_NAME__);
 }
 
 void WaypointReplannerNode::replan(autoware_msgs::LaneArray& lane_array)
 {
+ROS_INFO("[%s] --> WaypointReplannerNode replan", __APP_NAME__);
   for (auto &el : lane_array.lanes)
   {
     replanner_.replanLaneWaypointVel(el);
   }
+ROS_INFO("[%s] <-- WaypointReplannerNode replan", __APP_NAME__);
 }
 
 void WaypointReplannerNode::publishLaneArray()
 {
+ROS_INFO("[%s] --> WaypointReplannerNode publishLaneArray", __APP_NAME__);
   autoware_msgs::LaneArray array(lane_array_);
 
   if (replanning_mode_)
@@ -101,16 +107,20 @@ void WaypointReplannerNode::publishLaneArray()
 
   lane_pub_.publish(array);
   is_first_publish_ = false;
+ROS_INFO("[%s] <-- WaypointReplannerNode publishLaneArray", __APP_NAME__);
 }
 
 void WaypointReplannerNode::laneCallback(const autoware_msgs::LaneArray::ConstPtr& lane_array)
 {
+ROS_INFO("[%s] --> WaypointReplannerNode laneCallback", __APP_NAME__);
   lane_array_ = *lane_array;
   publishLaneArray();
+ROS_INFO("[%s] <-- WaypointReplannerNode laneCallback", __APP_NAME__);
 }
 
 void WaypointReplannerNode::configCallback(const autoware_config_msgs::ConfigWaypointReplanner::ConstPtr& conf)
 {
+ROS_INFO("[%s] --> WaypointReplannerNode configCallback", __APP_NAME__);
   replanning_mode_ = conf->replanning_mode;
   realtime_tuning_mode_ = conf->realtime_tuning_mode;
   use_decision_maker_ = conf->use_decision_maker;
@@ -119,14 +129,18 @@ void WaypointReplannerNode::configCallback(const autoware_config_msgs::ConfigWay
   {
     publishLaneArray();
   }
+ROS_INFO("[%s] <-- WaypointReplannerNode configCallback", __APP_NAME__);
 }
 
 }
 
 int main(int argc, char** argv)
 {
+ROS_INFO("[%s] ros::init", __APP_NAME__);
   ros::init(argc, argv, "waypoint_replanner");
+ROS_INFO("[%s] WaypointReplannerNode construct", __APP_NAME__);
   waypoint_maker::WaypointReplannerNode wr;
+ROS_INFO("[%s] ros::spin", __APP_NAME__);
   ros::spin();
 
   return 0;

@@ -69,9 +69,9 @@ OpenPlannerSimulatorSigns::OpenPlannerSimulatorSigns()
   }
 
 
-  pub_TrafficLightsRviz = nh.advertise<visualization_msgs::MarkerArray>("op_traffic_lights_rviz", 1);
+  pub_TrafficLightsRviz = nh.advertise<visualization_msgs::MarkerArray>("/op_traffic_lights_rviz", 1);
 
-  pub_trafficLights   = nh.advertise<autoware_msgs::Signals>("roi_signal",1);
+  pub_trafficLights   = nh.advertise<autoware_msgs::Signals>("/roi_signal",1);
 
   UtilityHNS::UtilityH::GetTickCount(m_Timer);
   m_CurrLightState = PlannerHNS::GREEN_LIGHT;

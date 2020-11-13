@@ -77,6 +77,7 @@ bool indexRequest(jsk_interactive_marker::IndexRequest::Request  &req,
                   jsk_interactive_marker::IndexRequest::Response &res)
 {
   publishClickedBox(req.index);
+  return true;
 }
 
 void boxCallback(const jsk_recognition_msgs::BoundingBoxArray::ConstPtr& msg)

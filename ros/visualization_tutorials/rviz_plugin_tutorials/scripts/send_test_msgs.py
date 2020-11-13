@@ -20,7 +20,7 @@ dist = 3
 while not rospy.is_shutdown():
 
     imu = Imu()
-    imu.header.frame_id = "/base_link"
+    imu.header.frame_id = "base_link"
     imu.header.stamp = rospy.Time.now()
    
     imu.linear_acceleration.x = sin( 10 * angle )

@@ -65,7 +65,7 @@ HealthAggregator::HealthAggregator(ros::NodeHandle nh, ros::NodeHandle pnh)
 
 void HealthAggregator::run()
 {
-  system_status_pub_ = nh_.advertise<AwSysStatus>("system_status", 10);
+  system_status_pub_ = nh_.advertise<AwSysStatus>("/system_status", 10);
   auto registerTextPublisher = [this](ErrorLevel level, std::string topic)
   {
     text_pub_[level] = pnh_.advertise<jsk_rviz_plugins::OverlayText>(topic, 1);
@@ -75,14 +75,14 @@ void HealthAggregator::run()
   registerTextPublisher(AwDiagStatus::WARN, "warn_text");
   registerTextPublisher(AwDiagStatus::ERROR, "error_text");
   registerTextPublisher(AwDiagStatus::FATAL, "fatal_text");
-  node_status_sub_ = nh_.subscribe("node_status", 10,
+  node_status_sub_ = nh_.subscribe("/node_status", 10,
     &HealthAggregator::nodeStatusCallback, this);
   // ros::master::getNodes will continue to wait for a response from the master
   // if the master goes down unless a timeout is specified.
   // To avoid this, it is necessary to set a timeout.
   ros::master::setRetryTimeout(ros::WallDuration(0.01));
   diagnostic_array_sub_ = nh_.subscribe(
-    "diagnostics_agg", 10, &HealthAggregator::diagnosticArrayCallback, this);
+    "/diagnostics_agg", 10, &HealthAggregator::diagnosticArrayCallback, this);
 
   ros::Duration duration(1.0 / autoware_health_checker::SYSTEM_UPDATE_RATE);
   system_status_timer_ =

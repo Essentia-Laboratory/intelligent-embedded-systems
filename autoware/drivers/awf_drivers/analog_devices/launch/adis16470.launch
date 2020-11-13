@@ -15,11 +15,11 @@
     <param name="frame_id" value="$(arg frame_id)"/>
     <param name="burst_mode" value="$(arg burst_read)"/>
     <param name="rate" value="$(arg rate)"/>
-    <remap from="/imu/data_raw" to="/imu_raw"/>
+    <remap from="imu/data_raw" to="imu_raw"/>
   </node>
 
   <group if="$(arg with_filter)">
-    <node name="relay_imu" pkg="topic_tools" type="relay" args="/imu_raw /imu/data_raw" />
+    <node name="relay_imu" pkg="topic_tools" type="relay" args="imu_raw imu/data_raw" />
     <node name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node">
       <param name="use_mag" value="false"/>
       <param name="publish_tf" value="$(arg publish_tf)"/>

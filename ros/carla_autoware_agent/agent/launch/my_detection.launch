@@ -84,7 +84,7 @@
     <arg name='detected_objects_range' value='/detection/lidar_tracker/objects'/>
     <arg name='detected_objects_vision' value='/detection/image_tracker/objects'/>
     <arg name='camera_info_src' value='/camera_info'/>
-    <arg name='namespace' value='/detection/fusion_tools'/>
+    <arg name='namespace' value='/detection/fusion_tools/'/>
   </include>
 
   <!--

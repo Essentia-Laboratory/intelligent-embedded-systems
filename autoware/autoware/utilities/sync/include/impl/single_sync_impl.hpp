@@ -41,11 +41,16 @@ SingleSynchronizer<T1, T2, T3>::SingleSynchronizer(const std::string sub1_topic,
     buf_flag_ = false;
     is_req_ = false;
 
+    ROS_INFO("[%s] subscribe sub1_topic=[%s]", "SingleSynchronizer", sub1_topic.c_str() );
     type1_sub_ = nh.subscribe(sub1_topic, 2, &SingleSynchronizer::type1_callback, this);
+    ROS_INFO("[%s] subscribe sub2_topic=[%s]", "SingleSynchronizer", sub2_topic.c_str() );
     type2_sub_ = nh.subscribe(sub2_topic, 2, &SingleSynchronizer::type2_callback, this);
+    ROS_INFO("[%s] subscribe req_topic=[%s]", "SingleSynchronizer", req_topic.c_str() );
     req_sub_ = nh.subscribe(req_topic, 2, &SingleSynchronizer::req_callback, this);
 
+    ROS_INFO("[%s] advertise ns+pub1_topic=[%s]", "SingleSynchronizer", (ns+pub1_topic).c_str() );
     type1_pub_ = nh.advertise<T1>(ns+pub1_topic, 5);
+    ROS_INFO("[%s] advertise ns+pub2_topic=[%s]", "SingleSynchronizer", (ns+pub2_topic).c_str() );
     type2_pub_ = nh.advertise<T2>(ns+pub2_topic, 5);
     sync_time_diff_pub_ = nh.advertise<std_msgs::Float64>("/"+ns+"/time_diff", 5);
 }

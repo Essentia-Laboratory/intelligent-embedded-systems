@@ -1,8 +1,8 @@
 <launch>
-  <arg name="FIXED_FRAME" default="/base_link" />
+  <arg name="FIXED_FRAME" default="base_link" />
   <arg name="USE_ASSEMBLER_FILTER" default="true" />
   <arg name="laser_scan" default="scan" />
-  <arg name="pointcloud" default="/cloud_filtered" />
+  <arg name="pointcloud" default="cloud_filtered" />
   <arg name="max_scans" default="1000" />
   <arg name="tilt_name" default="tilt_laser_joint" />
 

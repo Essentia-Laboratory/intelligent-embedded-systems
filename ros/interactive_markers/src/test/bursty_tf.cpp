@@ -74,7 +74,7 @@ InteractiveMarkerControl& makeBoxControl( InteractiveMarker &msg )
 void make6DofMarker( bool fixed )
 {
   InteractiveMarker int_marker;
-  int_marker.header.frame_id = "/base_link";
+  int_marker.header.frame_id = "base_link";
   int_marker.header.stamp = ros::Time::now();
   int_marker.scale = 1;
 
@@ -140,7 +140,7 @@ void frameCallback(const ros::TimerEvent&)
   ros::Time time = ros::Time::now();
 
   std_msgs::Header header;
-  header.frame_id = "/base_link";
+  header.frame_id = "base_link";
   header.stamp = time;
 
   int seconds = time.toSec();

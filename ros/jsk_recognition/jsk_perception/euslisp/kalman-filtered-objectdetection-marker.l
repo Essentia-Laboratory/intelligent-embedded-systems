@@ -6,7 +6,7 @@
 (ros::roseus "marker-publish")
 (ros::roseus-add-msgs "posedetection_msgs")
 
-(setq *map-id* "/map")
+(setq *map-id* "map")
 (setq *solve-tf* t)
 (setq *object-width* (ros::get-param "~object_width" 0))
 (setq *object-height* (ros::get-param "~object_height" 0))

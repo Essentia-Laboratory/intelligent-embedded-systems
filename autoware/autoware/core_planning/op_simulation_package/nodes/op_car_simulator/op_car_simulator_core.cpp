@@ -55,27 +55,27 @@ OpenPlannerCarSimulator::OpenPlannerCarSimulator()
 
   //For rviz visualization
   std::ostringstream str_s1, str_s2, str_s3, str_s4, str_s5, str_s6, str_s7, str_s8, str_s9;
-  str_s1 << "curr_simu_pose_";
+  str_s1 << "/curr_simu_pose_";
   str_s1 << m_SimParams.id;
 
-  str_s2 << "sim_beh_txt_" << m_SimParams.id;
+  str_s2 << "/sim_beh_txt_" << m_SimParams.id;
 
-  str_s5 << "sim_box_pose_";
+  str_s5 << "/sim_box_pose_";
   str_s5 << m_SimParams.id;
 
-  str_s3 << "sim_velocity_";
+  str_s3 << "/sim_velocity_";
   str_s3 << m_SimParams.id;
 
-  str_s4 << "safety_border_";
+  str_s4 << "/safety_border_";
   str_s4 << m_SimParams.id;
 
-  str_s6 << "simu_local_trajectory_";
+  str_s6 << "/simu_local_trajectory_";
   str_s6 << m_SimParams.id;
 
-  str_s7 << "simu_internal_info";
+  str_s7 << "/simu_internal_info";
   str_s7 << m_SimParams.id;
 
-  str_s8 << "simu_car_path_beh_";
+  str_s8 << "/simu_car_path_beh_";
   str_s8 << m_SimParams.id;
 
   pub_CurrPoseRviz        = nh.advertise<visualization_msgs::Marker>(str_s1.str() , 100);

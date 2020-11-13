@@ -45,7 +45,7 @@ bool CNNSegmentation::init()
   }
 
 
-  private_node_handle.param<std::string>("points_src", topic_src_, "points_raw");
+  private_node_handle.param<std::string>("points_src", topic_src_, "/points_raw");
   ROS_INFO("[%s] points_src: %s", __APP_NAME__, topic_src_.c_str());
 
   private_node_handle.param<double>("range", range_, 60.);

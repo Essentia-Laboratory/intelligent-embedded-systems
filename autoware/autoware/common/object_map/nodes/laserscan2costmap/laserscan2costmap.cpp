@@ -26,13 +26,13 @@
 
 namespace
 {
-constexpr auto OGM_FRAME = "/map";
+constexpr auto OGM_FRAME = "map";
 constexpr int OCCUPIED_MAX = 8;
 constexpr int OCCUPIED_MIN = -8;
 constexpr int OCCUPIED_INCREMENT = 2;
 constexpr int FREE_INCREMENT = 1;
-std::string g_sensor_frame = "/velodyne";  // sensor which publihes lasescan message
-std::string g_scan_topic = "/scan";        // laser scan topic
+std::string g_sensor_frame = "velodyne";  // sensor which publihes lasescan message
+std::string g_scan_topic = "scan";        // laser scan topic
 double g_resolution = 0.1;                 // [m]
 int g_scan_size_x = 1000;                  // actual scanning size
 int g_scan_size_y = 1000;
@@ -387,9 +387,10 @@ void laserScanCallback(const sensor_msgs::LaserScanConstPtr& msg)
 
 }  // namespace
 
+#define __APP_NAME__ "laserscan2costmap"
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "laserscan2costmap");
+  ros::init(argc, argv, __APP_NAME__);
 
   tf::TransformListener tf_listener;
   g_tf_listenerp = &tf_listener;
@@ -403,8 +404,9 @@ int main(int argc, char** argv)
   private_nh.param<int>("map_size_x", g_map_size_x, 500);
   private_nh.param<int>("map_size_y", g_map_size_y, 500);
   private_nh.param<std::string>("scan_topic", g_scan_topic, "/scan");
-  private_nh.param<std::string>("sensor_frame", g_sensor_frame, "/velodyne");
+  private_nh.param<std::string>("sensor_frame", g_sensor_frame, "velodyne");
 
+  ROS_INFO("[%s] subscribe g_scan_topic=[%s]", __APP_NAME__, g_scan_topic.c_str()); 
   ros::Subscriber laserscan_sub = nh.subscribe(g_scan_topic, 1, laserScanCallback);
 
   g_map_pub = nh.advertise<nav_msgs::OccupancyGrid>("/ring_ogm", 1);

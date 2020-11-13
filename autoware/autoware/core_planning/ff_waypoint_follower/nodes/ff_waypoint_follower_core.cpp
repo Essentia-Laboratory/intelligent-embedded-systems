@@ -110,19 +110,19 @@ FFSteerControl::FFSteerControl()
   m_OriginPos.position.z  = transform.getOrigin().z();
 
 
-  pub_VelocityAutoware     = nh.advertise<geometry_msgs::TwistStamped>("twist_raw", 100);
-  pub_StatusAutoware       = nh.advertise<std_msgs::Bool>("wf_stat", 100);
+  pub_VelocityAutoware     = nh.advertise<geometry_msgs::TwistStamped>("/twist_raw", 100);
+  pub_StatusAutoware       = nh.advertise<std_msgs::Bool>("/wf_stat", 100);
 
   //For rviz visualization
-  pub_CurrPoseRviz      = nh.advertise<visualization_msgs::Marker>("curr_simu_pose", 100);
-  pub_FollowPointRviz      = nh.advertise<visualization_msgs::Marker>("follow_pose", 100);
+  pub_CurrPoseRviz      = nh.advertise<visualization_msgs::Marker>("/curr_simu_pose", 100);
+  pub_FollowPointRviz      = nh.advertise<visualization_msgs::Marker>("/follow_pose", 100);
 
-  pub_SimuPose        = nh.advertise<geometry_msgs::PoseStamped>("sim_pose", 100);
-  pub_SimuVelocity      = nh.advertise<geometry_msgs::TwistStamped>("sim_velocity", 100);
+  pub_SimuPose        = nh.advertise<geometry_msgs::PoseStamped>("/sim_pose", 100);
+  pub_SimuVelocity      = nh.advertise<geometry_msgs::TwistStamped>("/sim_velocity", 100);
 
-  pub_VehicleCommand      = nh.advertise<geometry_msgs::TwistStamped>("twist_cmd", 100);
-  pub_ControlBoxOdom      = nh.advertise<nav_msgs::Odometry>("ControlBoxOdom", 100);
-  pub_VelocityRviz       = nh.advertise<std_msgs::Float32>("linear_velocity_viz", 10);
+  pub_VehicleCommand      = nh.advertise<geometry_msgs::TwistStamped>("/twist_cmd", 100);
+  pub_ControlBoxOdom      = nh.advertise<nav_msgs::Odometry>("/ControlBoxOdom", 100);
+  pub_VelocityRviz       = nh.advertise<std_msgs::Float32>("/linear_velocity_viz", 10);
 
   // define subscribers.
   sub_initialpose     = nh.subscribe("/initialpose",     100, &FFSteerControl::callbackGetInitPose,       this);

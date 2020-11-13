@@ -22,8 +22,8 @@
 
 ShapeEstimationNode::ShapeEstimationNode() : nh_(""), pnh_("~")
 {
-  sub_ = nh_.subscribe("input", 1, &ShapeEstimationNode::callback, this);
-  pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("objects", 1, true);
+  sub_ = nh_.subscribe("/input", 1, &ShapeEstimationNode::callback, this);
+  pub_ = nh_.advertise<autoware_msgs::DetectedObjectArray>("/objects", 1, true);
 }
 
 void ShapeEstimationNode::callback(const autoware_msgs::DetectedObjectArray::ConstPtr& input_msg)

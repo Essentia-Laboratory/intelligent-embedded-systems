@@ -10,7 +10,7 @@
 
 (dotimes (i 5)
   (ros::publish "/particle_filter_tracker/renew_model_with_marker"
-                (object->marker-msg (send *cupboard* :translate #f(500 0 0)) (instance std_msgs::header :init :stamp (ros::time-now) :frame_id "/base_link")))
+                (object->marker-msg (send *cupboard* :translate #f(500 0 0)) (instance std_msgs::header :init :stamp (ros::time-now) :frame_id "base_link")))
   (ros::ros-info "== publish to renew model with marker in marker_model_tracking_demo (~A / 5) ==" i)
   (unix::sleep 7)
   )

@@ -15,7 +15,7 @@ def publish_current_pose(msg):
     current_pose_array = msg.payload.split(",")
     current_pose = PoseStamped()
 
-    current_pose.header.frame_id = "/map"
+    current_pose.header.frame_id = "map"
     current_pose.header.stamp = rospy.Time.now()
     current_pose.pose.position.x = float(current_pose_array[0])
     current_pose.pose.position.y = float(current_pose_array[1])
@@ -33,8 +33,8 @@ def publish_tf(current_pose):
     br.sendTransform((current_pose.pose.position.x, current_pose.pose.position.y, current_pose.pose.position.z),
                      (current_pose.pose.orientation.x, current_pose.pose.orientation.y, current_pose.pose.orientation.z, current_pose.pose.orientation.w),
                      rospy.Time.now(),
-                     "/base_link",
-                     "/map")
+                     "base_link",
+                     "map")
 
 def on_connect(client, userdata, flags, respons_code):
     rospy.loginfo("ON CONNECT TO MQTT BROKER.")

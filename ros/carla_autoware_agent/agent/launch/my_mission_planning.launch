@@ -72,7 +72,23 @@
     Out: /green_waypoints_array [autoware_msgs::LaneArray]
     Out: /red_waypoints_array [autoware_msgs::LaneArray]
   -->
-  <node pkg='lane_planner' type='lane_rule' name='lane_rule' />
+  <arg name="acceleration"               default="1.0"/>
+  <arg name="stopline_search_radius"     default="1.0"/>
+  <arg name="number_of_zeros_ahead"      default="0"/>
+  <arg name="number_of_zeros_behind"     default="0"/>
+  <arg name="number_of_smoothing_count"  default="0"/>
+  <node pkg='rostopic' type='rostopic' name='config_lane_rule' output='screen'
+        args='pub -l /config/lane_rule autoware_config_msgs/ConfigLaneRule "{ 
+            header: { 
+              seq: 0, 
+              stamp: {secs: 0, nsecs: 0}, 
+              frame_id: }, 
+            acceleration: $(arg acceleration), 
+            stopline_search_radius: $(arg stopline_search_radius), 
+            number_of_zeros_ahead: $(arg number_of_zeros_ahead), 
+            number_of_zeros_behind: $(arg number_of_zeros_behind), 
+            number_of_smoothing_count: $(arg number_of_smoothing_count) }"'/>
+  <node pkg='lane_planner' type='lane_rule' name='lane_rule' output="screen"/>
 
   <!--
     # lane_stop #

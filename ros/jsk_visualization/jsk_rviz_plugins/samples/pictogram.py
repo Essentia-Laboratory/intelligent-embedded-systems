@@ -1700,7 +1700,7 @@ counter = 0
 while not rospy.is_shutdown():
     msg = Pictogram()
     msg.action = Pictogram.JUMP_ONCE
-    msg.header.frame_id = "/base_link"
+    msg.header.frame_id = "base_link"
     msg.header.stamp = rospy.Time.now()
     msg.pose.position.z = 1.6
     msg.pose.orientation.w = 0.7

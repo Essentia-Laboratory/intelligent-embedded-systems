@@ -42,13 +42,13 @@ BehaviorGen::BehaviorGen()
   m_OriginPos.position.y  = transform.getOrigin().y();
   m_OriginPos.position.z  = transform.getOrigin().z();
 
-  pub_LocalPath = nh.advertise<autoware_msgs::Lane>("final_waypoints", 1,true);
-  pub_LocalBasePath = nh.advertise<autoware_msgs::Lane>("base_waypoints", 1,true);
-  pub_ClosestIndex = nh.advertise<std_msgs::Int32>("closest_waypoint", 1,true);
-  pub_BehaviorState = nh.advertise<geometry_msgs::TwistStamped>("current_behavior", 1);
-  pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 1);
-  pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
-  pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
+  pub_LocalPath = nh.advertise<autoware_msgs::Lane>("/final_waypoints", 1,true);
+  pub_LocalBasePath = nh.advertise<autoware_msgs::Lane>("/base_waypoints", 1,true);
+  pub_ClosestIndex = nh.advertise<std_msgs::Int32>("/closest_waypoint", 1,true);
+  pub_BehaviorState = nh.advertise<geometry_msgs::TwistStamped>("/current_behavior", 1);
+  pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("/sim_box_pose_ego", 1);
+  pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("/behavior_state", 1);
+  pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("/local_selected_trajectory_rviz", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10,  &BehaviorGen::callbackGetCurrentPose, this);
 

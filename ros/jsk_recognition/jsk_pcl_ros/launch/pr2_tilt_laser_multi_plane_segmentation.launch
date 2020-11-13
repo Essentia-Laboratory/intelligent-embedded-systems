@@ -25,7 +25,7 @@
      <remap from="scan" to="/tilt_scan"/>
      <param name="tf_cache_time_secs" value="30" />
      <param name="max_scans" type="int" value="3000" />
-     <param name="fixed_frame" type="string" value="/base_link"/>
+     <param name="fixed_frame" type="string" value="base_link"/>
   </node>
   <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
         machine="$(arg MACHINE)"

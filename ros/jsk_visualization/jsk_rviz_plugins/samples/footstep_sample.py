@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-FRAME_ID = "/map"
+FRAME_ID = "map"
 
 from jsk_footstep_msgs.msg import Footstep, FootstepArray
 
 import rospy
 
 def main():
-    pub = rospy.Publisher("/footsteps", FootstepArray)
+    pub = rospy.Publisher("footsteps", FootstepArray)
     r = rospy.Rate(3)
     ysize = 0
     zpos = 0

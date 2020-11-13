@@ -5,7 +5,7 @@
   <arg name="use_odom" default="false" />
   <arg name="use_imu" default="false" />
   <arg name="imu_upside_down" default="false" />
-  <arg name="imu_topic" default="/imu_raw" />
+  <arg name="imu_topic" default="imu_raw" />
   <arg name="incremental_voxel_update" default="false" />
 
   <!-- rosrun lidar_localizer ndt_mapping  -->

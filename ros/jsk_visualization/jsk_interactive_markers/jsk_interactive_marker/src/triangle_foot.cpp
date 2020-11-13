@@ -86,7 +86,7 @@ visualization_msgs::Marker TriangleFoot::makeFootMarker(geometry_msgs::Pose pose
 
 visualization_msgs::InteractiveMarker TriangleFoot::makeInteractiveMarker(){
   visualization_msgs::InteractiveMarker mk;
-  mk.header.frame_id = "/map";
+  mk.header.frame_id = "map";
   mk.header.stamp = ros::Time(0);
   mk.name = marker_name;
 

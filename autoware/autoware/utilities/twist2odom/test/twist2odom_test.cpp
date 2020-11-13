@@ -20,8 +20,8 @@ class Twist2OdomTestSuite : public ::testing::Test
 public:
   Twist2OdomTestSuite()
   {
-    pub_twist_ = nh_.advertise<geometry_msgs::TwistStamped>("current_twist", 1);
-    sub_odom_ = nh_.subscribe("current_odom", 1, &Twist2OdomTestSuite::callbackFromOdom, this);
+    pub_twist_ = nh_.advertise<geometry_msgs::TwistStamped>("/current_twist", 1);
+    sub_odom_ = nh_.subscribe("/current_odom", 1, &Twist2OdomTestSuite::callbackFromOdom, this);
   }
 
   void callbackFromOdom(const nav_msgs::OdometryConstPtr& msg)

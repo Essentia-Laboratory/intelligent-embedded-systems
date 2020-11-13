@@ -60,8 +60,8 @@ void points_map_filter::run() {
   map_pub_ =
       nh_.advertise<sensor_msgs::PointCloud2>("/points_map/filtered", 10);
   map_sub_ =
-      nh_.subscribe("/points_map", 1, &points_map_filter::map_callback_, this);
-  pose_sub_ = nh_.subscribe("/current_pose", 1,
+      nh_.subscribe("points_map", 1, &points_map_filter::map_callback_, this);
+  pose_sub_ = nh_.subscribe("current_pose", 1,
                             &points_map_filter::current_pose_callback_, this);
   return;
 }

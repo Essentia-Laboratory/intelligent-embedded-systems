@@ -131,7 +131,7 @@ bool LidarFakePerception::updateFakeObject()
     tf_listener_.waitForTransform(global_frame_, object_frame_, ros::Time(0), ros::Duration(1.0));
     tf_listener_.lookupTransform(global_frame_, object_frame_, ros::Time(0), global2local);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
     return false;

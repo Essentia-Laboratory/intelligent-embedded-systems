@@ -17,6 +17,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/CameraInfo.h>
+#include "boost/algorithm/string.hpp"
 #include "autoware_msgs/PointsImage.h"
 #include "autoware_msgs/ProjectionMatrix.h"
 //#include "autoware_msgs/CameraExtrinsic.h"
@@ -27,6 +28,8 @@
 #define CAMERAMAT "CameraMat"
 #define DISTCOEFF "DistCoeff"
 #define IMAGESIZE "ImageSize"
+
+#define __APP_NAME__ "points2image"
 
 static cv::Mat cameraExtrinsicMat;
 static cv::Mat cameraMat;
@@ -86,17 +89,17 @@ static void callback(const sensor_msgs::PointCloud2ConstPtr& msg)
 
 int main(int argc, char* argv[])
 {
-  ros::init(argc, argv, "points2image");
+  ros::init(argc, argv, __APP_NAME__);
   ros::NodeHandle n;
 
   ros::NodeHandle private_nh("~");
 
   std::string camera_info_topic_str;
   std::string projection_matrix_topic;
-  std::string pub_topic_str = "/points_image";
+  std::string pub_topic_str = "points_image";
 
-  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "/projection_matrix");
-  private_nh.param<std::string>("camera_info_topic", camera_info_topic_str, "/camera_info");
+  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "projection_matrix");
+  private_nh.param<std::string>("camera_info_topic", camera_info_topic_str, "camera_info");
 
   std::string name_space_str = ros::this_node::getNamespace();
 
@@ -108,30 +111,36 @@ int main(int argc, char* argv[])
          starts with "//", delete one of them */
       name_space_str.erase(name_space_str.begin());
     }
-    pub_topic_str = name_space_str + pub_topic_str;
-    projection_matrix_topic = name_space_str + projection_matrix_topic;
-    camera_info_topic_str = name_space_str + camera_info_topic_str;
+    pub_topic_str = name_space_str + 
+	    ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( pub_topic_str, "/" ) ? "" : "/" )
+	    + pub_topic_str;
+    projection_matrix_topic = name_space_str + 
+	    ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( projection_matrix_topic, "/" ) ? "" : "/" )
+	    + projection_matrix_topic;
+    camera_info_topic_str = name_space_str + 
+	    ( boost::algorithm::ends_with( name_space_str, "/" ) || boost::algorithm::starts_with( camera_info_topic_str, "/" ) ? "" : "/" )
+	    + camera_info_topic_str;
   }
 
   std::string points_topic;
   if (private_nh.getParam("points_node", points_topic))
   {
-    ROS_INFO("[points2image]Setting points node to %s", points_topic.c_str());
+    ROS_INFO("[%s]Setting points node to %s", __APP_NAME__, points_topic.c_str());
   }
   else
   {
-    ROS_INFO("[points2image]No points node received, defaulting to points_raw, you can use _points_node:=YOUR_TOPIC");
-    points_topic = "/points_raw";
+    ROS_INFO("[%s]No points node received, defaulting to points_raw, you can use _points_node:=YOUR_TOPIC", __APP_NAME__);
+    points_topic = "points_raw";
   }
 
-  ROS_INFO("[points2image]Publishing to... %s", pub_topic_str.c_str());
+  ROS_INFO("[%s]Publishing to... %s", __APP_NAME__, pub_topic_str.c_str());
   pub = n.advertise<autoware_msgs::PointsImage>(pub_topic_str, 10);
 
   ros::Subscriber sub = n.subscribe(points_topic, 1, callback);
 
-  ROS_INFO("[points2image]Subscribing to... %s", projection_matrix_topic.c_str());
+  ROS_INFO("[%s]Subscribing to... %s", __APP_NAME__, projection_matrix_topic.c_str());
   ros::Subscriber projection = n.subscribe(projection_matrix_topic, 1, projection_callback);
-  ROS_INFO("[points2image]Subscribing to... %s", camera_info_topic_str.c_str());
+  ROS_INFO("[%s]Subscribing to... %s", __APP_NAME__, camera_info_topic_str.c_str());
   ros::Subscriber intrinsic = n.subscribe(camera_info_topic_str, 1, intrinsic_callback);
 
   ros::spin();

@@ -420,7 +420,7 @@ pointer EUSTF_LOOKUPTRANSFORM(register context *ctx,int n,pointer *argv)
   tf::StampedTransform transform;
   try {
     tf->lookupTransform(target_frame, source_frame, time, transform);
-  } catch ( std::runtime_error e ) {
+  } catch ( std::runtime_error& e ) {
     ROS_ERROR("%s",e.what()); return(NIL);
   }
 
@@ -464,7 +464,7 @@ pointer EUSTF_LOOKUPTRANSFORMFULL(register context *ctx,int n,pointer *argv)
   try {
     tf->lookupTransform(target_frame, target_time,
                         source_frame, source_time, fixed_frame, transform);
-  } catch ( std::runtime_error e ) {
+  } catch ( std::runtime_error& e ) {
     ROS_ERROR("%s",e.what()); return(NIL);
   }
 
@@ -513,7 +513,7 @@ pointer EUSTF_TRANSFORMPOSE(register context *ctx,int n,pointer *argv)
 
   try {
     tf->transformPose(target_frame, input, output);
-  } catch ( std::runtime_error e ) {
+  } catch ( std::runtime_error& e ) {
     ROS_ERROR("%s",e.what()); return(NIL);
   }
 
@@ -619,7 +619,7 @@ pointer EUSTF_GETPARENT(register context *ctx,int n,pointer *argv)
   try {
     bool ret = tf->getParent(frame_id, time, parent);
     return(ret?makestring((char *)parent.c_str(),parent.length()):NIL);
-  } catch ( std::runtime_error e ) {
+  } catch ( std::runtime_error& e ) {
     ROS_ERROR("%s",e.what()); return(NIL);
   }
 }
@@ -797,7 +797,7 @@ pointer EUSTF_TFBC_LOOKUPTRANSFORM(register context *ctx,int n,pointer *argv)
   geometry_msgs::TransformStamped trans;
   try {
     trans = tfbc->lookupTransform(target_frame, source_frame, time, timeout);
-  } catch (std::runtime_error e) {
+  } catch (std::runtime_error& e) {
     ROS_ERROR("%s", e.what()); return(NIL);
   }
 

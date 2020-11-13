@@ -45,10 +45,10 @@ VehicleGazeboInputSubscriber::VehicleGazeboInputSubscriber() : nh_(""), pnh_("~"
     pnh_.param("/vehicle_info/wheel_tread", wheel_tread_, 1.55);
     pnh_.param("twiststamped", twiststamped_, true);
     pnh_.param("ctrl_cmd", ctrl_cmd_, false);
-    wheel_right_rear_pub_ = nh_.advertise<std_msgs::Float64>("wheel_right_rear_velocity_controller/command", 1, true);
-    wheel_left_rear_pub_ = nh_.advertise<std_msgs::Float64>("wheel_left_rear_velocity_controller/command", 1, true);
-    steering_right_front_pub_ = nh_.advertise<std_msgs::Float64>("steering_right_front_position_controller/command", 1, true);
-    steering_left_front_pub_ = nh_.advertise<std_msgs::Float64>("steering_left_front_position_controller/command", 1, true);
+    wheel_right_rear_pub_ = nh_.advertise<std_msgs::Float64>("/wheel_right_rear_velocity_controller/command", 1, true);
+    wheel_left_rear_pub_ = nh_.advertise<std_msgs::Float64>("/wheel_left_rear_velocity_controller/command", 1, true);
+    steering_right_front_pub_ = nh_.advertise<std_msgs::Float64>("/steering_right_front_position_controller/command", 1, true);
+    steering_left_front_pub_ = nh_.advertise<std_msgs::Float64>("/steering_left_front_position_controller/command", 1, true);
 
     bool twist_sub, steering_angle_sub, velocity_sub;
     pnh_.param("twist_sub", twist_sub, true);

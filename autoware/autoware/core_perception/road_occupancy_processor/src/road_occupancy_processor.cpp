@@ -294,13 +294,13 @@ void ROSRoadOccupancyProcessorApp::InitializeROSIo(ros::NodeHandle &in_private_h
   //get params
   std::string points_ground_topic_str, points_no_ground_topic_str, wayarea_topic_str;
 
-  in_private_handle.param<std::string>("points_ground_src", points_ground_topic_str, "points_ground");
+  in_private_handle.param<std::string>("points_ground_src", points_ground_topic_str, "/points_ground");
   ROS_INFO("[%s] points_ground_src: %s",__APP_NAME__, points_ground_topic_str.c_str());
 
-  in_private_handle.param<std::string>("points_no_ground_src", points_no_ground_topic_str, "points_no_ground");
+  in_private_handle.param<std::string>("points_no_ground_src", points_no_ground_topic_str, "/points_no_ground");
   ROS_INFO("[%s] points_no_ground_src: %s",__APP_NAME__, points_no_ground_topic_str.c_str());
 
-  in_private_handle.param<std::string>("wayarea_topic_src", wayarea_topic_str, "grid_map_wayarea");
+  in_private_handle.param<std::string>("wayarea_topic_src", wayarea_topic_str, "/grid_map_wayarea");
   ROS_INFO("[%s] wayarea_topic_src: %s",__APP_NAME__, wayarea_topic_str.c_str());
 
   in_private_handle.param<std::string>("wayarea_layer_name", wayarea_layer_name_, "wayarea");
@@ -343,10 +343,10 @@ void ROSRoadOccupancyProcessorApp::InitializeROSIo(ros::NodeHandle &in_private_h
   cloud_synchronizer_->registerCallback(boost::bind(&ROSRoadOccupancyProcessorApp::PointsCallback, this, _1, _2));
 
   //register publishers
-  publisher_grid_map_= node_handle_.advertise<grid_map_msgs::GridMap>("gridmap_road_status", 1);
+  publisher_grid_map_= node_handle_.advertise<grid_map_msgs::GridMap>("/gridmap_road_status", 1);
   ROS_INFO("[%s] Publishing GridMap in gridmap_road_status",__APP_NAME__);
 
-  publisher_occupancy_grid_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("occupancy_road_status", 1);
+  publisher_occupancy_grid_ = node_handle_.advertise<nav_msgs::OccupancyGrid>("/occupancy_road_status", 1);
   ROS_INFO("[%s] Publishing Occupancy grid in occupancy_road_status",__APP_NAME__);
 }
 
@@ -359,7 +359,7 @@ ROSRoadOccupancyProcessorApp::FindTransform(const std::string &in_target_frame, 
   {
     transform_listener_->lookupTransform(in_target_frame, in_source_frame, ros::Time(0), transform);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
   }

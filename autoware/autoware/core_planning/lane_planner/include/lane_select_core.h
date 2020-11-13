@@ -39,6 +39,8 @@
 
 namespace lane_planner
 {
+#define __APP_NAME__ "lane_select"
+
 enum class ChangeFlag : int32_t
 {
   straight,

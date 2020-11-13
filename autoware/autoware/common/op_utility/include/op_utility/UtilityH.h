@@ -15,8 +15,14 @@
 namespace UtilityHNS
 {
 
+#ifndef DEG2RAD
 #define DEG2RAD M_PI / 180.
+#endif
+
+#ifndef RAD2DEG
 #define RAD2DEG 180. / M_PI
+#endif
+
 #define SIGN(x) (x > 0) ? 1 : ((x < 0) ? -1 : 0)
 #define MIN(x,y) (x <= y ? x : y)
 #define MAX(x,y) (x >= y ? x : y)

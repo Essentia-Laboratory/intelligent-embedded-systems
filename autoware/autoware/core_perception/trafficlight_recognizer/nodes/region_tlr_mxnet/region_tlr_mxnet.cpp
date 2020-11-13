@@ -164,10 +164,10 @@ void RegionTLRMxNetROSNode::StartSubscribersAndPublishers()
   superimpose_sub = node_handle.subscribe("/config/superimpose", 1, &RegionTLRMxNetROSNode::SuperimposeCb, this);
 
   // Register publishers
-  signal_state_publisher = node_handle.advertise<autoware_msgs::TrafficLight>("light_color", 1);
+  signal_state_publisher = node_handle.advertise<autoware_msgs::TrafficLight>("/light_color", 1);
   signal_state_string_publisher = node_handle.advertise<std_msgs::String>("/sound_player", 1);
-  marker_publisher = node_handle.advertise<visualization_msgs::MarkerArray>("tlr_result", 1, kAdvertiseInLatch_);
-  superimpose_image_publisher = node_handle.advertise<sensor_msgs::Image>("tlr_superimpose_image", 1);
+  marker_publisher = node_handle.advertise<visualization_msgs::MarkerArray>("/tlr_result", 1, kAdvertiseInLatch_);
+  superimpose_image_publisher = node_handle.advertise<sensor_msgs::Image>("/tlr_superimpose_image", 1);
 }  // RegionTLRMxNetROSNode::StartSubscribersAndPublishers()
 
 /*!

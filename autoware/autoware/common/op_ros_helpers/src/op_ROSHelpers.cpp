@@ -40,13 +40,41 @@ void ROSHelpers::GetTransformFromTF(const std::string parent_frame, const std::s
     {
       if(nFailedCounter > 2)
       {
-        ROS_ERROR("%s", ex.what());
+        ROS_ERROR("[ROSHelpers::GetTransformFromTF()] %s", ex.what());
       }
       ros::Duration(1.0).sleep();
       nFailedCounter ++;
     }
   }
 }
+
+void ROSHelpers::GetTransformFromTF2(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform>& transform)
+{
+  static tf2_ros::Buffer buffer;
+  static tf2_ros::TransformListener listener(buffer);
+  geometry_msgs::TransformStamped tfGeom;
+  ros::Duration timeout(1.0);
+
+  int nFailedCounter = 0;
+  while (1)
+  {
+    try
+    {
+      tfGeom = buffer.lookupTransform(parent_frame, child_frame, ros::Time(0), timeout);
+      break;
+    }
+    catch (tf2::TransformException& ex)
+    {
+      if(nFailedCounter > 2)
+      {
+        ROS_ERROR("[ROSHelpers::GetTransformFromTF2()] %s", ex.what());
+      }
+      nFailedCounter ++;
+    }
+  }
+  tf2::convert(tfGeom, transform);
+}
+
 
 visualization_msgs::Marker ROSHelpers::CreateGenMarker(const double& x, const double& y, const double& z,const double& a,
     const double& r, const double& g, const double& b, const double& scale, const int& id, const std::string& ns, const int& type)

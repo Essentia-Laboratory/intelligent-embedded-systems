@@ -21,6 +21,7 @@
  */
 
 // #include <boost/stacktrace.hpp>
+#include <boost/algorithm/string.hpp>
 #include "roi_object_filter/roi_object_filter.h"
 
 void
@@ -37,6 +38,8 @@ RosRoiObjectFilterApp::SyncedDetectionsCallback(const autoware_msgs::DetectedObj
              nullptr != in_detections, nullptr != in_gridmap);
     return;
   }
+  else
+    ROS_INFO("[%s] Synced", __APP_NAME__);
 
   grid_map::GridMap current_grid;
   grid_map::GridMapRosConverter::fromMessage(*in_gridmap, current_grid);

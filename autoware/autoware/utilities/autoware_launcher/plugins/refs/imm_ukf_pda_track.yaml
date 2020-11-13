@@ -14,10 +14,10 @@ args:
 - {name: tracker_output_topic, type: str, default: /detection/object_tracker/objects}
 - {name: use_sukf, type: str, default: use_sukf}
 - {name: use_vectormap, type: bool, default: false}
-- {name: tracking_frame, type: str, default: /world}
-- {name: lane_frame, type: str, default: /map}
+- {name: tracking_frame, type: str, default: world}
+- {name: lane_frame, type: str, default: map}
 - {name: merge_distance_threshold, type: real, default: 0.5}
-- {name: namespace, type: str, default: /detection/object_tracker/}
+- {name: namespace, type: str, default: /detection/object_tracker}
 
 panel:
   widget: node.panel

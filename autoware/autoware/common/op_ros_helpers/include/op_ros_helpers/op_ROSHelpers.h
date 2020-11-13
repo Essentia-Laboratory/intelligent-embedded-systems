@@ -45,6 +45,10 @@
 #include <tf/transform_listener.h>
 #include <tf/tf.h>
 
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 namespace PlannerHNS
 {
 
@@ -174,6 +178,7 @@ public:
   virtual ~ROSHelpers();
 
   static void GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf::StampedTransform &transform);
+  static void GetTransformFromTF2(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform> &transform);
 
   static void ConvertFromAutowareCloudClusterObstaclesToPlannerH(const PlannerHNS::WayPoint& currState, const double& car_width,
       const double& car_length, const autoware_msgs::CloudClusterArray& clusters,

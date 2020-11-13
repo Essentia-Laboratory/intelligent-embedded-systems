@@ -472,9 +472,10 @@ void request_lookahead_download(const autoware_msgs::LaneArray& msg)
 
 }  // namespace
 
+#define __APP_NAME__ "points_map_loader"
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "points_map_loader");
+  ros::init(argc, argv, __APP_NAME__);
 
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
@@ -496,6 +497,7 @@ int main(int argc, char** argv)
   std::vector<std::string> pcd_file_paths;
   for (const std::string& pcd_path : pcd_paths)
   {
+    ROS_INFO("[%s] pcd_paths=[%s]", __APP_NAME__, pcd_path.c_str());
     // Search all files in each path in pcd_paths
     boost::filesystem::path path(pcd_path);
     if (boost::filesystem::is_regular_file(path))
@@ -560,8 +562,8 @@ int main(int argc, char** argv)
     }
   }
 
-  pcd_pub = nh.advertise<sensor_msgs::PointCloud2>("points_map", 1, true);
-  stat_pub = nh.advertise<std_msgs::Bool>("pmap_stat", 1, true);
+  pcd_pub = nh.advertise<sensor_msgs::PointCloud2>("/points_map", 1, true);
+  stat_pub = nh.advertise<std_msgs::Bool>("/pmap_stat", 1, true);
 
   stat_msg.data = false;
   stat_pub.publish(stat_msg);
@@ -580,13 +582,13 @@ int main(int argc, char** argv)
     pnh.param<int>("update_rate", update_rate, DEFAULT_UPDATE_RATE);
     fallback_rate = update_rate * 2;  // XXX better way?
 
-    gnss_sub = nh.subscribe("gnss_pose", 1000, publish_gnss_pcd);
-    current_sub = nh.subscribe("current_pose", 1000, publish_current_pcd);
-    initial_sub = nh.subscribe("initialpose", 1, publish_dragged_pcd);
+    gnss_sub = nh.subscribe("/gnss_pose", 1000, publish_gnss_pcd);
+    current_sub = nh.subscribe("/current_pose", 1000, publish_current_pcd);
+    initial_sub = nh.subscribe("/initialpose", 1, publish_dragged_pcd);
 
     if (can_download)
     {
-      waypoints_sub = nh.subscribe("traffic_waypoints_array", 1, request_lookahead_download);
+      waypoints_sub = nh.subscribe("/traffic_waypoints_array", 1, request_lookahead_download);
       try
       {
         std::thread downloader(download_map);

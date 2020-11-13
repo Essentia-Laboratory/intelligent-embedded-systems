@@ -49,12 +49,13 @@
 #include <lanelet2_routing/Route.h>
 
 #include <autoware_lanelet2_msgs/MapBin.h>
-#define __APP_NAME__ "decision_maker"
 
 namespace decision_maker
 {
 using namespace vector_map;
 using cstring_t = const std::string;
+
+#define __APP_NAME__ "decision_maker"
 
 enum class E_Lamp : int32_t
 {

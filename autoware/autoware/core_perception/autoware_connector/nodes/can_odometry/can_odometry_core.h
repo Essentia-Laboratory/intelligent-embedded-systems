@@ -57,7 +57,7 @@ struct Odometry
     double delta_y = (vx * sin(th)) * dt;
     double delta_th = vth * dt;
 
-    ROS_INFO("dt : %f delta (x y th) : (%f %f %f %f)", dt, delta_x, delta_y, delta_th);
+    ROS_INFO("dt : %f delta (x y th) : (%f %f %f)", dt, delta_x, delta_y, delta_th);
 
     x += delta_x;
     y += delta_y;

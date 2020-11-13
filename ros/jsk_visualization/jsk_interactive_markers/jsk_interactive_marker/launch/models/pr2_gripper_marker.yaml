@@ -1,5 +1,5 @@
 - name: "PR2_gripper"
-  frame-id: "/map"
+  frame-id: "map"
   robot: false
   mode: "visualization"
   model_param: "pr2_gripper_urdf"
