@@ -46,8 +46,8 @@ static constexpr uint32_t SUBSCRIBE_QUEUE_SIZE = 1000;
 
 static int adjust_proj_x = 0;
 static int adjust_proj_y = 0;
-static double near_plane_ = 0.0;
-static double far_plane_ = 0.0;
+static float near_plane_ = 0.0;
+static float far_plane_ = 0.0;
 
 typedef struct
 {
@@ -368,13 +368,13 @@ int main(int argc, char* argv[])
   ros::NodeHandle rosnode;
   ros::NodeHandle private_nh("~");
   std::string cameraInfo_topic_name;
-  private_nh.param<std::string>("camera_info_topic", cameraInfo_topic_name, "camera_info");
-  private_nh.param<double>("roi_search_min_distance", near_plane_, 1.0);
-  private_nh.param<double>("roi_search_max_distance", far_plane_, 200.0);
+  private_nh.param<std::string>("camera_info_topic", cameraInfo_topic_name, "/camera_info");
+  private_nh.param<float>("roi_search_min_distance", near_plane_, 1.0);
+  private_nh.param<float>("roi_search_max_distance", far_plane_, 200.0);
 
   /* get camera ID */
   camera_id_str = cameraInfo_topic_name;
-  camera_id_str.erase(camera_id_str.find("camera_info"));
+  camera_id_str.erase(camera_id_str.find("/camera_info"));
   if (camera_id_str == "/")
   {
     camera_id_str = "camera";
@@ -385,15 +385,15 @@ int main(int argc, char* argv[])
   ROS_INFO("[feat_proj] Use VectorMapServer: %d", g_use_vector_map_server);
   /* load vector map */
   ros::Subscriber sub_point =
-      rosnode.subscribe("/vector_map_info/point", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_points, &vmap);
+      rosnode.subscribe("vector_map_info/point", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_points, &vmap);
   ros::Subscriber sub_line =
-      rosnode.subscribe("/vector_map_info/line", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_lines, &vmap);
+      rosnode.subscribe("vector_map_info/line", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_lines, &vmap);
   ros::Subscriber sub_lane =
-      rosnode.subscribe("/vector_map_info/lane", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_lanes, &vmap);
+      rosnode.subscribe("vector_map_info/lane", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_lanes, &vmap);
   ros::Subscriber sub_vector =
-      rosnode.subscribe("/vector_map_info/vector", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_vectors, &vmap);
+      rosnode.subscribe("vector_map_info/vector", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_vectors, &vmap);
   ros::Subscriber sub_signal =
-      rosnode.subscribe("/vector_map_info/signal", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_signals, &vmap);
+      rosnode.subscribe("vector_map_info/signal", SUBSCRIBE_QUEUE_SIZE, &VectorMap::load_signals, &vmap);
 
   /* wait until loading all vector map is completed */
   ros::Rate wait_rate(10);
@@ -424,7 +424,7 @@ int main(int argc, char* argv[])
     g_ros_client = rosnode.serviceClient<vector_map_server::GetSignal>("vector_map_server/get_signal");
   }
 
-  ros::Publisher signalPublisher = rosnode.advertise<autoware_msgs::Signals>("/roi_signal", 100);
+  ros::Publisher signalPublisher = rosnode.advertise<autoware_msgs::Signals>("roi_signal", 100);
   signal(SIGINT, interrupt);
 
   Rate loop(50);

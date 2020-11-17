@@ -35,3 +35,4 @@ public:
   bool getShapeAndPose(const std::string& label, const pcl::PointCloud<pcl::PointXYZ>& cluster,
                        autoware_msgs::DetectedObject& output);
 };
+

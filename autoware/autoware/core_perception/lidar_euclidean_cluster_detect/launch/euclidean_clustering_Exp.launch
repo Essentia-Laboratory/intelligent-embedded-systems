@@ -39,7 +39,7 @@
     <param name="clip_max_height" value="$(arg clip_max_height)" />
     <param name="output_frame" value="$(arg output_frame)" />
     <param name="remove_points_upto" value="$(arg remove_points_upto)" />
-    <remap from="points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
   </node>
 
 </launch>

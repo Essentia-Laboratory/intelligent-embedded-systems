@@ -370,21 +370,21 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   this->dataPtr->gznode = transport::NodePtr(new transport::Node());
   this->dataPtr->gznode->Init();
 
-  this->dataPtr->node.Subscribe("prius/reset",
+  this->dataPtr->node.Subscribe("/prius/reset",
       &PriusHybridPlugin::OnReset, this);
-  this->dataPtr->node.Subscribe("prius/stop",
+  this->dataPtr->node.Subscribe("/prius/stop",
       &PriusHybridPlugin::OnStop, this);
 
-  this->dataPtr->node.Subscribe("cmd_vel", &PriusHybridPlugin::OnCmdVel, this);
-  this->dataPtr->node.Subscribe("cmd_gear",
+  this->dataPtr->node.Subscribe("/cmd_vel", &PriusHybridPlugin::OnCmdVel, this);
+  this->dataPtr->node.Subscribe("/cmd_gear",
       &PriusHybridPlugin::OnCmdGear, this);
-  this->dataPtr->node.Subscribe("cmd_mode",
+  this->dataPtr->node.Subscribe("/cmd_mode",
       &PriusHybridPlugin::OnCmdMode, this);
 
   this->dataPtr->posePub = this->dataPtr->node.Advertise<ignition::msgs::Pose>(
-      "prius/pose");
+      "/prius/pose");
   this->dataPtr->consolePub =
-    this->dataPtr->node.Advertise<ignition::msgs::Double_V>("prius/console");
+    this->dataPtr->node.Advertise<ignition::msgs::Double_V>("/prius/console");
 
   std::string chassisLinkName = dPtr->model->GetName() + "::"
     + _sdf->Get<std::string>("chassis");
@@ -665,7 +665,7 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   this->dataPtr->worldControlPub =
     this->dataPtr->gznode->Advertise<msgs::WorldControl>("~/world_control");
 
-  this->dataPtr->node.Subscribe("keypress", &PriusHybridPlugin::OnKeyPressIgn,
+  this->dataPtr->node.Subscribe("/keypress", &PriusHybridPlugin::OnKeyPressIgn,
       this);
 }
 
@@ -925,7 +925,7 @@ void PriusHybridPlugin::OnStop(const ignition::msgs::Any & /*_msg*/)
   ignition::msgs::StringMsg rep;
   bool result = false;
   unsigned int timeout = 5000;
-  bool executed = this->dataPtr->node.Request("priuscup/upload",
+  bool executed = this->dataPtr->node.Request("/priuscup/upload",
       req, timeout, rep, result);
   if (executed)
   {

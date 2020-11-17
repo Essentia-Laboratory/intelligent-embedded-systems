@@ -2,8 +2,8 @@
 <launch>
 
   <!-- send table.xml to param server -->
-  <arg name="topic_pose_stamped" default="" />
-  <arg name="topic_twist_stamped" default="" />
+  <arg name="topic_pose_stamped" default="/ndt_pose" />
+  <arg name="topic_twist_stamped" default="/estimate_twist" />
   <arg name="sim_mode" default="false" />
 
   <group unless="$(arg sim_mode)">

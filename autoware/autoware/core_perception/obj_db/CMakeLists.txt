@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(obj_db)
 
 find_package(autoware_build_flags REQUIRED)
-find_package(sensor_msgs REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   autoware_can_msgs
   gnss
@@ -21,7 +20,6 @@ catkin_package(
 
 include_directories(
   include
-  ${sensor_msgs_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 

@@ -96,10 +96,10 @@ int main(int argc, char* argv[])
 
   std::string camera_info_topic_str;
   std::string projection_matrix_topic;
-  std::string pub_topic_str = "points_image";
+  std::string pub_topic_str = "/points_image";
 
-  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "projection_matrix");
-  private_nh.param<std::string>("camera_info_topic", camera_info_topic_str, "camera_info");
+  private_nh.param<std::string>("projection_matrix_topic", projection_matrix_topic, "/projection_matrix");
+  private_nh.param<std::string>("camera_info_topic", camera_info_topic_str, "/camera_info");
 
   std::string name_space_str = ros::this_node::getNamespace();
 
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
   else
   {
     ROS_INFO("[%s]No points node received, defaulting to points_raw, you can use _points_node:=YOUR_TOPIC", __APP_NAME__);
-    points_topic = "points_raw";
+    points_topic = "/points_raw";
   }
 
   ROS_INFO("[%s]Publishing to... %s", __APP_NAME__, pub_topic_str.c_str());

@@ -175,17 +175,17 @@ ROSPixelCloudFusionApp::FindTransform(const std::string &in_target_frame, const 
 void ROSPixelCloudFusionApp::InitializeROSIo(ros::NodeHandle &in_private_handle)
 {
   //get params
-  std::string points_src, image_src, camera_info_src, fused_topic_str = "points_fused";
+  std::string points_src, image_src, camera_info_src, fused_topic_str = "/points_fused";
   std::string name_space_str = ros::this_node::getNamespace();
 
   ROS_INFO("[%s] This node requires: Registered TF(Lidar-Camera), CameraInfo, Image, and PointCloud.", __APP_NAME__);
-  in_private_handle.param<std::string>("points_src", points_src, "points_raw");
+  in_private_handle.param<std::string>("points_src", points_src, "/points_raw");
   ROS_INFO("[%s] points_src: %s", __APP_NAME__, points_src.c_str());
 
-  in_private_handle.param<std::string>("image_src", image_src, "image_rectified");
+  in_private_handle.param<std::string>("image_src", image_src, "/image_rectified");
   ROS_INFO("[%s] image_src: %s", __APP_NAME__, image_src.c_str());
 
-  in_private_handle.param<std::string>("camera_info_src", camera_info_src, "camera_info");
+  in_private_handle.param<std::string>("camera_info_src", camera_info_src, "/camera_info");
   ROS_INFO("[%s] camera_info_src: %s", __APP_NAME__, camera_info_src.c_str());
 
   if (name_space_str != "/")
@@ -243,3 +243,4 @@ ROSPixelCloudFusionApp::ROSPixelCloudFusionApp()
   processing_ = false;
   image_frame_id_ = "";
 }
+

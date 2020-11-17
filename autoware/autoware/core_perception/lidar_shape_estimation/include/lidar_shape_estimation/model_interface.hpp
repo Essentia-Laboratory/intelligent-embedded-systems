@@ -33,3 +33,4 @@ public:
 
   virtual bool estimate(const pcl::PointCloud<pcl::PointXYZ>& cluster, autoware_msgs::DetectedObject& ouput) = 0;
 };
+

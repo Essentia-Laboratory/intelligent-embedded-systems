@@ -1,6 +1,6 @@
 <launch>
   <!-- The topic name which handle by roi_extractor -->
-  <arg name="image_raw_topic" default="image_raw" />
+  <arg name="image_raw_topic" default="/image_raw" />
 
   <!-- The target directory which ROI images will be saved -->
   <arg name="target_directory" default="$(env HOME)/.autoware" />

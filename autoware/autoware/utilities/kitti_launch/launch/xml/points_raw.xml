@@ -3,7 +3,7 @@
 <launch>
   
   <!-- topic name of points -->
-  <arg name="points_topic" value="points_raw"/>
+  <arg name="points_topic" value="/points_raw"/>
 
   <!-- eaclidean_cluster -->
   <arg name="publish_ground" default="false" />

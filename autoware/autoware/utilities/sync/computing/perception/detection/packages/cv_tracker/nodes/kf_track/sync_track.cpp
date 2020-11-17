@@ -217,7 +217,7 @@ void* thread(void* args) {
     ros::NodeHandle nh_rcv;
     ros::CallbackQueue rcv_callbackqueue;
     nh_rcv.setCallbackQueue(&rcv_callbackqueue);
-    ros::Subscriber image_obj_tracked_sub = nh_rcv.subscribe("image_obj_tracked", 1, image_obj_tracked_callback);
+    ros::Subscriber image_obj_tracked_sub = nh_rcv.subscribe("/image_obj_tracked", 1, image_obj_tracked_callback);
     while (nh_rcv.ok()) {
         rcv_callbackqueue.callAvailable(ros::WallDuration(3.0f));
         pthread_mutex_lock(&mutex);

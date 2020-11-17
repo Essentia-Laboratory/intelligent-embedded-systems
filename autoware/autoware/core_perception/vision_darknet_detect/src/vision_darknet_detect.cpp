@@ -297,7 +297,7 @@ void Yolo3DetectorNode::Run()
     }
     else
     {
-        ROS_INFO("[%s] No image node received, defaulting to image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
+        ROS_INFO("[%s] No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
         image_raw_topic_str = "/image_raw";
     }
 
@@ -309,12 +309,12 @@ void Yolo3DetectorNode::Run()
     }
     else
     {
-        ROS_INFO("[%s] No Network Definition File was received. Finishing execution.", __APP_NAME__);
+        ROS_INFO("[%s] No Network Definition File was received. Finishing execution.", __APP_NAME__ );
         return;
     }
     if (private_node_handle.getParam("pretrained_model_file", pretrained_model_file))
     {
-        ROS_INFO("[%s] Pretrained Model File (Weights): %s", __APP_NAME__, pretrained_model_file.c_str());
+        ROS_INFO("[%s] Pretrained Model File (Weights): %s", __APP_NAME__ , pretrained_model_file.c_str());
     }
     else
     {
@@ -324,13 +324,13 @@ void Yolo3DetectorNode::Run()
 
     if (private_node_handle.getParam("names_file", names_file))
     {
-        ROS_INFO("[%s] Names File: %s", __APP_NAME__, names_file.c_str());
+        ROS_INFO("[%s] Names File: %s", __APP_NAME__ , names_file.c_str());
         use_coco_names_ = false;
         custom_names_ = read_custom_names_file(names_file);
     }
     else
     {
-        ROS_INFO("[%s] No Names file was received. Using default COCO names.", __APP_NAME__);
+        ROS_INFO("[%s] No Names file was received. Using default COCO names.", __APP_NAME__ );
         use_coco_names_ = true;
     }
 
@@ -341,9 +341,9 @@ void Yolo3DetectorNode::Run()
     ROS_INFO("[%s] nms_threshold: %f",__APP_NAME__, nms_threshold_);
 
 
-    ROS_INFO("[%s] Initializing Yolo on Darknet...", __APP_NAME__);
+    ROS_INFO("[%s] Initializing Yolo on Darknet...", __APP_NAME__ );
     yolo_detector_.load(network_definition_file, pretrained_model_file, score_threshold_, nms_threshold_);
-    ROS_INFO("[%s] Initialization complete.", __APP_NAME__);
+    ROS_INFO("[%s] Initialization complete.", __APP_NAME__ );
 
     #if (CV_MAJOR_VERSION <= 2)
         cv::generateColors(colors_, 80);
@@ -356,16 +356,14 @@ void Yolo3DetectorNode::Run()
     ROS_INFO("[%s] Subscribing to... %s", __APP_NAME__, image_raw_topic_str.c_str());
     subscriber_image_raw_ = node_handle_.subscribe(image_raw_topic_str, 1, &Yolo3DetectorNode::image_callback, this);
 
-    std::string config_topic("/config/");
-    config_topic += "Yolo3";
+    std::string config_topic("/config");
+    config_topic += "/Yolo3";
     ROS_INFO("[%s] Subscribing yolo config to... %s", __APP_NAME__, config_topic.c_str());
     subscriber_yolo_config_ = node_handle_.subscribe(config_topic, 1, &Yolo3DetectorNode::config_cb, this);
 
-    ROS_INFO("[%s] ROS_INFO_STREAM", __APP_NAME__);
     ROS_INFO_STREAM( __APP_NAME__ << "" );
 
-    ROS_INFO("[%s] ros::spin()", __APP_NAME__);
     ros::spin();
-    ROS_INFO("[%s] END Yolo", __APP_NAME__ );
+    ROS_INFO("[%s] END Yolo", __APP_NAME__);
 
 }

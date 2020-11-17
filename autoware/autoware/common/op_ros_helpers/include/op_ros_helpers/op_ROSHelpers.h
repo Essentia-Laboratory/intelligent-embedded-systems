@@ -45,9 +45,12 @@
 #include <tf/transform_listener.h>
 #include <tf/tf.h>
 
+#define USE_TF2 0
+#if USE_TF2
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#endif
 
 namespace PlannerHNS
 {
@@ -178,7 +181,9 @@ public:
   virtual ~ROSHelpers();
 
   static void GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf::StampedTransform &transform);
+#if USE_TF2
   static void GetTransformFromTF2(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform> &transform);
+#endif
 
   static void ConvertFromAutowareCloudClusterObstaclesToPlannerH(const PlannerHNS::WayPoint& currState, const double& car_width,
       const double& car_length, const autoware_msgs::CloudClusterArray& clusters,
@@ -218,7 +223,7 @@ public:
 
   static void InitCurbsMarkers(const int& nMarkers, visualization_msgs::MarkerArray& curbs);
 
-  static void ConvertPredictedTrqajectoryMarkers(std::vector<std::vector<PlannerHNS::WayPoint> >& paths,visualization_msgs::MarkerArray& path_markers, visualization_msgs::MarkerArray& path_markers_d);
+  static void ConvertPredictedTrajectoriesMarkers(std::vector<std::vector<PlannerHNS::WayPoint> >& paths,visualization_msgs::MarkerArray& path_markers, visualization_msgs::MarkerArray& path_markers_d);
 
   static void ConvertCurbsMarkers(const std::vector<PlannerHNS::DetectedObject>& curbs, visualization_msgs::MarkerArray& curbs_markers, visualization_msgs::MarkerArray& curbs_markers_d);
 

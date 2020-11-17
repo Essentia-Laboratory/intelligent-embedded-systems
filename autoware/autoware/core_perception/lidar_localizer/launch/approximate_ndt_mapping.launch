@@ -6,7 +6,7 @@
   <arg name="use_imu" default="false" />
   <arg name="use_odom" default="false" />
   <arg name="imu_upside_down" default="false" />
-  <arg name="imu_topic" default="imu_raw" />
+  <arg name="imu_topic" default="/imu_raw" />
 
   <!-- rosrun lidar_localizer ndt_mapping  -->
   <node pkg="lidar_localizer" type="queue_counter" name="queue_counter" output="log" />

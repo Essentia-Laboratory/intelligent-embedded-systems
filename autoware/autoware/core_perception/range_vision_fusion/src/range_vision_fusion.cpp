@@ -715,3 +715,4 @@ ROSRangeVisionFusionApp::ROSRangeVisionFusionApp()
   overlap_threshold_ = 0.5;
   empty_frames_ = 0;
 }
+

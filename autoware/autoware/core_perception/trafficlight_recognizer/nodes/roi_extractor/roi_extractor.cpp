@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
   std::string target_directory_name = std::string(getenv("HOME")) + "/.autoware";
   int minimum_height = 32;
   double similarity_threshold = 0.9;
-  private_node_handler.param<std::string>("image_raw_topic", image_topic_name, "image_raw");
+  private_node_handler.param<std::string>("image_raw_topic", image_topic_name, "/image_raw");
   private_node_handler.param<std::string>("target_directory", target_directory_name, target_directory_name);
   private_node_handler.param<int>("minimum_height", minimum_height, 32);  // The default minimum height is 32
   private_node_handler.param<double>("similarity_threshold", similarity_threshold,
@@ -218,7 +218,7 @@ int main(int argc, char* argv[])
       node_handler.subscribe(image_topic_name, 1, &ROIExtractor::ImageRawCallback, &extractor);
 
   ros::Subscriber roi_signal_subscriber =
-      node_handler.subscribe("roi_signal", 1, &ROIExtractor::ROISignalCallback, &extractor);
+      node_handler.subscribe("/roi_signal", 1, &ROIExtractor::ROISignalCallback, &extractor);
 
   ros::spin();
 

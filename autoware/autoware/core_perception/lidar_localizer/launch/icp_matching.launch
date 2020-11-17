@@ -13,7 +13,7 @@
     <param name="queue_size" value="$(arg queue_size)" />
     <param name="offset" value="$(arg offset)" />
     <param name="gnss_reinit_fitness" value="$(arg gnss_reinit_fitness)" />
-    <remap from="points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
   </node>
 
 </launch>

@@ -12,8 +12,8 @@
          />
 
     <!-- relay topic -->
-    <node pkg="topic_tools" type="relay" name="relay_points" args="/kitti_player/hdl64e points_raw"/>
-    <node pkg="topic_tools" type="relay" name="relay_image" args="/kitti_player/color/left/image_rect image_raw"/>
+    <node pkg="topic_tools" type="relay" name="relay_points" args="/kitti_player/hdl64e /points_raw"/>
+    <node pkg="topic_tools" type="relay" name="relay_image" args="/kitti_player/color/left/image_rect /image_raw"/>
 
     <!-- calibration publisher -->
     <include file="$(find kitti_launch)/launch/xml/camera_lidar.xml" />
@@ -22,7 +22,7 @@
 
     <!-- viewer -->
     <!--<node pkg="viewers" type="points_image_viewer" name="points_image_viewer">
-      <remap from="image_raw" to="/kitti_player/color/left/image_rect"/>
+      <remap from="/image_raw" to="/kitti_player/color/left/image_rect"/>
     </node>-->
 
   <!-- publish anottation box-->

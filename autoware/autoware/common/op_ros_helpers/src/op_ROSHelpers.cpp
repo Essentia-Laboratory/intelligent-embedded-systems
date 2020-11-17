@@ -48,6 +48,7 @@ void ROSHelpers::GetTransformFromTF(const std::string parent_frame, const std::s
   }
 }
 
+#if USE_TF2 
 void ROSHelpers::GetTransformFromTF2(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform>& transform)
 {
   static tf2_ros::Buffer buffer;
@@ -74,7 +75,7 @@ void ROSHelpers::GetTransformFromTF2(const std::string parent_frame, const std::
   }
   tf2::convert(tfGeom, transform);
 }
-
+#endif
 
 visualization_msgs::Marker ROSHelpers::CreateGenMarker(const double& x, const double& y, const double& z,const double& a,
     const double& r, const double& g, const double& b, const double& scale, const int& id, const std::string& ns, const int& type)
@@ -346,7 +347,7 @@ void ROSHelpers::InitCurbsMarkers(const int& nMarkers, visualization_msgs::Marke
   }
 }
 
-void ROSHelpers::ConvertPredictedTrqajectoryMarkers(std::vector<std::vector<PlannerHNS::WayPoint> >& paths,visualization_msgs::MarkerArray& path_markers, visualization_msgs::MarkerArray& path_markers_d)
+void ROSHelpers::ConvertPredictedTrajectoriesMarkers(std::vector<std::vector<PlannerHNS::WayPoint> >& paths,visualization_msgs::MarkerArray& path_markers, visualization_msgs::MarkerArray& path_markers_d)
 {
 
   path_markers = path_markers_d;

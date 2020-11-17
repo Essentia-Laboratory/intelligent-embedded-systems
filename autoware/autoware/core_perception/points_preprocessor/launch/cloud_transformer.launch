@@ -1,8 +1,8 @@
 <!-- Launch file for Cloud Transformer -->
 <launch>
 
-        <arg name="input_point_topic" default="points_raw" /> <!-- input_point_topic, the coordinates of each point in this topic will be transformed to the new frame. -->
-        <arg name="output_point_topic" default="points_transformed" /> <!-- output_point_topic, output topic name -->
+        <arg name="input_point_topic" default="/points_raw" /> <!-- input_point_topic, the coordinates of each point in this topic will be transformed to the new frame. -->
+        <arg name="output_point_topic" default="/points_transformed" /> <!-- output_point_topic, output topic name -->
         <arg name="target_frame" default="base_link" /> <!-- target_frame, coordinate frame system target -->
 
         <!-- rosrun points_preprocessor ray_ground_filter -->

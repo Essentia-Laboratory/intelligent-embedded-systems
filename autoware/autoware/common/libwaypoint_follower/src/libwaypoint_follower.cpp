@@ -243,7 +243,9 @@ public:
 int getClosestWaypoint(const autoware_msgs::Lane &current_path, geometry_msgs::Pose current_pose)
 {
   if (current_path.waypoints.size() < 2 || getLaneDirection(current_path) == LaneDirection::Error)
+  {
     return -1;
+  }
 
   WayPoints wp;
   wp.setPath(current_path);
@@ -252,7 +254,7 @@ int getClosestWaypoint(const autoware_msgs::Lane &current_path, geometry_msgs::P
   double search_distance = 5.0;
   double angle_threshold = 90;
   MinIDSearch cand_idx, not_cand_idx;
-  for (int i = 1; i < wp.getSize(); i++)
+  for (int i = 0; i < wp.getSize(); i++)
   {
     if (!wp.inDrivingDirection(i, current_pose))
       continue;

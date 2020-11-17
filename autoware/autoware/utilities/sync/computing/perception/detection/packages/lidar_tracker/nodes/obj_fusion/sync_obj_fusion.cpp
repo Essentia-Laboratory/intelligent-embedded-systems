@@ -7,11 +7,11 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "sync_obj_fusion");
     std::string ns(ros::this_node::getNamespace());
-    std::string sub1("obj_label");
-    std::string sub2("cluster_centroids");
-    std::string req("obj_pose");
-    std::string pub1("obj_label");
-    std::string pub2("cluster_centroids");
+    std::string sub1("/obj_label");
+    std::string sub2("/cluster_centroids");
+    std::string req("/obj_pose");
+    std::string pub1("/obj_label");
+    std::string pub2("/cluster_centroids");
 
     Synchronizer<autoware_msgs::ObjLabel, autoware_msgs::Centroids, visualization_msgs::MarkerArray> synchronizer(sub1, sub2, pub1, pub2, req, ns);
     synchronizer.run();
@@ -375,7 +375,7 @@ void* thread(void* args)
     ros::NodeHandle nh_rcv;
     ros::CallbackQueue rcv_callbackqueue;
     nh_rcv.setCallbackQueue(&rcv_callbackqueue);
-    ros::Subscriber obj_pose_sub = nh_rcv.subscribe("obj_car/obj_pose", 5, obj_pose_callback);
+    ros::Subscriber obj_pose_sub = nh_rcv.subscribe("/obj_car/obj_pose", 5, obj_pose_callback);
     while (nh_rcv.ok()) {
         rcv_callbackqueue.callAvailable(ros::WallDuration(1.0f));
         pthread_mutex_lock(&mutex);

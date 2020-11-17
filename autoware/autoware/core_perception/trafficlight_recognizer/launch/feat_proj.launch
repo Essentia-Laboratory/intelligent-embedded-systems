@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="camera_id" default=""/>
-  <arg name="camera_info_src" default="camera_info"/>
+  <arg name="camera_id" default="/"/>
+  <arg name="camera_info_src" default="/camera_info"/>
   <arg name="use_path_info" default="false"/> <!-- USE VectorMap Server to publish only TrafficSignals on current lane-->
 
   <arg name="roi_search_min_distance" default="1.0"/>
@@ -13,5 +13,5 @@
     <param name="roi_search_min_distance" value="$(arg roi_search_min_distance)"/>
     <param name="roi_search_max_distance" value="$(arg roi_search_max_distance)"/>
   </node>
-  
+
 </launch>

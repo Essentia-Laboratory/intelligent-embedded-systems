@@ -60,6 +60,12 @@ bool CNNSegmentation::init()
   private_node_handle.param<int>("height", height_, 512);
   ROS_INFO("[%s] height: %d", __APP_NAME__, height_);
 
+  private_node_handle.param<bool>("use_constant_feature", use_constant_feature_, false);
+  ROS_INFO("[%s] whether to use constant features: %d", __APP_NAME__, use_constant_feature_);
+
+  private_node_handle.param<bool>("normalize_lidar_intensity", normalize_lidar_intensity_, false);
+  ROS_INFO("[%s] whether to normalize lidar intensity data: %d", __APP_NAME__, normalize_lidar_intensity_);
+
   private_node_handle.param<bool>("use_gpu", use_gpu_, false);
   ROS_INFO("[%s] use_gpu: %d", __APP_NAME__, use_gpu_);
 
@@ -120,7 +126,7 @@ bool CNNSegmentation::init()
   }
 
   feature_generator_.reset(new FeatureGenerator());
-  if (!feature_generator_->init(feature_blob_.get()))
+  if (!feature_generator_->init(feature_blob_.get(), use_constant_feature_, normalize_lidar_intensity_))
   {
     ROS_ERROR("[%s] Fail to Initialize feature generator for CNNSegmentation", __APP_NAME__);
     return false;
@@ -142,16 +148,8 @@ bool CNNSegmentation::segment(const pcl::PointCloud<pcl::PointXYZI>::Ptr &pc_ptr
 
   feature_generator_->generate(pc_ptr);
 
-// network forward process
+  // network forward process
   caffe_net_->Forward();
-#ifndef USE_CAFFE_GPU
-//  caffe::Caffe::set_mode(caffe::Caffe::CPU);
-#else
-//  int gpu_id = 0;
-//   caffe::Caffe::SetDevice(gpu_id);
-//    caffe::Caffe::set_mode(caffe::Caffe::GPU);
-//    caffe::Caffe::DeviceQuery();
-#endif
 
   // clutser points and construct segments/objects
   float objectness_thresh = 0.5;
@@ -185,13 +183,15 @@ void CNNSegmentation::test_run()
   autoware_msgs::DetectedObjectArray objects;
   init();
   segment(in_pc_ptr, valid_idx, objects);
-
-
 }
 
 void CNNSegmentation::run()
 {
-  init();
+  if(this->init()){
+    ROS_INFO("[%s] Network init successfully!", __APP_NAME__);
+  }else{
+    ROS_ERROR("[%s] Network init fail!!!", __APP_NAME__);
+  }
 
   points_sub_ = nh_.subscribe(topic_src_, 1, &CNNSegmentation::pointsCallback, this);
   points_pub_ = nh_.advertise<sensor_msgs::PointCloud2>("/detection/lidar_detector/points_cluster", 1);

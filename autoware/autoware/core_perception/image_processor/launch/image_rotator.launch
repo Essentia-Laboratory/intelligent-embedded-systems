@@ -1,7 +1,7 @@
 <!-- Launch file for Image Rotator -->
 <launch>
 
-    <arg name="image_src" default="image_raw" />
+    <arg name="image_src" default="/image_raw" />
     <arg name="rotation_angle" default="0" />
     <arg name="mirror_vertical" default="false" />
     <arg name="mirror_horizontal" default="false" />

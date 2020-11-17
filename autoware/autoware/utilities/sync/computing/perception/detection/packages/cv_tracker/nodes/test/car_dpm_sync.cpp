@@ -347,7 +347,7 @@ void* thread(void* args)
     ros::CallbackQueue rcv_callbackqueue;
     nh_rcv.setCallbackQueue(&rcv_callbackqueue);
     ros::Subscriber image_obj_sub = nh_rcv.subscribe("/obj_car/image_obj", 5, image_obj_callback);
-    ros::Subscriber points_image_sub = nh_rcv.subscribe("points_image", 5, points_image_callback);
+    ros::Subscriber points_image_sub = nh_rcv.subscribe("/points_image", 5, points_image_callback);
     bool prev_image_obj_flag;
     bool prev_points_image_flag;
 

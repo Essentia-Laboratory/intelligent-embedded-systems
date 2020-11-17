@@ -336,15 +336,15 @@ int main(int argc, char **argv)
     return -1;
   }
 
-  ros::Subscriber sub_error_info = n.subscribe("error_info", QUEUE_SIZE,
+  ros::Subscriber sub_error_info = n.subscribe("/error_info", QUEUE_SIZE,
                  subscribe_error_info);
-  ros::Subscriber sub_can_info = n.subscribe("can_info", QUEUE_SIZE,
+  ros::Subscriber sub_can_info = n.subscribe("/can_info", QUEUE_SIZE,
                subscribe_can_info);
-  ros::Subscriber sub_mode_info = n.subscribe("mode_info", QUEUE_SIZE,
+  ros::Subscriber sub_mode_info = n.subscribe("/mode_info", QUEUE_SIZE,
                 subscribe_mode_info);
-  ros::Subscriber sub_ndt_stat = n.subscribe("ndt_stat", QUEUE_SIZE,
+  ros::Subscriber sub_ndt_stat = n.subscribe("/ndt_stat", QUEUE_SIZE,
                subscribe_ndt_stat);
-  ros::Subscriber sub_lf_stat = n.subscribe("wf_stat", QUEUE_SIZE,
+  ros::Subscriber sub_lf_stat = n.subscribe("/wf_stat", QUEUE_SIZE,
               subscribe_lf_stat);
 
   ros::Rate loop_rate(SUBSCRIBE_HZ);

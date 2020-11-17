@@ -7,7 +7,6 @@
   <license>Apache 2</license>
 
   <buildtool_depend>autoware_build_flags</buildtool_depend>
-  <buildtool_depend>geometry_msgs</buildtool_depend>
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>tablet_socket_msgs</depend>

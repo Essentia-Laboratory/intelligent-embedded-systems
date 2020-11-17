@@ -93,12 +93,12 @@ MqttSender::MqttSender() :
     node_handle_("~")
 {
   // ROS Subscriber
-  Subs["can_info"] = node_handle_.subscribe("can_info", 100, &MqttSender::canInfoCallback, this);
-  Subs["target_velocity_array"] = node_handle_.subscribe("target_velocity_array", 1, &MqttSender::targetVelocityArrayCallback, this);
-  Subs["twist_cmd"] = node_handle_.subscribe("twist_cmd", 1, &MqttSender::twistCmdCallback, this);
-  Subs["state"] = node_handle_.subscribe("state", 1, &MqttSender::stateCallback, this);
-  Subs["drive_mode"] = node_handle_.subscribe("mode_info", 1, &MqttSender::modeInfoCallback, this);
-  Subs["current_pose"] = node_handle_.subscribe("current_pose", 1, &MqttSender::currentPoseCallback, this);
+  Subs["can_info"] = node_handle_.subscribe("/can_info", 100, &MqttSender::canInfoCallback, this);
+  Subs["target_velocity_array"] = node_handle_.subscribe("/target_velocity_array", 1, &MqttSender::targetVelocityArrayCallback, this);
+  Subs["twist_cmd"] = node_handle_.subscribe("/twist_cmd", 1, &MqttSender::twistCmdCallback, this);
+  Subs["state"] = node_handle_.subscribe("/state", 1, &MqttSender::stateCallback, this);
+  Subs["drive_mode"] = node_handle_.subscribe("/mode_info", 1, &MqttSender::modeInfoCallback, this);
+  Subs["current_pose"] = node_handle_.subscribe("/current_pose", 1, &MqttSender::currentPoseCallback, this);
 
   // MQTT PARAMS
   mosquitto_lib_init();

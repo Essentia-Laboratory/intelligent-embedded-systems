@@ -401,3 +401,4 @@ ROSRoadOccupancyProcessorApp::ROSRoadOccupancyProcessorApp()
 {
   radial_dividers_num_ = ceil(360 / radial_divider_angle_);
 }
+

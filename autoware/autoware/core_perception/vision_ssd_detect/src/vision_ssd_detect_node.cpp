@@ -200,8 +200,8 @@ public:
     ROS_INFO("Subscribing to... %s", image_raw_topic_str.c_str());
     subscriber_image_raw_ = node_handle_.subscribe(image_raw_topic_str, 1, &ROSSSDApp::image_callback, this);
 
-    std::string config_topic("/config/");
-    config_topic += "ssd";
+    std::string config_topic("/config");
+    config_topic += "/ssd";
     subscriber_ssd_config_ = node_handle_.subscribe(config_topic, 1, &ROSSSDApp::config_cb, this);
 
     ros::spin();

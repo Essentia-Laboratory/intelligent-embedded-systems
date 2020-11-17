@@ -439,7 +439,7 @@ int main(int argc, char **argv) {
   int nBaudRate;
 
   string sFrameDefault = "vg440";
-  string sTopicDefault = "imu_raw";
+  string sTopicDefault = "/imu_raw";
   string sPortDefault = "/dev/ttyUSB0";
   int nBaudRateDefault = 57600;
   ros::init(argc, argv, "vg440_node");

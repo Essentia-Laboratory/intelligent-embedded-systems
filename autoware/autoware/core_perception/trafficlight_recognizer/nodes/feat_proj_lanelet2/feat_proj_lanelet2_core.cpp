@@ -159,8 +159,6 @@ bool FeatProjLanelet2::project2(const Eigen::Vector3f& pt, int* u, int* v, const
     ROS_ERROR_STREAM(__FUNCTION__ << ": u or v is null pointer!");
     return false;
   }
-  float nearPlane = 1.0;
-  float farPlane = 200.0;
 
   Eigen::Vector3f transformed_pt = transform(pt, camera_to_map_tf_);
 
@@ -169,8 +167,8 @@ bool FeatProjLanelet2::project2(const Eigen::Vector3f& pt, int* u, int* v, const
 
   *u = static_cast<int>(_u);
   *v = static_cast<int>(_v);
-  if (*u < 0 || image_width_ < *u || *v < 0 || image_height_ < *v || transformed_pt.z() < nearPlane ||
-      farPlane < transformed_pt.z())
+  if (*u < 0 || image_width_ < *u || *v < 0 || image_height_ < *v || transformed_pt.z() < near_plane_ ||
+      far_plane_ < transformed_pt.z())
   {
     *u = -1, *v = -1;
     return false;

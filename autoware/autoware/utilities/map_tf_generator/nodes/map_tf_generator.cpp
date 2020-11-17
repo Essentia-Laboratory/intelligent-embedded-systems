@@ -36,7 +36,7 @@ void Callback(const PointCloud::ConstPtr &clouds) {
 int main(int argc, char **argv) {
   ros::init(argc, argv, "map_tf_generator");
   ros::NodeHandle node;
-  ros::Subscriber sub = node.subscribe<PointCloud>("points_map", 1, &Callback);
+  ros::Subscriber sub = node.subscribe<PointCloud>("/points_map", 1, &Callback);
   ros::spin();
 
   return 0;

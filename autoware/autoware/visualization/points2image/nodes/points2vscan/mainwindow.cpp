@@ -53,15 +53,15 @@ MainWindow::MainWindow(QWidget* parent)
 
   if (SYNC == false)
   {
-    velodyne = new ROSSub<sensor_msgs::PointCloud2ConstPtr>("points_raw", 1000, 10);
+    velodyne = new ROSSub<sensor_msgs::PointCloud2ConstPtr>("/points_raw", 1000, 10);
   }
   else
   {
-    velodyne = new ROSSub<sensor_msgs::PointCloud2ConstPtr>("sync_drivers/points_raw", 1000, 10);
+    velodyne = new ROSSub<sensor_msgs::PointCloud2ConstPtr>("/sync_drivers/points_raw", 1000, 10);
   }
   connect(velodyne, SIGNAL(receiveMessageSignal()), this, SLOT(generateVirtualScanSlot()));
-  vsros = new ROSPub<sensor_msgs::PointCloud2>("vscan_points", 1000);
-  scanros = new ROSPub<sensor_msgs::LaserScan>("scan", 1000);
+  vsros = new ROSPub<sensor_msgs::PointCloud2>("/vscan_points", 1000);
+  scanros = new ROSPub<sensor_msgs::LaserScan>("/scan", 1000);
 
 #ifdef DEBUG_GUI
   double PI = 3.141592654;

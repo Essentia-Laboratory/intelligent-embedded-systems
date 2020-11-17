@@ -1,7 +1,7 @@
 <!-- -->
 <launch>
   <arg name="base_frame" default="base_link"/>
-  <arg name="topic_name" default="vehicle_model"/>
+  <arg name="topic_name" default="/vehicle_model"/>
   <arg name="offset_x" default="1.2"/>
   <arg name="offset_y" default="0.0"/>
   <arg name="offset_z" default="0.0"/>

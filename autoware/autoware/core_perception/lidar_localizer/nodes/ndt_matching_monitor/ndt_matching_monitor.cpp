@@ -217,7 +217,7 @@ void ROSNDTMatchingMonitor::Run()
     ros::Subscriber ndt_stat_sub = nh.subscribe("/ndt_stat", 10, &ROSNDTMatchingMonitor::ndt_stat_callback, this);
     ros::Subscriber ndt_pose_sub = nh.subscribe("/ndt_pose", 10, &ROSNDTMatchingMonitor::ndt_pose_callback, this);
     ros::Subscriber initial_pose_sub = nh.subscribe("/initialpose", 10, &ROSNDTMatchingMonitor::initialpose_callback, this);
-    ros::Subscriber gnss_sub = nh.subscribe("/gnss_pose", 10, &ROSNDTMatchingMonitor::gnss_callback, this);
+    ros::Subscriber gnss_sub = nh.subscribe("gnss_pose", 10, &ROSNDTMatchingMonitor::gnss_callback, this);
 
     // Publishers
     initialpose_pub_ = nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1);
@@ -272,3 +272,4 @@ ROSNDTMatchingMonitor::ROSNDTMatchingMonitor()
     ndt_fatal_text_ = ndt_error_text_;
     ndt_fatal_text_.text = "NDT MONITOR - FATAL CANNOT RECOVER AUTOMATICALLY";
 }
+

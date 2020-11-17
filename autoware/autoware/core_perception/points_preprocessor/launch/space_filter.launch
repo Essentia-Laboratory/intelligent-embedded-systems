@@ -1,6 +1,6 @@
 <!-- Launch file for Space Filter -->
 <launch>
-  <arg name="subscribe_topic" default="points_raw" />
+  <arg name="subscribe_topic" default="/points_raw" />
   <arg name="vertical_removal" default="true" />
   <arg name="below_distance" default="-1.3" />
   <arg name="above_distance" default="0.5" />

@@ -5,7 +5,7 @@
     <arg name="scan_size_y" default="1000" />
     <arg name="map_size_x" default="500" />
     <arg name="map_size_y" default="500" />
-    <arg name="scan_topic" default="scan" />
+    <arg name="scan_topic" default="/scan" />
     <arg name="sensor_frame" default="velodyne" />
 
   <node pkg="object_map" type="laserscan2costmap" name="laserscan2costmap" output="screen">

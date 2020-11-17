@@ -26,9 +26,7 @@ int main(int argc, char **argv)
 
     Yolo3DetectorNode app;
 
-printf("----> Yolo3DetectorNode.Run()\r\n");
     app.Run();
-printf("<---- Yolo3DetectorNode.Run()\r\n");
 
     return 0;
 }

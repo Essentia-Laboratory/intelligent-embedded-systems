@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8.3)
 project(udon_socket)
 
 find_package(autoware_build_flags REQUIRED)
-find_package(geometry_msgs REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   tablet_socket_msgs
@@ -18,7 +17,6 @@ catkin_package(
 
 include_directories(
   include
-  ${geometry_msgs_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 

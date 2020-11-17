@@ -7,11 +7,11 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "sync_ranging");
     std::string ns(ros::this_node::getNamespace());
-    std::string sub1("image_obj");
-    std::string sub2("vscan_image");
-    std::string req("image_obj_ranged");
-    std::string pub1("image_obj");
-    std::string pub2("vscan_image");
+    std::string sub1("/image_obj");
+    std::string sub2("/vscan_image");
+    std::string req("/image_obj_ranged");
+    std::string pub1("/image_obj");
+    std::string pub2("/vscan_image");
 
     Synchronizer<autoware_msgs::ImageObj, autoware_msgs::PointsImage, autoware_msgs::ImageObjRanged> synchronizer(sub1, sub2, pub1, pub2, req, ns);
     synchronizer.run();
@@ -217,7 +217,7 @@ void* thread(void* args) {
     ros::NodeHandle nh_rcv;
     ros::CallbackQueue rcv_callbackqueue;
     nh_rcv.setCallbackQueue(&rcv_callbackqueue);
-    ros::Subscriber image_obj_ranged_sub = nh_rcv.subscribe("image_obj_ranged", 1, image_obj_ranged_callback);
+    ros::Subscriber image_obj_ranged_sub = nh_rcv.subscribe("/image_obj_ranged", 1, image_obj_ranged_callback);
     while (nh_rcv.ok()) {
         rcv_callbackqueue.callAvailable(ros::WallDuration(3.0f));
         pthread_mutex_lock(&mutex);

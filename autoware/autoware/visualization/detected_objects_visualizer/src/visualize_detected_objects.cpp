@@ -186,7 +186,7 @@ VisualizeDetectedObjects::ObjectsToCentroids(const autoware_msgs::DetectedObject
       centroid_marker.type = visualization_msgs::Marker::SPHERE;
       centroid_marker.action = visualization_msgs::Marker::ADD;
       centroid_marker.pose = object.pose;
-      centroid_marker.ns = ros_namespace_ + "centroid_markers";
+      centroid_marker.ns = ros_namespace_ + "/centroid_markers";
 
       centroid_marker.scale.x = 0.5;
       centroid_marker.scale.y = 0.5;
@@ -224,7 +224,7 @@ VisualizeDetectedObjects::ObjectsToBoxes(const autoware_msgs::DetectedObjectArra
       box.header = in_objects.header;
       box.type = visualization_msgs::Marker::CUBE;
       box.action = visualization_msgs::Marker::ADD;
-      box.ns = ros_namespace_ + "box_markers";
+      box.ns = ros_namespace_ + "/box_markers";
       box.id = marker_id_++;
       box.scale = object.dimensions;
       box.pose.position = object.pose.position;
@@ -264,7 +264,7 @@ VisualizeDetectedObjects::ObjectsToModels(const autoware_msgs::DetectedObjectArr
       model.header = in_objects.header;
       model.type = visualization_msgs::Marker::MESH_RESOURCE;
       model.action = visualization_msgs::Marker::ADD;
-      model.ns = ros_namespace_ + "model_markers";
+      model.ns = ros_namespace_ + "/model_markers";
       model.mesh_use_embedded_materials = false;
       model.color = model_color_;
       if(object.label == "car")
@@ -321,7 +321,7 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_msgs::DetectedObjectArra
       hull.header = in_objects.header;
       hull.type = visualization_msgs::Marker::LINE_STRIP;
       hull.action = visualization_msgs::Marker::ADD;
-      hull.ns = ros_namespace_ + "hull_markers";
+      hull.ns = ros_namespace_ + "/hull_markers";
       hull.id = marker_id_++;
       hull.scale.x = 0.2;
 
@@ -364,13 +364,13 @@ VisualizeDetectedObjects::ObjectsToArrows(const autoware_msgs::DetectedObjectArr
         visualization_msgs::Marker arrow_marker;
         arrow_marker.lifetime = ros::Duration(marker_display_duration_);
 
-        tf::Quaternion q(object.pose.orientation.x,
+        tf2::Quaternion q(object.pose.orientation.x,
                          object.pose.orientation.y,
                          object.pose.orientation.z,
                          object.pose.orientation.w);
         double roll, pitch, yaw;
 
-        tf::Matrix3x3(q).getRPY(roll, pitch, yaw);
+        tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
 
         // in the case motion model fit opposite direction
         if (velocity < -0.1)
@@ -383,14 +383,14 @@ VisualizeDetectedObjects::ObjectsToArrows(const autoware_msgs::DetectedObjectArr
             yaw += 2. * M_PI;
         }
 
-        tf::Matrix3x3 obs_mat;
-        tf::Quaternion q_tf;
+        tf2::Matrix3x3 obs_mat;
+        tf2::Quaternion q_tf;
 
         obs_mat.setEulerYPR(yaw, 0, 0);  // yaw, pitch, roll
         obs_mat.getRotation(q_tf);
 
         arrow_marker.header = in_objects.header;
-        arrow_marker.ns = ros_namespace_ + "arrow_markers";
+        arrow_marker.ns = ros_namespace_ + "/arrow_markers";
         arrow_marker.action = visualization_msgs::Marker::ADD;
         arrow_marker.type = visualization_msgs::Marker::ARROW;
 
@@ -439,7 +439,7 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_msgs::DetectedObjectArr
 
       label_marker.lifetime = ros::Duration(marker_display_duration_);
       label_marker.header = in_objects.header;
-      label_marker.ns = ros_namespace_ + "label_markers";
+      label_marker.ns = ros_namespace_ + "/label_markers";
       label_marker.action = visualization_msgs::Marker::ADD;
       label_marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
       label_marker.scale.x = 1.5;
@@ -473,11 +473,11 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_msgs::DetectedObjectArr
           velocity = 0.0;
         }
 
-        tf::Quaternion q(object.pose.orientation.x, object.pose.orientation.y,
+        tf2::Quaternion q(object.pose.orientation.x, object.pose.orientation.y,
                          object.pose.orientation.z, object.pose.orientation.w);
 
         double roll, pitch, yaw;
-        tf::Matrix3x3(q).getRPY(roll, pitch, yaw);
+        tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
 
         // convert m/s to km/h
         std::stringstream kmh_velocity_stream;
@@ -519,3 +519,4 @@ bool VisualizeDetectedObjects::IsObjectValid(const autoware_msgs::DetectedObject
   }
   return true;
 }//end IsObjectValid
+

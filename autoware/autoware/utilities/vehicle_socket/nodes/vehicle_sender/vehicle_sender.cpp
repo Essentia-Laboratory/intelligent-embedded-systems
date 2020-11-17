@@ -227,7 +227,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   std::cout << "vehicle sender" << std::endl;
-  ros::Subscriber sub = nh.subscribe("vehicle_cmd", 1, vehicleCmdCallback);
+  ros::Subscriber sub = nh.subscribe("/vehicle_cmd", 1, vehicleCmdCallback);
 
   command_data.reset();
 

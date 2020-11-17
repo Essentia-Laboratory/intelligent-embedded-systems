@@ -20,16 +20,14 @@
 #include <unistd.h>
 #include <string>
 #include <iostream>
-#include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace pt = boost::posix_time;
-namespace dt = boost::date_time;
 
 class Rate
 {
 public:
-  inline explicit Rate(int hz) 
+  inline explicit Rate(int hz)
   {
     assert(hz >= 1);
     float microsec = 1e6 / static_cast<float>(hz);

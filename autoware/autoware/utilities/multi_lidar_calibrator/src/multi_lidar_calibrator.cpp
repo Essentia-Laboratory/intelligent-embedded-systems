@@ -136,8 +136,8 @@ void ROSMultiLidarCalibratorApp::InitializeROSIo(ros::NodeHandle &in_private_han
 {
   //get params
   std::string points_parent_topic_str, points_child_topic_str;
-  std::string initial_pose_topic_str = "initialpose";
-  std::string calibrated_points_topic_str = "points_calibrated";
+  std::string initial_pose_topic_str = "/initialpose";
+  std::string calibrated_points_topic_str = "/points_calibrated";
 
   in_private_handle.param<std::string>("points_parent_src", points_parent_topic_str, "points_raw");
   ROS_INFO("[%s] points_parent_src: %s",__APP_NAME__, points_parent_topic_str.c_str());

@@ -544,7 +544,7 @@ class Final(InsideDesign):
                         upper_area.Add(panelx, 1, wx.ALL | wx.EXPAND, 4)
                         upper_area.Add(self.buttonx, 0, wx.ALL, 1)
                         sizer_select_topic.Add(upper_area)
-                        topic = "points_raw"
+                        topic = "/points_raw"
 
                     panel = wx.Panel(sss, wx.ID_ANY)
                     obj = wx.CheckBox(panel, wx.ID_ANY, topic)
@@ -673,7 +673,7 @@ class Final(InsideDesign):
                         upper_area.Add(panelx, 1, wx.ALL | wx.EXPAND, 4)
                         upper_area.Add(self.buttonx, 0, wx.ALL, 1)
                         sizer_pointcloud_topic.Add(upper_area)
-                        topic = "points_raw"
+                        topic = "/points_raw"
 
                     panel = wx.Panel(sss, wx.ID_ANY)
                     obj = wx.CheckBox(panel, wx.ID_ANY, topic)
@@ -891,7 +891,7 @@ class Final(InsideDesign):
                         upper_area.Add(panelx, 1, wx.ALL | wx.EXPAND, 4)
                         upper_area.Add(self.buttonx, 0, wx.ALL, 1)
                         sizer_pointcloud_topic.Add(upper_area)
-                        topic = "points_raw"
+                        topic = "/points_raw"
 
                     panel = wx.Panel(sss, wx.ID_ANY)
                     obj = wx.CheckBox(panel, wx.ID_ANY, topic)
