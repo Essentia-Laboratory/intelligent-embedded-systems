@@ -11,7 +11,7 @@
   <node name="$(arg MANAGER)"
         pkg="nodelet" type="nodelet"
         args="manager"
-        output="screen"/>
+        output="log"/>
 
   <node name="passthrough_filter_left"
         pkg="nodelet" type="nodelet"

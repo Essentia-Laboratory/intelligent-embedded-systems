@@ -8,7 +8,7 @@
   <arg name="roi_search_max_distance" default="200.0"/>
 
   <remap from="camera_info" to="/camera_info"/>
-  <node pkg="trafficlight_recognizer" type="feat_proj_lanelet2" name="feature_proj_lanelet2" output="screen">
+  <node pkg="trafficlight_recognizer" type="feat_proj_lanelet2" name="feature_proj_lanelet2" output="log">
     <param name="camera_frame" type="str" value="$(arg camera_id)"/>
     <param name="use_path_info" type="bool" value="$(arg use_path_info)"/>
     <param name="roi_search_min_distance" value="$(arg roi_search_min_distance)"/>

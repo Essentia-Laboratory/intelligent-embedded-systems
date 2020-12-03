@@ -32,6 +32,8 @@
 
 #include <vector>
 
+#define __APP_NAME__ "lanelet_map_visualizer"
+
 static bool g_viz_lanelets_centerline = true;
 static ros::Publisher g_map_pub;
 
@@ -53,7 +55,7 @@ void binMapCallback(autoware_lanelet2_msgs::MapBin msg)
   lanelet::LaneletMapPtr viz_lanelet_map(new lanelet::LaneletMap);
 
   lanelet::utils::conversion::fromBinMsg(msg, viz_lanelet_map);
-  ROS_INFO("Map loaded");
+  ROS_INFO("[%s] Map loaded", __APP_NAME__);
 
   // get lanelets etc to visualize
   lanelet::ConstLanelets all_lanelets = lanelet::utils::query::laneletLayer(viz_lanelet_map);
@@ -91,7 +93,7 @@ void binMapCallback(autoware_lanelet2_msgs::MapBin msg)
   insertMarkerArray(&map_marker_array, lanelet::visualization::autowareTrafficLightsAsMarkerArray(
     aw_tl_reg_elems, cl_trafficlights));
 
-  ROS_INFO("Visualizing lanelet2 map with %lu lanelets, %lu stop lines, and %lu traffic lights",
+  ROS_INFO("[%s] Visualizing lanelet2 map with %lu lanelets, %lu stop lines, and %lu traffic lights", __APP_NAME__, 
     all_lanelets.size(), tl_stop_lines.size() + ss_stop_lines.size(), aw_tl_reg_elems.size());
 
   g_map_pub.publish(map_marker_array);
@@ -99,7 +101,7 @@ void binMapCallback(autoware_lanelet2_msgs::MapBin msg)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "lanelet_map_visualizer");
+  ros::init(argc, argv, __APP_NAME__);
   ros::NodeHandle rosnode;
   ros::Subscriber bin_map_sub;
 

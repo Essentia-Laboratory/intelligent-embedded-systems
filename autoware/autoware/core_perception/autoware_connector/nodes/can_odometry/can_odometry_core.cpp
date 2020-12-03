@@ -46,7 +46,7 @@ void CanOdometryNode::initForROS()
   }
 
   // setup subscriber
-  sub1_ = nh_.subscribe("vehicle_status", 10, &CanOdometryNode::callbackFromVehicleStatus, this);
+  sub1_ = nh_.subscribe("/vehicle_status", 10, &CanOdometryNode::callbackFromVehicleStatus, this);
 
   // setup publisher
   pub1_ = nh_.advertise<nav_msgs::Odometry>("/vehicle/odom", 10);

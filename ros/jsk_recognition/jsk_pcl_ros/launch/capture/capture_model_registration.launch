@@ -13,13 +13,13 @@
     </rosparam>
   </node>
   <node pkg="jsk_pcl_ros" type="incremental_model_registration"
-        name="incremental_model_registration" output="screen">
+        name="incremental_model_registration" output="log">
     <remap from="~input" to="/stereo/points2" />
     <remap from="~input/indices" to="/capture_stereo_synchronizer/output/mask_indices" />
     <remap from="~input/pose" to="/capture_stereo_synchronizer/output/pose" />
     <remap from="~icp_service" to="icp_registration/icp_align" />
   </node>
-  <node pkg="jsk_pcl_ros" type="icp_registration" name="icp_registration" output="screen">
+  <node pkg="jsk_pcl_ros" type="icp_registration" name="icp_registration" output="log">
     <rosparam>
       use_flipped_initial_pose: false
       max_iteration: 10000
@@ -28,7 +28,7 @@
       euclidean_fittness_epsilon: 0.01
     </rosparam>
   </node>
-  <node pkg="jsk_pcl_ros" type="linemod_trainer" name="linemod_trainer" output="screen">
+  <node pkg="jsk_pcl_ros" type="linemod_trainer" name="linemod_trainer" output="log">
     <remap from="~input" to="incremental_model_registration/output/registered" />
     <remap from="~input/info" to="/capture_stereo_synchronizer/output/left_camera_info" />
     <rosparam>

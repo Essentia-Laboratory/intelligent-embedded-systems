@@ -5,7 +5,7 @@
   <arg name="sensor_frame_id" default="/camera_rgb_optical_frame" />
 
   <node name="$(arg manager)"
-        pkg="nodelet" type="nodelet" args="manager" output="screen" />
+        pkg="nodelet" type="nodelet" args="manager" output="log" />
 
   <group ns="primitive_shape_classifier">
     <node name="input_relay" pkg="nodelet" type="nodelet"

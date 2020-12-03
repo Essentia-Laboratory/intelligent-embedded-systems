@@ -11,7 +11,7 @@
     <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_plugins)/test/multi_robot_scenario/xacro/p3dx/pioneer3dx.xacro'" />
 
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
-    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model $(arg robot_name) -param robot_description $(arg robot_position) "/>
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="log" args="-urdf -model $(arg robot_name) -param robot_description $(arg robot_position) "/>
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
       <param name="publish_frequency" type="double" value="30.0"/>

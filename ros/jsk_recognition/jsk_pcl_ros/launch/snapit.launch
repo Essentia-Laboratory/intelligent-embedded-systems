@@ -10,7 +10,7 @@
   </node>
 
   <node pkg="jsk_pcl_ros" type="snapit"
-        name="snapit" output="screen">
+        name="snapit" output="log">
     <remap from="~input/polygons" to="static_polygon_array_publisher/output_polygons" />
     <remap from="~input/polygon_coefficients"
            to="static_polygon_array_publisher/output_coefficients" />

@@ -34,7 +34,7 @@
   <node pkg="jsk_topic_tools" type="snapshot" name="full_cloud_snapshot">
     <remap from="~input" to="downsampled_full_cloud/output" />
   </node>
-  <node pkg="jsk_pcl_ros" type="particle_filter_tracking" name="pfilter_localization" output="screen"
+  <node pkg="jsk_pcl_ros" type="particle_filter_tracking" name="pfilter_localization" output="log"
         alaunch-prefix="xterm -e gdb --args">
     <remap from="~input" to="downsampled_scan/output" />
     <remap from="~renew_model" to="full_cloud_snapshot/output" />

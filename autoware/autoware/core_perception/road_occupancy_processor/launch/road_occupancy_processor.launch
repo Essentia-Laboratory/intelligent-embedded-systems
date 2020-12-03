@@ -10,7 +10,7 @@
   <arg name="road_occupied_value" default="0" />      <!-- Value to fill in the occupancy grid when a cell is OCCUPIED-->
   <arg name="no_road_value" default="255" />          <!-- Value to fill in the occupancy grid when a cell is NO ROAD-->
   
-  <node name="occupancy_processor_01" pkg="road_occupancy_processor" type="road_occupancy_processor" output="screen">
+  <node name="occupancy_processor_01" pkg="road_occupancy_processor" type="road_occupancy_processor" output="log">
     <param name="points_ground_src" value="$(arg points_ground_src)" />
     <param name="points_no_ground_src" value="$(arg points_no_ground_src)" />
     <param name="wayarea_topic_src" value="$(arg wayarea_topic_src)" />

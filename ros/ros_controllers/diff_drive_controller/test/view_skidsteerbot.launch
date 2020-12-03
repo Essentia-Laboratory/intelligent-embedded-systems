@@ -16,10 +16,10 @@
 
   <!-- Spawn controller -->
   <node name="controller_spawner"
-        pkg="controller_manager" type="spawner" output="screen"
+        pkg="controller_manager" type="spawner" output="log"
         args="skidsteerbot_controller" />
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
-  <node name="spawn_single_link" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model skidsteerbot -z 0.5" respawn="false" output="screen" />
+  <node name="spawn_single_link" pkg="gazebo" type="spawn_model" args="-urdf -param robot_description -model skidsteerbot -z 0.5" respawn="false" output="log" />
 
 </launch>

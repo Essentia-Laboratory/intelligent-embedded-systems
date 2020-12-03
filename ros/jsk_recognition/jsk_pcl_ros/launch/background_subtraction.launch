@@ -11,7 +11,7 @@
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <node if="$(arg create_manager)"
           pkg="nodelet" type="nodelet" name="$(arg manager)"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
 
     <node pkg="nodelet" type="nodelet"
           name="bg_substract"

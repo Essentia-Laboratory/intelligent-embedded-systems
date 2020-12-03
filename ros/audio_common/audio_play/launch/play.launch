@@ -9,7 +9,7 @@
   <arg name="sample_format" default="S16LE"/>
 
   <group ns="$(arg ns)">
-  <node name="audio_play" pkg="audio_play" type="audio_play" output="screen">
+  <node name="audio_play" pkg="audio_play" type="audio_play" output="log">
     <param name="device" value="$(arg device)"/>
     <param name="dst" value="$(arg dst)"/>
     <param name="do_timestamp" value="$(arg do_timestamp)"/>

@@ -1,13 +1,13 @@
 <launch>
   <node name="lazy_manager"
         pkg="nodelet"
-        type="nodelet" args="manager" output="screen"/>
+        type="nodelet" args="manager" output="log"/>
   <arg name="INPUT" default="/points" />
   <group ns="lazy">
     <!-- separate the pointcloud into 10 pointclouds -->
     <node name="splitter0" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -17,7 +17,7 @@
     </node>
     <node name="splitter1" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -27,7 +27,7 @@
     </node>
     <node name="splitter3" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -37,7 +37,7 @@
     </node>
     <node name="splitter4" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -47,7 +47,7 @@
     </node>
     <node name="splitter5" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -57,7 +57,7 @@
     </node>
     <node name="splitter6" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -67,7 +67,7 @@
     </node>
     <node name="splitter7" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -77,7 +77,7 @@
     </node>
     <node name="splitter8" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -87,7 +87,7 @@
     </node>
     <node name="splitter9" pkg="nodelet" type="nodelet"
           args="load pcl/PassThrough /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: x
@@ -98,7 +98,7 @@
 
     <node name="lazy_nodelet" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/LazyConcatenater /lazy_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <rosparam>
         enable_input_topic0: true
         enable_input_topic1: true

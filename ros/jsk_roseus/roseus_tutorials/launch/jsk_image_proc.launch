@@ -5,7 +5,7 @@
 
   <node if="$(arg CREATE_MANAGER)"
         pkg="nodelet" type="nodelet" name="$(arg MANAGER_NAME)"
-        args="manager" output="screen"/>
+        args="manager" output="log"/>
 
   <include file="$(find image_proc)/launch/image_proc.launch" >
     <arg name="manager" value="$(arg MANAGER_NAME)" />

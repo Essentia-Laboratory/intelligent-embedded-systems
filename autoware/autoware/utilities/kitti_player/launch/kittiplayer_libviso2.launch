@@ -3,7 +3,7 @@
 <launch>
     <!-- USEFUL ROS LAUNCH STUFF -->
     <!--
-            output = "screen"
+            output = "log"
 
     -->
 
@@ -21,7 +21,7 @@
     <!--TYPE THIS LINE TO VIEW SOMETHING-->
     <!--rosrun image_view stereo_view stereo:=/kitti_player/grayscale image:=image_rect _approximate_sync:=True-->
     <group ns="$(arg camera)" >
-            <node   pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc" required="true" output = "screen">
+            <node   pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc" required="true" output = "log">
                     <param name="approximate_sync"           value="true"/>
                     <param name="stereo_algorithm"           value="1"/>        <!-- 0=BlockMachingGlobal 1=SemiGlobalBMl -->
 

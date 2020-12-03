@@ -67,7 +67,7 @@ namespace object_map
         FillPolygonAreas(gridmap_, area_points_, grid_layer_name_, OCCUPANCY_NO_ROAD, OCCUPANCY_ROAD, grid_min_value_,
                          grid_max_value_, sensor_frame_, map_frame_,
                          tf_listener_);
-        ROS_INFO("[wayarea2grid] published to grid_map_wayarea.");
+        // ROS_INFO("[wayarea2grid] published to grid_map_wayarea.");
         PublishGridMap(gridmap_, publisher_grid_map_);
         PublishOccupancyGrid(gridmap_, publisher_occupancy_, grid_layer_name_, grid_min_value_, grid_max_value_, grid_position_z_);
       }

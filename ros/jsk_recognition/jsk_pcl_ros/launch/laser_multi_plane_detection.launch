@@ -24,7 +24,7 @@
       </rosparam>
     </node>
     <node pkg="nodelet" type="nodelet" name="tilt_laser_manager"
-          args="manager" output="screen" />
+          args="manager" output="log" />
     <node name="transform_cloud" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/TfTransformCloud tilt_laser_manager">
       <remap from="~input" to="cloud_filtered" />
@@ -33,13 +33,13 @@
     <node name="euclidean_clustering"
           pkg="nodelet" type="nodelet"
           args="load jsk_pcl/EuclideanClustering tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="transform_cloud/output" />
     </node>
     <node pkg="nodelet" type="nodelet"
           name="euclidean_clustering_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="transform_cloud/output" />
       <remap from="~target" to="euclidean_clustering/output" />
       <rosparam>
@@ -50,14 +50,14 @@
     <node pkg="nodelet" type="nodelet"
           name="line_segment_detector"
           args="load jsk_pcl/LineSegmentDetector tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="transform_cloud/output" />
       <remap from="~input_indices" to="euclidean_clustering/output" />
     </node>
     <node pkg="nodelet" type="nodelet"
           name="line_segment_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="transform_cloud/output" />
       <remap from="~target" to="line_segment_detector/output/inliers" />
       <rosparam>
@@ -79,7 +79,7 @@
     <node pkg="nodelet" type="nodelet"
           name="line_segment_collector"
           args="load jsk_pcl/LineSegmentCollector tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="transform_cloud/output" />
       <remap from="~input_indices" to="line_segment_detector/output/inliers" />
       <remap from="~input_coefficients" to="line_segment_detector/output/coefficients" />
@@ -92,7 +92,7 @@
     <node pkg="nodelet" type="nodelet"
           name="connected_segment"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="line_segment_collector/output/cloud" />
       <remap from="~target" to="line_segment_collector/debug/connect_segments/inliers" />
       <rosparam>
@@ -103,7 +103,7 @@
     <node pkg="nodelet" type="nodelet"
           name="multi_plane_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="line_segment_collector/output/cloud" />
       <remap from="~target" to="multi_plane_detector/output_indices" />
       <rosparam>
@@ -114,13 +114,13 @@
     <node name="line_segment_clustering"
           pkg="nodelet" type="nodelet"
           args="load jsk_pcl/EuclideanClustering tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="line_segment_collector/output/cloud" />
     </node>
     <node pkg="nodelet" type="nodelet"
           name="line_segment_clustering_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="line_segment_collector/output/cloudq" />
       <remap from="~target" to="line_segment_clustering/output" />
       <rosparam>
@@ -131,7 +131,7 @@
     <node pkg="nodelet" type="nodelet"
           name="multi_plane_detector"
           args="load jsk_pcl/MultiPlaneSACSegmentation tilt_laser_manager"
-          output="screen">
+          output="log">
       <remap from="~input" to="line_segment_collector/output/cloud"/>
       <!-- <remap from="~input_clusters" to="line_segment_collector/debug/connect_segments/inliers" /> -->
       <remap from="~input_clusters" to="line_segment_clustering/output" />

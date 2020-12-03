@@ -7,7 +7,7 @@
   <arg name="format" default="raw"/>              <!--Pixel Format to acquire the image "raw" or "rgb"-->
   <arg name="timeout" default="1000"/>            <!--Timeout in mili seconds-->
 
-  <node pkg="autoware_pointgrey_drivers" type="grasshopper3_camera" name="grasshopper" output="screen">
+  <node pkg="autoware_pointgrey_drivers" type="grasshopper3_camera" name="grasshopper" output="log">
     <param name="fps" value="$(arg fps)"/>
     <param name="calibrationfile" value="$(arg CalibrationFile)"/>
     <param name="mode" value="$(arg mode)"/>

@@ -10,7 +10,7 @@
   </node>
 
   <node name="depth_considered" pkg="jsk_pcl_ros_utils" type="mask_image_to_depth_considered_mask_image"
-        output="screen">
+        output="log">
     <remap from="~input" to="/right_hand_camera/depth_registered/points"/>
     <remap from="~input/image" to="mask_image/output"/>
     <rosparam>

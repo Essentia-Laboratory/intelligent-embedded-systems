@@ -1,6 +1,6 @@
 <launch>
   <node pkg="urg_node" name="urg_device" type="urg_node"
-        output="screen" >
+        output="log" >
     <param name="ip_address" value="192.168.0.10" />
     <!--param name="angle_min" value="-2.35619" />
     <param name="angle_max" value="2.35619" /-->

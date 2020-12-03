@@ -3,7 +3,7 @@
   <arg name="velocity" default="40" />
   <arg name="output_file" default="/tmp/lane_waypoint.csv" />
 
-  <node pkg="lane_planner" type="lane_navi" name="lane_navi" output="screen">
+  <node pkg="lane_planner" type="lane_navi" name="lane_navi" output="log">
       <param name="velocity" value="$(arg velocity)" />
       <param name="output_file" value="$(arg output_file)" />
   </node>

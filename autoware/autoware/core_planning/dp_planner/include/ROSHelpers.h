@@ -42,9 +42,15 @@
 
 #include <visualization_msgs/MarkerArray.h>
 
-#include <tf/transform_broadcaster.h>
-#include <tf/transform_listener.h>
-#include <tf/tf.h>
+#if USE_TF2 
+# include <tf2_ros/buffer.h>
+# include <tf2_ros/transform_listener.h>
+# include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#else
+# include <tf/transform_broadcaster.h>
+# include <tf/transform_listener.h>
+# include <tf/tf.h>
+#endif
 
 namespace PlannerXNS
 {
@@ -173,7 +179,11 @@ class ROSHelpers
 public:
   ROSHelpers();
   virtual ~ROSHelpers();
+#if USE_TF2
+  static void GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform> &transform);
+#else
   static void GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf::StampedTransform &transform);
+#endif
   static void ConvertFromPlannerHToAutowarePathFormat(const std::vector<PlannerHNS::WayPoint>& path, const int& iStart,
         autoware_msgs::Lane & trajectory);
 

@@ -583,7 +583,7 @@ int main(int argc, char** argv)
     }
     catch(tf2::TransformException &ex)
     {
-        ROS_WARN("Failed to get map->lidar transform. skip computation: %s", ex.what());
+        ROS_WARN("[velocity_set] Failed to get map->lidar transform. skip computation: %s", ex.what());
         continue;
     }
 

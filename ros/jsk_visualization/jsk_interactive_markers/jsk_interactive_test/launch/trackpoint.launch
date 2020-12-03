@@ -10,7 +10,7 @@
   <node pkg="jsk_joy" type="nanopad_joy.py" name="nanopad_joy" args="3"/>
   <!-- <node pkg="jsk_joy" type="nanokontrol_joy.py" name="nanokontrol_joy" args="3"/> -->
 
-  <node pkg="jsk_interactive_test" type="trackpoint_controller.py" name="trackpoint_controller" output="screen"/>
+  <node pkg="jsk_interactive_test" type="trackpoint_controller.py" name="trackpoint_controller" output="log"/>
 
   <node pkg="rviz" type="rviz" name="side_view_rviz"
         args="-d $(find jsk_interactive_test)/launch/side_view.rviz" respawn="true"/>

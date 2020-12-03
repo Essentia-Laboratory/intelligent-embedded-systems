@@ -3,7 +3,7 @@
   <arg name="pose_topic"         default="/ndt_pose" />   
     
     
-  <node pkg="op_utilities" type="op_pose2tf" name="op_pose2tf" output="screen">
+  <node pkg="op_utilities" type="op_pose2tf" name="op_pose2tf" output="log">
     
     <param name="pose_topic"         value="$(arg pose_topic)" />
         

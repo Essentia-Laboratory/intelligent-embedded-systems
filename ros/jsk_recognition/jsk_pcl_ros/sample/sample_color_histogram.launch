@@ -118,7 +118,7 @@
     </node>
 
     <node name="color_histogram_visualizer"
-          pkg="jsk_pcl_ros" type="color_histogram_visualizer.py" output="screen">
+          pkg="jsk_pcl_ros" type="color_histogram_visualizer.py" output="log">
       <remap from="~input/array" to="color_histogram/output"/>
       <rosparam>
         histogram_policy: 0

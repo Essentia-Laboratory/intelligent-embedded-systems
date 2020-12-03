@@ -8,7 +8,7 @@
   <machine name="localhost" address="localhost" />
 
   <node name="color_histogram_sliding_matcher" pkg="jsk_perception" type="color_histogram_sliding_matcher"
-respawn="false" output="screen" launch-prefix="nice -n 10">
+respawn="false" output="log" launch-prefix="nice -n 10">
     <remap from="image" to="$(arg image)" />
     <remap from="camera_info" to="$(arg info)" />
     <param name="standard_height" value="24" />
@@ -16,11 +16,11 @@ respawn="false" output="screen" launch-prefix="nice -n 10">
     <param name="coefficient_threshold" value="0.5" />
   </node>
   <node name="screenpoint_manager" pkg="nodelet"
-        type="nodelet" args="manager" output="screen"
+        type="nodelet" args="manager" output="log"
         machine="$(arg cloud_machine)" respawn="true"/>
   <node name="pointcloud_screenpoint_nodelet" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/PointcloudScreenpoint screenpoint_manager"
-        output="screen" clear_params="true" respawn="true"
+        output="log" clear_params="true" respawn="true"
         machine="$(arg cloud_machine)">
     <remap from="~points" to="$(arg points)" />
     <remap from="~rect" to="best_polygon" /> 
@@ -39,7 +39,7 @@ respawn="false" output="screen" launch-prefix="nice -n 10">
   <node pkg="jsk_interactive_marker"
         type="bounding_box_marker"
         name="bounding_box_color_histogram"
-        output="screen"
+        output="log"
         >
     <remap from="~bounding_box_array" to="/best_box" />
   </node>

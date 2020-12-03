@@ -19,7 +19,7 @@
       target_frame_id: multisense/left_camera_optical_frame
     </rosparam>
   </node>
-  <node pkg="jsk_pcl_ros" type="roi_clipper" name="roi_clipper" output="screen">
+  <node pkg="jsk_pcl_ros" type="roi_clipper" name="roi_clipper" output="log">
     <param name="not_sync" value="true" />
     <remap from="~input/image" to="multisense/left/image_rect_color" />
     <remap from="~input/camera_info" to="rect_to_roi/output" />
@@ -36,7 +36,7 @@
   </node>
 
   <node pkg="nodelet" type="nodelet" name="normal_estimation"
-        args="standalone pcl/NormalEstimationOMP" output="screen">
+        args="standalone pcl/NormalEstimationOMP" output="log">
     <remap from="~input" to="voxelgrid/output" />
     <rosparam>
         radius_search: 0.1
@@ -48,7 +48,7 @@
   </node>
 
 
-  <node pkg="jsk_pcl_ros" type="normal_concatenater" name="normal_concatenater" output="screen">
+  <node pkg="jsk_pcl_ros" type="normal_concatenater" name="normal_concatenater" output="log">
     <remap from="~input" to="voxelgrid/output" />
     <remap from="~normal" to="normal_estimation/output" />
   </node>

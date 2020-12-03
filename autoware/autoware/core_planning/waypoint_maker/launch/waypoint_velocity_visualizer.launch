@@ -20,7 +20,7 @@
   <arg name="current_twist_rgba" default="[0.0, 0.0, 1.0, 0.5]" />
   <arg name="command_twist_rgba" default="[1.0, 0.0, 0.0, 0.5]" />
 
-  <node pkg="waypoint_maker" type="waypoint_velocity_visualizer" name="waypoint_velocity_visualizer" output="screen">
+  <node pkg="waypoint_maker" type="waypoint_velocity_visualizer" name="waypoint_velocity_visualizer" output="log">
     <remap from="base_waypoints" to="$(arg base_waypoints)" />
     <remap from="final_waypoints" to="$(arg final_waypoints)" />
     <remap from="current_pose" to="$(arg current_pose)" />

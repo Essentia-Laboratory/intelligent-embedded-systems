@@ -33,7 +33,7 @@
   <node name="pointcloud_to_stl"
         pkg="nodelet" type="nodelet"
         args="standalone jsk_pcl_utils/PointCloudToSTL"
-        output="screen">
+        output="log">
     <remap from="~input" to="camera/depth_registered/points"/>
     <rosparam subst_value="true">
       filename: $(arg filename)

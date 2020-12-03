@@ -1,7 +1,7 @@
 <launch>
   <arg name="INPUT_CLOUD" value="/camera_remote/depth_registered/points" />
   <arg name="FILTERED_CLOUD" value="filter/output" />
-  <node pkg="nodelet" type="nodelet" name="edge_manager" args="manager" output="screen"
+  <node pkg="nodelet" type="nodelet" name="edge_manager" args="manager" output="log"
         />
   <node pkg="nodelet" type="nodelet" name="filter"
         args="load pcl/PassThrough /edge_manager">

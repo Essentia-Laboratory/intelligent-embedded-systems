@@ -17,6 +17,10 @@
 #include "freespace_planner/astar_navi.h"
 
 AstarNavi::AstarNavi() : nh_(), private_nh_("~")
+#if USE_TF2
+			 , tf_buffer_()
+			 , tf_listener_(tf_buffer_)
+#endif
 {
   private_nh_.param<double>("waypoints_velocity", waypoints_velocity_, 5.0);
   private_nh_.param<double>("update_rate", update_rate_, 1.0);
@@ -79,6 +83,22 @@ void AstarNavi::goalPoseCallback(const geometry_msgs::PoseStamped& msg)
                                                              << goal_pose_local_.pose);
 }
 
+#if USE_TF2
+tf2::Stamped<tf2::Transform> AstarNavi::getTransform(const std::string& from, const std::string& to)
+{
+  tf2::Stamped<tf2::Transform> stf;
+  try
+  {
+    geometry_msgs::TransformStamped geoTrans = tf_buffer_.lookupTransform(from, to, ros::Time(0), ros::Duration(0));
+    tf2::convert( geoTrans, stf );
+  }
+  catch (tf2::TransformException& ex)
+  {
+    ROS_ERROR("%s", ex.what());
+  }
+  return stf;
+}
+#else
 tf::Transform AstarNavi::getTransform(const std::string& from, const std::string& to)
 {
   tf::StampedTransform stf;
@@ -86,12 +106,13 @@ tf::Transform AstarNavi::getTransform(const std::string& from, const std::string
   {
     tf_listener_.lookupTransform(from, to, ros::Time(0), stf);
   }
-  catch (tf::TransformException ex)
+  catch (tf::TransformException& ex)
   {
     ROS_ERROR("%s", ex.what());
   }
   return stf;
 }
+#endif
 
 void AstarNavi::run()
 {

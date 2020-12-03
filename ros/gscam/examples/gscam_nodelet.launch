@@ -5,12 +5,12 @@
 
   <node pkg="nodelet" type="nodelet"
     name="standalone_nodelet" args="manager"
-    output="screen"/>
+    output="log"/>
 
   <node pkg="nodelet" type="nodelet"
     name="GSCamNodelet" 
     args="load gscam/GSCamNodelet standalone_nodelet" 
-    output="screen">
+    output="log">
     <param name="camera_name" value="default"/>
     <param name="camera_info_url" value="package://gscam/examples/uncalibrated_parameters.ini"/>
     <param name="gscam_config" value="v4l2src device=$(arg DEVICE) ! video/x-raw-rgb,framerate=$(arg FPS) ! ffmpegcolorspace"/>

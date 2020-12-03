@@ -1,7 +1,7 @@
 <launch>
   <arg name="INPUT" default="/self_filtered_cloud" />
   <group ns="localization">
-    <node pkg="nodelet" type="nodelet" name="manager" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="manager" args="manager" output="log"/>
     <node pkg="nodelet" type="nodelet" name="x_filter"
           args="load pcl/PassThrough manager">
       <remap from="~input" to="$(arg INPUT)" />

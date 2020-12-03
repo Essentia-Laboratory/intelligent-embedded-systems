@@ -15,7 +15,7 @@
   <node pkg="nodelet" type="nodelet"
         name="plane_extraction"
         args="standalone jsk_pcl/MultiPlaneExtraction"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~indices" to="/multi_plane_estimate/output_refined" />
     <remap from="~input_polygons" to="/multi_plane_estimate/output_refined_polygon" />
@@ -28,7 +28,7 @@
   </node>
 
   <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
-        args="standalone jsk_pcl/EuclideanClustering " output="screen">
+        args="standalone jsk_pcl/EuclideanClustering " output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <rosparam>
       tolerance: 0.02
@@ -39,7 +39,7 @@
   <node pkg="nodelet" type="nodelet"
         name="throttle_segmentation"
         args="standalone jsk_topic_tools/LightweightThrottle"
-        output="screen">
+        output="log">
     <remap from="~input" to="euclidean_clustering/output" />
     <remap from="~output" to="euclidean_clustering/output_throttle" />
   </node>
@@ -48,7 +48,7 @@
   <node pkg="nodelet" type="nodelet"
         name="segmentation_decomposer"
         args="standalone jsk_pcl/ClusterPointIndicesDecomposer"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~target" to="/euclidean_clustering/output_throttle" />
     <remap from="~align_planes" to="/multi_plane_estimate/output_refined_polygon" />
@@ -65,14 +65,14 @@
   <node pkg="jsk_interactive_marker"
         type="bounding_box_marker"
         name="bounding_box_marker"
-        output="screen"
+        output="log"
         >
     <remap from="~bounding_box_array" to="segmentation_decomposer/boxes" />
   </node>
   <node pkg="nodelet" type="nodelet"
         name="selected_cloud"
         args="standalone jsk_pcl/SelectedClusterPublisher"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~indices" to="/euclidean_clustering/output" />
     <remap from="~selected_index" to="/bounding_box_marker/selected_index" />
@@ -97,7 +97,7 @@
   <node pkg="nodelet" type="nodelet"
         name="octree_change_detector_euclidean_filter_points"
         args="standalone jsk_pcl/ClusterPointIndicesDecomposer"
-        output="screen">
+        output="log">
     <remap from="~input" to="octree_change_detector/octree_change_result" />
     <remap from="~target" to="octree_change_detector_euclidean_filter/output" />
     <rosparam>
@@ -112,7 +112,7 @@
   <node pkg="nodelet" type="nodelet"
         name="voxelgrid"
         args="standalone jsk_pcl/OctreeVoxelGrid"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="input_relay/output" />
     <param name="resolution" value="0.01" />
     <rosparam>
@@ -124,7 +124,7 @@
     <node pkg="nodelet" type="nodelet"
           name="model_voxelgrid"
         args="standalone jsk_pcl/OctreeVoxelGrid"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="/selected_pointcloud" />
     <param name="resolution" value="0.01" />
     <rosparam>
@@ -138,7 +138,7 @@
   <node pkg="nodelet" type="nodelet"
         name="particle_filter_tracker"
         args="standalone jsk_pcl/ParticleFilterTracking"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="voxelgrid/output" />
     <remap from="~input_change" to="octree_change_detector/octree_change_result" />
     <remap from="~input_change" to="octree_change_detector_euclidean_filter_points/debug_output" />

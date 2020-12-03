@@ -35,7 +35,7 @@
   <arg name="mapDistance"         default="20.0" /> <!-- meters -->
   <arg name="mapDensity"           default="0.25" /> <!-- meters -->
   
-  <node pkg="ff_waypoint_follower" type="ff_waypoint_follower" name="ff_waypoint_follower" output="screen">
+  <node pkg="ff_waypoint_follower" type="ff_waypoint_follower" name="ff_waypoint_follower" output="log">
   
     <param name="width"             value="$(arg width)" />
     <param name="length"             value="$(arg length)" />

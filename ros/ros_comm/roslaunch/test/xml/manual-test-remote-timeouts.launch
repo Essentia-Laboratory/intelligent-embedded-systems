@@ -9,6 +9,6 @@
 
     <machine name="remote" address="$(arg address)" user="$(arg user)" env-loader="$(arg env_loader)" timeout="$(arg timeout)" />
 
-    <node name="signal_logger" pkg="roslaunch" type="signal_logger.py" machine="remote" output="screen" />
+    <node name="signal_logger" pkg="roslaunch" type="signal_logger.py" machine="remote" output="log" />
 
 </launch>

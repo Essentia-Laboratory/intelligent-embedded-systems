@@ -10,7 +10,7 @@
   <arg name="first_yellow_time"        default="5" />
   <arg name="second_yellow_time"        default="5" />
     
-  <node pkg="op_simulation_package" type="op_signs_simulator" name="op_signs_simulator" output="screen">
+  <node pkg="op_simulation_package" type="op_signs_simulator" name="op_signs_simulator" output="log">
     
     <param name="mapSource"         value="$(arg mapSource)" />
     <param name="mapFileName"         value="$(arg mapFileName)" />    

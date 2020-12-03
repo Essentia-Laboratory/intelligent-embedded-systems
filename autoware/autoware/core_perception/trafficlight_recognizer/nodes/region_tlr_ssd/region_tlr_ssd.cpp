@@ -434,7 +434,7 @@ void RegionTLRSSDROSNode::PublishImage(std::vector<Context> contexts)
   const int kFontFace = cv::FONT_HERSHEY_COMPLEX_SMALL;
   const double kFontScale = 0.8;
   int font_baseline = 0;
-  CvScalar label_color;
+  cv::Scalar label_color;
 
   for (const auto ctx : contexts_)
   {

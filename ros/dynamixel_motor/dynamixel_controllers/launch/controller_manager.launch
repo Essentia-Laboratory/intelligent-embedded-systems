@@ -16,7 +16,7 @@
     <!-- 4. /dynamixel_controller_manager/dxl_tty2/start_controller -->
     <!-- 5. /dynamixel_controller_manager/dxl_tty2/stop_controller -->
     <!-- 6. /dynamixel_controller_manager/dxl_tty2/restart_controller -->
-    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
+    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="log">
         <rosparam>
             namespace: dynamixel_controller_manager
             serial_ports:

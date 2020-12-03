@@ -47,7 +47,7 @@
     <remap from="~target" to="region_growing_multiple_plane_segmentation/output/inliers"/>
   </node>
 
-  <node pkg="jsk_pcl_ros" type="plane_concatenator" name="plane_concatenator" output="screen">
+  <node pkg="jsk_pcl_ros" type="plane_concatenator" name="plane_concatenator" output="log">
     <remap from="~input" to="normal_direction_filter_points/output" />
     <remap from="~input/indices" to="region_growing_multiple_plane_segmentation/output/inliers" />
     <remap from="~input/polygons" to="region_growing_multiple_plane_segmentation/output/polygons" />
@@ -95,7 +95,7 @@
   <node pkg="image_view" type="image_view" name="polygon_array_color_histogram_debug_view">
     <remap to="polygon_array_color_histogram/debug/polygon_image" from="image" />
   </node>
-  <node pkg="jsk_pcl_ros" type="multi_plane_extraction" name="multi_plane_extraction" output="screen">
+  <node pkg="jsk_pcl_ros" type="multi_plane_extraction" name="multi_plane_extraction" output="log">
     <remap from="~input" to="normal_direction_filter_points_camera/output" />
     <remap from="~input_polygons" to="extract_top_polygon_likelihood/output"/>
     <remap from="~input_coefficients" to="extract_top_polygon_likelihood/output/coefficients"/>

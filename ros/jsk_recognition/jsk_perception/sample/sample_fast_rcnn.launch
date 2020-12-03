@@ -20,7 +20,7 @@
   </include>
 
   <node name="draw_rects" pkg="jsk_perception" type="draw_rects"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/rects" to="fast_rcnn/output/rect_array" />
     <remap from="~input/class" to="fast_rcnn/output/class" />

@@ -24,7 +24,7 @@
   <node pkg="jsk_topic_tools"
         type="standalone_complexed_nodelet"
         name="laser_pipeline_nodelet"
-        output="screen" />
+        output="log" />
 
   <!-- assembled based on body -->
   <include file="$(find jsk_tilt_laser)/launch/jsk_laser_pipeline_listener_settings.launch" >

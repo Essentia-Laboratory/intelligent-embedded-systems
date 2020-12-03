@@ -19,7 +19,7 @@
   <node name="sample_manager"
         pkg="nodelet" type="nodelet"
         args="manager"
-        output="screen"/>
+        output="log"/>
 
   <!-- Reference -->
   <node name="normal_estimation_omp_reference"

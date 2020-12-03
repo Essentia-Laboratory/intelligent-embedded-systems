@@ -189,7 +189,7 @@
       top_n_ratio: 0.5
     </rosparam>
   </node>
-  <node pkg="jsk_pcl_ros" type="interactive_cuboid_likelihood" name="interactive_cuboid_likelihood" output="screen"
+  <node pkg="jsk_pcl_ros" type="interactive_cuboid_likelihood" name="interactive_cuboid_likelihood" output="log"
         if="false">
     <remap from="~input" to="plane_supported_cuboid_estimator/output/candidate_cloud" />
     <!-- <param name="sensor_frame" value="left_camera_optical_frame" /> -->

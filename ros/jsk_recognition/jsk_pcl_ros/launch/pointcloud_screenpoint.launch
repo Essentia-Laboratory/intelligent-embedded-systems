@@ -39,14 +39,14 @@
 
   <!-- nodelet manager -->
   <node name="screenpoint_manager" pkg="nodelet"
-        type="nodelet" args="manager" output="screen"
+        type="nodelet" args="manager" output="log"
         machine="$(arg cloud_machine)" respawn="true"/>
 
   <!-- depth_image_creator -->
   <node if="$(arg USE_DEPTH_CREATER)"
         name="depth_image_creator_nodelet" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/DepthImageCreator screenpoint_manager"
-        output="screen" clear_params="true" respawn="true"
+        output="log" clear_params="true" respawn="true"
         machine="$(arg cloud_machine)">
     <remap from="~info" to="$(arg camera_info)" />
     <remap from="~input" to="$(arg points)" />
@@ -65,7 +65,7 @@
   <node if="$(arg USE_REGISTERED_DEPTH)"
         name="depth_image_proc_nodelet" pkg="nodelet" type="nodelet"
         args="load depth_image_proc/point_cloud_xyzrgb screenpoint_manager"
-        output="screen" clear_params="true" respawn="true"
+        output="log" clear_params="true" respawn="true"
         machine="$(arg cloud_machine)">
     <remap from="rgb/camera_info" to="$(arg camera_info)" />
     <remap from="rgb/image_rect_color" to="$(arg image)/$(arg image_type)" />
@@ -75,7 +75,7 @@
 
   <node name="pointcloud_screenpoint_nodelet" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/PointcloudScreenpoint screenpoint_manager"
-        output="screen" clear_params="true" respawn="true"
+        output="log" clear_params="true" respawn="true"
         machine="$(arg cloud_machine)">
     <remap from="~points" to="$(arg inpoints)" />
     <remap from="~point" to="$(arg image)/$(arg image_type)/screenpoint" />
@@ -96,7 +96,7 @@
 
   <group if="$(arg USE_VIEW)" >
     <node name="screenpoint_view" ns="$(arg image)"
-          pkg="image_view2" type="image_view2" output="screen" respawn="true"
+          pkg="image_view2" type="image_view2" output="log" respawn="true"
           machine="$(arg display_machine)" >
       <remap from="image" to="$(arg image_type)" />
       <param name="autosize" value="true" />

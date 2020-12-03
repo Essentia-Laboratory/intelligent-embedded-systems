@@ -25,7 +25,7 @@
     <node pkg="nodelet" type="nodelet"
           name="voxel_grid_decoder"
           args="load jsk_pcl/VoxelGridDownsampleDecoder /pointcloud_roi/pcl_roi_remote_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="voxel_grid_manager/output_encoded" />
     </node>
 
@@ -37,7 +37,7 @@
 	  pkg="nodelet" type="nodelet"
           name="l_hand_voxel_grid_decoder"
           args="load jsk_pcl/VoxelGridDownsampleDecoder /pointcloud_roi/pcl_roi_remote_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="l_hand_voxel_grid_manager/output_encoded" />
     </node>
 
@@ -48,7 +48,7 @@
 	  pkg="nodelet" type="nodelet"
           name="r_hand_voxel_grid_decoder"
           args="load jsk_pcl/VoxelGridDownsampleDecoder /pointcloud_roi/pcl_roi_remote_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="r_hand_voxel_grid_manager/output_encoded" />
     </node>
 

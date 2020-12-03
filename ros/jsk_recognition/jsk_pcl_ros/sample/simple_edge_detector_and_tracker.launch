@@ -5,7 +5,7 @@
   <arg name="input_info" default="rgb/camera_info" />
 
   <node pkg="jsk_pcl_ros" type="border_estimator" name="border_estimator"
-	output="screen">
+	output="log">
     <remap from="~input" to="$(arg input_point)" />
     <remap from="~input_camera_info" to="$(arg input_info)" />
   </node>
@@ -30,7 +30,7 @@
     <node pkg="nodelet" type="nodelet"
           name="mask2pi"
           args="standalone jsk_pcl/MaskImageToPointIndices"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="edge/image" />
       <rosparam>
         filter_field_name: z

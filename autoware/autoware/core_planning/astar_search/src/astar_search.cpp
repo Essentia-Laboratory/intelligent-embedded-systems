@@ -295,9 +295,16 @@ bool AstarSearch::setGoalNode(const geometry_msgs::Pose& goal_pose)
 
 void AstarSearch::poseToIndex(const geometry_msgs::Pose& pose, int* index_x, int* index_y, int* index_theta)
 {
+#if USE_TF2
+  tf2::Transform orig_tf;
+  tf2::fromMsg(pose, orig_tf);
+  tf2::Stamped<tf2::Transform> stamped(orig_tf.inverse(), ros::Time(0), "");
+  geometry_msgs::Pose pose2d = transformPose(pose, stamped);
+#else
   tf::Transform orig_tf;
   tf::poseMsgToTF(costmap_.info.origin, orig_tf);
   geometry_msgs::Pose pose2d = transformPose(pose, orig_tf.inverse());
+#endif
 
   *index_x = pose2d.position.x / costmap_.info.resolution;
   *index_y = pose2d.position.y / costmap_.info.resolution;

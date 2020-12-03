@@ -9,7 +9,7 @@
   <arg name="debug" default="false"/>
   <arg name="physics" default="ode"/>
   <arg name="verbose" default="true"/>
-  <arg name="output" default="screen"/>
+  <arg name="output" default="log"/>
   <arg name="world" default="gazebo_ros_range"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">

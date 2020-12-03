@@ -8,7 +8,7 @@
 
   <node name="people_pose_estimation_2d"
         pkg="jsk_perception" type="people_pose_estimation_2d.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <rosparam subst_value="true">
       gpu: $(arg gpu)
@@ -21,7 +21,7 @@
 
   <node name="human_mesh_recovery"
         pkg="jsk_perception" type="human_mesh_recovery.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/pose" to="people_pose_estimation_2d/pose" />
     <rosparam subst_value="true">

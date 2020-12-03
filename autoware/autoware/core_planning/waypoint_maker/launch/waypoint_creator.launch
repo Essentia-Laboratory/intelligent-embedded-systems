@@ -9,7 +9,7 @@
   <arg name="delete_pose_topic" default="/move_base_simple/goal" />
 
   <!-- waypoint creator to generate waypoints -->
-  <node pkg="waypoint_maker" type="waypoint_creator" name="waypoint_creator" output="screen">
+  <node pkg="waypoint_maker" type="waypoint_creator" name="waypoint_creator" output="log">
     <param name="out_lane_array_topic" value="$(arg lane_topic)" />
     <param name="remove_pose_thr" value="$(arg remove_pose_thr)" />
     <param name="interpolation_interval" value="$(arg interpolation_interval)" />
@@ -21,7 +21,7 @@
   </node>
 
   <!-- waypoint extractor to save waypoints -->
-  <node pkg="waypoint_maker" type="waypoint_extractor" name="waypoint_extractor" output="screen">
+  <node pkg="waypoint_maker" type="waypoint_extractor" name="waypoint_extractor" output="log">
     <param name="lane_csv" command="bash -c &quot;echo -n $HOME`date '+/waypoint_creator_%Y%m%d-%H%M%S.csv'`&quot;" />
     <param name="lane_topic" value="$(arg lane_topic)" />
   </node>

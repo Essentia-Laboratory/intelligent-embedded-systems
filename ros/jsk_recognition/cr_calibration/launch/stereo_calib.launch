@@ -5,7 +5,7 @@
           pkg="camera_calibration"
           type="cameracalibrator.py"
           args="--size=8x6 --square=0.108 --approximate=0.01"
-          output="screen"
+          output="log"
           clear_params="true">
       <!-- add "\-\-use-rational" to args -->
       <!-- for stereo_synchronizer -->

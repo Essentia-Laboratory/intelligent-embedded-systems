@@ -1,6 +1,6 @@
 <launch>
   <node name="camshiftdemo" pkg="jsk_perception"
-	type="camshiftdemo" output="screen">
+	type="camshiftdemo" output="log">
     <remap from="image" to="image_rect_color" />
     <remap from="screenrectangle" to="image_rect_color/screenrectangle" />
   </node>

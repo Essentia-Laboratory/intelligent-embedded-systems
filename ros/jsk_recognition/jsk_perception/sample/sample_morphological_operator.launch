@@ -8,7 +8,7 @@
   <node name="sample_manager"
         pkg="nodelet" type="nodelet"
         args="manager"
-        output="screen"
+        output="log"
         respawn="true"/>
 
   <node name="erode_mask_image"

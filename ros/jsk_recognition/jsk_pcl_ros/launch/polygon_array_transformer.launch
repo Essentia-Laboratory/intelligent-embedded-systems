@@ -4,7 +4,7 @@
 
   <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
         args="manager"
-        output="screen"/>
+        output="log"/>
 
   <node pkg="nodelet" type="nodelet" name="transform_cloud"
         args="load jsk_pcl/TfTransformCloud $(arg MANAGER)">

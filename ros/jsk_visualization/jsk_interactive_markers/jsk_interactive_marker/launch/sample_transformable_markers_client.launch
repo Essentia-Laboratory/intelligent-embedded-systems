@@ -12,7 +12,7 @@
 
   <node name="transformable_markers_client"
         pkg="jsk_interactive_marker" type="transformable_markers_client.py"
-        output="screen">
+        output="log">
     <remap from="~server" to="transformable_interactive_server" />
     <rosparam subst_value="true">
       config_file: $(find jsk_interactive_marker)/launch/config/sample_transformable_markers_client.yaml

@@ -3,7 +3,7 @@
   <arg name="camera" default="camera" />
   <arg name="manager" default="camera_nodelet_manager" />
   <group ns="$(arg camera)">
-    <node pkg="nodelet" type="nodelet" args="manager" name="$(arg manager)" output="screen"/>
+    <node pkg="nodelet" type="nodelet" args="manager" name="$(arg manager)" output="log"/>
     <node pkg="nodelet" type="nodelet" args="load jsk_libfreenect2/Driver /$(arg camera)/$(arg manager)"
           name="driver">
       <param name="rgb_camera_info_url" value="" />
@@ -12,18 +12,18 @@
       <remap from="ir/image_raw" to="ir/image_rect"/>
     </node>
     <group ns="rgb">
-      <node pkg="image_proc" type="image_proc" name="image_proc" output="screen"/>
+      <node pkg="image_proc" type="image_proc" name="image_proc" output="log"/>
     </group>
     <!-- <group ns="depth"> -->
     <!--   <node pkg="nodelet" type="nodelet" args="load image_proc/rectify /$(arg camera)/$(arg manager)2" -->
-    <!--         output="screen" -->
+    <!--         output="log" -->
     <!--         name="depth_image_rect"> -->
     <!--     <renmap from="image_mono" to="image_raw" /> -->
     <!--   </node> -->
     <!-- </group> -->
     <!-- <group ns="ir"> -->
     <!--   <node pkg="nodelet" type="nodelet" args="load image_proc/rectify /$(arg camera)/$(arg manager)2" -->
-    <!--         output="screen" -->
+    <!--         output="log" -->
     <!--         name="ir_image_rect"> -->
     <!--     <remap from="image_mono" to="image_raw" /> -->
     <!--   </node> -->
@@ -35,7 +35,7 @@
     <node name="depth_image_register"
           pkg="nodelet" type="nodelet"
           args="load depth_image_proc/register /$(arg camera)/$(arg manager)"
-          output="screen">
+          output="log">
       <remap from="rgb/camera_info" to="rgb_1_2/camera_info" />
     </node>
 
@@ -43,12 +43,12 @@
     <group ns="depth">
       <node pkg="nodelet" type="nodelet"
             args="load depth_image_proc/point_cloud_xyz /$(arg camera)/$(arg manager)"
-            output="screen"
+            output="log"
             name="depth_point_xyz">
       </node>
     </group>
     
-    <node pkg="nodelet" type="nodelet" args="load depth_image_proc/point_cloud_xyzrgb /$(arg camera)/$(arg manager)" output="screen"
+    <node pkg="nodelet" type="nodelet" args="load depth_image_proc/point_cloud_xyzrgb /$(arg camera)/$(arg manager)" output="log"
           name="depth_point_xyzrgb">
     </node>
     <node pkg="tf" type="static_transform_publisher" name="freenect_tf_frame"

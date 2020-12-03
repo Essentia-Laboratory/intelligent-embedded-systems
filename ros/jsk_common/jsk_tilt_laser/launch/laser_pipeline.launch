@@ -9,7 +9,7 @@
   <!-- laser assembler for recognizing environment -->
   <node pkg="laser_assembler" type="laser_scan_assembler"
         name="laser_scan_assembler_node"
-        output="screen" >
+        output="log" >
     <remap from="scan" to="$(arg laser_scan)"/>
     <!-- <remap from="cloud_filtered" to="$(arg pointcloud)"/> -->
     <param name="tf_cache_time_secs" value="20" />

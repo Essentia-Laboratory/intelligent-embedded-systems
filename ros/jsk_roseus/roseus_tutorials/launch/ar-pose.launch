@@ -1,5 +1,5 @@
 <launch>
-  <node name="ar_pose" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+  <node name="ar_pose" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="log">
     <param name="marker_size" type="double" value="4.4"/>
     <param name="maker_new_marker_error" type="double" value="0.08"/>
     <param name="maker_track_error" type="double" value="0.2"/>

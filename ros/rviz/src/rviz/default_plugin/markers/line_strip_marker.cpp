@@ -54,7 +54,7 @@ LineStripMarker::~LineStripMarker()
   delete lines_;
 }
 
-void LineStripMarker::onNewMessage(const MarkerConstPtr& /*old_message*/,
+void LineStripMarker::onNewMessage(const MarkerConstPtr& old_message,
                                    const MarkerConstPtr& new_message)
 {
   ROS_ASSERT(new_message->type == visualization_msgs::Marker::LINE_STRIP);
@@ -100,8 +100,10 @@ void LineStripMarker::onNewMessage(const MarkerConstPtr& /*old_message*/,
     Ogre::Vector3 v(p.x, p.y, p.z);
     if (!validateFloats(p))
     {
-      ROS_WARN("[LineStripMarker::onNewMessage()] Marker '%s/%d': invalid point[%zu] (%.2f, %.2f, %.2f)", new_message->ns.c_str(),
-               new_message->id, i, p.x, p.y, p.z);
+      ROS_WARN("[LineStripMarker::onNewMessage()] Marker '%s/%d': invalid point[%zu] (%.2f, %.2f, %.2f), [%s]->[%s]", new_message->ns.c_str(),
+               new_message->id, i, p.x, p.y, p.z, 
+	       old_message == nullptr ? "nullptr" : old_message->header.frame_id.c_str(),
+	       new_message == nullptr ? "nullptr" : new_message->header.frame_id.c_str());
       continue;
     }
 

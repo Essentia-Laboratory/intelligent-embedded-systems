@@ -257,6 +257,7 @@ void DecisionMakerNode::initROS()
 
 void DecisionMakerNode::initLaneletMap(void)
 {
+  ROS_INFO("[%s] --> initLaneletMap", __APP_NAME__);
   bool ll2_map_loaded = false;
   while (!ll2_map_loaded && ros::ok())
   {
@@ -265,10 +266,12 @@ void DecisionMakerNode::initLaneletMap(void)
     ll2_map_loaded = isEventFlagTrue("lanelet2_map_loaded");
     ros::Duration(0.1).sleep();
   }
+  ROS_INFO("[%s] <-- initLaneletMap", __APP_NAME__);
 }
 
 void DecisionMakerNode::initVectorMap(void)
 {
+  ROS_INFO("[%s] --> initVectorMap", __APP_NAME__);
   int _index = 0;
   bool vmap_loaded = false;
 
@@ -276,13 +279,15 @@ void DecisionMakerNode::initVectorMap(void)
   {
     // Map must be populated before setupStateCallback() is called
     // in DecisionMakerNode constructor
-    g_vmap.subscribe( nh_, Category::POINT | Category::LINE | Category::VECTOR |
-      Category::AREA | Category::STOP_LINE | Category::ROAD_SIGN | Category::CROSS_ROAD,
-      ros::Duration(1.0));
+    g_vmap.subscribe( nh_, Category::POINT | Category::LINE 
+		    | Category::AREA | Category::CROSS_ROAD 
+		    /* Category::ROAD_SIGN | Category::VECTOR | Category::STOP_LINE */
+      , ros::Duration(1.0));
 
     vmap_loaded =
-        g_vmap.hasSubscribed(Category::POINT | Category::LINE | Category::AREA |
-                              Category::STOP_LINE | Category::ROAD_SIGN);
+        g_vmap.hasSubscribed(Category::POINT | Category::LINE | Category::AREA 
+			/* | Category::ROAD_SIGN | Category::STOP_LINE */
+			);
 
     if (!vmap_loaded)
     {
@@ -354,5 +359,6 @@ void DecisionMakerNode::initVectorMap(void)
     carea.bbox.label = 1;
     intersects.push_back(carea);
   }
+  ROS_INFO("[%s] <-- initVectorMap", __APP_NAME__);
 }
 }

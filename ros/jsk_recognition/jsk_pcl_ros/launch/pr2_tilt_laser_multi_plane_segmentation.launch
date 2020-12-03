@@ -21,7 +21,7 @@
   <node pkg="laser_assembler" type="laser_scan_assembler"
          name="laser_scan_assembler_node"
          machine="$(arg MACHINE)"
-         output="screen" >
+         output="log" >
      <remap from="scan" to="/tilt_scan"/>
      <param name="tf_cache_time_secs" value="30" />
      <param name="max_scans" type="int" value="3000" />
@@ -29,12 +29,12 @@
   </node>
   <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
         machine="$(arg MACHINE)"
-        args="manager" output="screen"/>
+        args="manager" output="log"/>
   <node pkg="nodelet" type="nodelet"
         name="tilt_laser_listener"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/TiltLaserListener $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="/joint_states" />
     <rosparam>
       laser_type: tilt_half_down
@@ -169,7 +169,7 @@
   <node pkg="nodelet" type="nodelet"
         name="plane_extraction"
         args="load jsk_pcl/MultiPlaneExtraction $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="voxel_grid/output" />
     <remap from="~indices" to="/multi_plane_region_growing/output/inliers" />
     <remap from="~input_polygons" to="/multi_plane_region_growing/output/polygons" />
@@ -178,7 +178,7 @@
     
   <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
                 machine="$(arg MACHINE)"
-        args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)" output="screen">
+        args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)" output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <rosparam>
       tolerance: 0.02
@@ -190,7 +190,7 @@
         name="cluster_decomposer_final"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~target" to="/euclidean_clustering/output_throttle" />
     <remap from="~align_planes" to="/multi_plane_region_growing/output/polygons" />
@@ -211,7 +211,7 @@
   <node pkg="nodelet" type="nodelet"
         name="throttle_segmentation"
         args="load jsk_topic_tools/LightweightThrottle /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="euclidean_clustering/output" />
     <remap from="~output" to="euclidean_clustering/output_throttle" />
   </node>
@@ -219,7 +219,7 @@
         type="bounding_box_marker"
         machine="$(arg MACHINE)"
         name="bounding_box_marker"
-        output="screen"
+        output="log"
         >
     <remap from="~bounding_box_array" to="cluster_decomposer_final/boxes" />
   </node>
@@ -227,7 +227,7 @@
         name="selected_cloud"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/SelectedClusterPublisher /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~indices" to="/euclidean_clustering/output" />
     <remap from="~selected_index" to="/bounding_box_marker/selected_index" />
@@ -244,7 +244,7 @@
     <node pkg="nodelet" type="nodelet" name="color_histogram"
           args="load jsk_pcl/ColorHistogramMatcher /$(arg MANAGER)"
           machine="$(arg MACHINE)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" />-->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~input_indices" to="grid_sampler/output" />
@@ -257,7 +257,7 @@
     <node pkg="nodelet" type="nodelet" name="grid_sampler"
           args="load jsk_pcl/GridSampler /$(arg MANAGER)"
           machine="$(arg MACHINE)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <rosparam>
@@ -268,7 +268,7 @@
           name="grid_sample_decompose"
           machine="$(arg MACHINE)"
           args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~target" to="grid_sampler/output" />
@@ -281,7 +281,7 @@
           name="match_result"
           machine="$(arg MACHINE)"
           args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~target" to="color_histogram/output" />
@@ -324,7 +324,7 @@
       <param name="frame_id" value="$(arg BASE_FRAME_ID)" />
     </node>
     <node pkg="nodelet" type="nodelet" name="env_server"
-          output="screen"
+          output="log"
           args="load jsk_pcl/EnvironmentPlaneModeling /$(arg MANAGER)" >
       <remap from="~input" to="transform_input/output" />
       <remap from="~indices" to="/multi_plane_estimate/output_refined" />

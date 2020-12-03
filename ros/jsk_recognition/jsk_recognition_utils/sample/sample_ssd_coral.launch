@@ -5,7 +5,7 @@
 
   <node name="edgetpu_object_detector"
         pkg="coral_usb" type="edgetpu_object_detector.py"
-        output="screen" respawn="true">
+        output="log" respawn="true">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <rosparam subst_value="true" >
       model_file: $(arg model_file)

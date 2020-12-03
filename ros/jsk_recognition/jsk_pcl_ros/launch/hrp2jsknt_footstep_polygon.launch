@@ -5,7 +5,7 @@
         args="manager"
         if="$(arg LAUNCH_MANAGER)"
         alaunch-prefix="xterm -e gdb --args"
-        output="screen"/>
+        output="log"/>
   <node pkg="nodelet" type="nodelet" name="footstep_polygon_publisher"
         clear_params="true"
         args="load jsk_pcl/StaticPolygonArrayPublisher /$(arg

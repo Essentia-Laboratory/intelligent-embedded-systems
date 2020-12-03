@@ -7,7 +7,7 @@
 
   <node name="polygon_array_publisher"
         pkg="jsk_recognition_utils" type="polygon_array_publisher.py"
-        output="screen">
+        output="log">
     <rosparam>
       frame_id: base_link
       polygons:

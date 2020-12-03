@@ -3,5 +3,5 @@
   <rosparam command="load" file="$(find imu_sensor_controller)/imu_sensor_controller.yaml" />
 
   <!-- spawn controller -->
-  <node name="imu_sensor_controller_spawner" pkg="controller_manager" type="spawner" output="screen" args="imu_sensor_controller" />
+  <node name="imu_sensor_controller_spawner" pkg="controller_manager" type="spawner" output="log" args="imu_sensor_controller" />
 </launch>

@@ -7,7 +7,7 @@
         name="snapit"
         args="load jsk_pcl/Snapit /camera_nodelet_manager"
         if="$(arg USE_OPENNI)"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="/camera/depth_registered/points" />
   </node>
 
@@ -16,7 +16,7 @@
         type="footstep_marker"
         name="footstep_marker"
         clear_params="true"
-        output="screen"
+        output="log"
         >
     <remap from="snapit" to="/snapit/snapit" />
     <param name="wait_snapit_server" value="$(arg USE_OPENNI)" />
@@ -40,7 +40,7 @@
         type="footstep-planner-node.l"
         name="footstep_planner"
         clear_params="true"
-        output="screen">
+        output="log">
     <rosparam>
     use_planes: true
     x:     [-0.039375,0.0525,  0.0525,  0.027176,-0.027176, -0.08,0.0, 0.0, 0.075,0.15,0.0, 0.3,  0.4,  0.1,  0.05, 0.35, 0.2, 0.0525,0.0525,0.0,0.0, 0.0,0.0]
@@ -55,12 +55,12 @@
         name="plane_publisher"
         args="$(arg GLOBAL_FRAME_ID)"
         if="false"
-        output="screen">
+        output="log">
   </node>
   <node pkg="jsk_footstep_planner"
         type="drc-task2-env.l"
         name="plane_publisher"
-        output="screen">
+        output="log">
   </node>
 
 </launch>

@@ -1,6 +1,6 @@
 <launch>
   <node pkg="wiimote" type="wiimote_node.py" name="wiimote_node"
-	output="screen" />
+	output="log" />
   <sphinxdoc><![CDATA[
 This script start wiimote driver.
 

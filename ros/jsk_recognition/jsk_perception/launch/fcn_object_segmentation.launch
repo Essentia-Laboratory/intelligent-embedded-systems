@@ -9,7 +9,7 @@
 
   <node name="fcn_object_segmentation"
         pkg="jsk_perception" type="fcn_object_segmentation.py"
-        output="screen"
+        output="log"
         required="$(arg required)">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/mask" to="$(arg INPUT_MASK)" />

@@ -25,9 +25,9 @@
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <node if="$(arg create_manager)"
           pkg="nodelet" type="nodelet" name="$(arg manager)"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
     <node pkg="nodelet" type="nodelet" name="zfilter"
-          args="load pcl/PassThrough $(arg manager)" output="screen">
+          args="load pcl/PassThrough $(arg manager)" output="log">
       <remap from="~input" to="$(arg INPUT)" />
       <rosparam>
         filter_field_name: z
@@ -36,7 +36,7 @@
       </rosparam>
     </node>
     <node pkg="nodelet" type="nodelet" name="rgb_filter"
-          args="load jsk_pcl/RGBColorFilter $(arg manager)" output="screen">
+          args="load jsk_pcl/RGBColorFilter $(arg manager)" output="log">
       <remap from="~input" to="zfilter/output" />
       <remap from="~output" to="$(arg OUTPUT)" />
       <rosparam>
@@ -51,7 +51,7 @@
     </node>
 
     <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
-          args="load jsk_pcl/EuclideanClustering $(arg manager)" output="screen">
+          args="load jsk_pcl/EuclideanClustering $(arg manager)" output="log">
       <remap from="~input" to="$(arg OUTPUT)" />
       <rosparam>
         tolerance: 0.02
@@ -62,7 +62,7 @@
     <node pkg="nodelet" type="nodelet"
           name="cluster_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg OUTPUT)" />
       <remap from="~target" to="euclidean_clustering/output" />
       <rosparam>

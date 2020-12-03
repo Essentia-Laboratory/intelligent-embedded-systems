@@ -37,7 +37,7 @@
   <node name="euclidean_clustering"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/EuclideanClustering hsi_filter_manager"
-        output="screen">
+        output="log">
     <remap from="~input" to="hsi_color_filter/output" />
     <rosparam>
       tolerance: 0.02
@@ -48,7 +48,7 @@
   <node name="cluster_decomposer"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis hsi_filter_manager"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="hsi_color_filter/output" />
     <remap from="~target" to="euclidean_clustering/output" />
     <remap from="~debug_output" to="debug_output" />

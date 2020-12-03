@@ -19,6 +19,9 @@
 AstarAvoid::AstarAvoid()
   : nh_()
   , private_nh_("~")
+#if USE_TF2
+  , tf_listener_(tf_buffer_)
+#endif
 {
   private_nh_.param<int>("safety_waypoints_size", safety_waypoints_size_, 100);
   private_nh_.param<double>("update_rate", update_rate_, 10.0);
@@ -45,7 +48,11 @@ AstarAvoid::AstarAvoid()
 void AstarAvoid::costmapCallback(const nav_msgs::OccupancyGrid& msg)
 {
   costmap_ = msg;
+#if USE_TF2
+  tf2::convert(costmap_.info.origin, local2costmap_);
+#else
   tf::poseMsgToTF(costmap_.info.origin, local2costmap_);
+#endif
   costmap_initialized_ = true;
 }
 
@@ -387,6 +394,21 @@ void AstarAvoid::publishWaypoints(const ros::TimerEvent& e)
   }
 }
 
+#if USE_TF2
+geometry_msgs::TransformStamped AstarAvoid::getTransform(const std::string& from, const std::string& to)
+{
+  geometry_msgs::TransformStamped tfGeom;
+  try
+  {
+    tfGeom = tf_buffer_.lookupTransform(from, to, ros::Time(0), ros::Duration(0));
+  }
+  catch( tf2::TransformException& ex)
+  {
+    ROS_ERROR("[%s] %s", __APP_NAME__, ex.what());
+  }
+  return tfGeom;
+}
+#else
 tf::Transform AstarAvoid::getTransform(const std::string& from, const std::string& to)
 {
   tf::StampedTransform stf;
@@ -400,6 +422,7 @@ tf::Transform AstarAvoid::getTransform(const std::string& from, const std::strin
   }
   return stf;
 }
+#endif
 
 void AstarAvoid::updateClosestWaypoint(const autoware_msgs::Lane& waypoints, const geometry_msgs::Pose& pose,
                                         const int& search_size)

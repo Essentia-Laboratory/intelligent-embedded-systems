@@ -19,7 +19,7 @@
   <!-- tile images -->
   <node name="tile_image"
         pkg="jsk_perception" type="tile_image.py"
-        output="screen">
+        output="log">
     <rosparam>
       input_topics: [img1/output, img2/output, img3/output, img4/output]
       draw_topic_name: true
@@ -28,7 +28,7 @@
 
   <node name="tile_image_4x1"
         pkg="jsk_perception" type="tile_image.py"
-        output="screen">
+        output="log">
     <rosparam>
       input_topics: [img1/output, img2/output, img3/output, img4/output]
       shape: [1, 4]
@@ -37,7 +37,7 @@
 
   <node name="tile_image_2x3"
         pkg="jsk_perception" type="tile_image.py"
-        output="screen">
+        output="log">
     <rosparam>
       input_topics: [img1/output, img2/output, img3/output, img4/output]
       shape: [2, 3]

@@ -6,7 +6,7 @@
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <param name="robot_description" textfile="$(find hrpsys_ros_bridge)/models/SampleRobot.urdf" />
     <node pkg="nodelet" type="nodelet" name="collision_detector"
-          args="standalone jsk_pcl/CollisionDetector" output="screen">
+          args="standalone jsk_pcl/CollisionDetector" output="log">
       <remap from="~input" to="$(arg INPUT)" />
       <remap from="~input_joint" to="/collision_detector/joint" />
       <rosparam>

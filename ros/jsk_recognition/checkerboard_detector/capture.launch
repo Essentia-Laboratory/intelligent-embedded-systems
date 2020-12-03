@@ -46,7 +46,7 @@
 
   <!-- clip -->
   <node pkg="jsk_pcl_ros" type="attention_clipper" name="attention_clipper"
-        output="screen">
+        output="log">
     <remap from="~input/pose" to="/capture_board_pose" />
     <remap from="~input" to="$(arg CAMERA)/camera_info" />
     <remap from="~input/points" to="/multisense/organized_image_points2_color" />

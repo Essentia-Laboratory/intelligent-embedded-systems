@@ -10,7 +10,7 @@
 
   <node name="rect_array_publisher"
         pkg="rostopic" type="rostopic"
-        output="screen"
+        output="log"
         args="pub -r 0.5 -s /rect_array_publisher/output jsk_recognition_msgs/RectArray
               '{header: {stamp: now, frame_id: camera_rgb_optical_frame},
                 rects: [{x: 50, y: 50, width: 200, height: 80},
@@ -19,7 +19,7 @@
 
   <node name="rects_to_cpi"
         pkg="jsk_recognition_utils" type="rect_array_to_cluster_point_indices.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="rect_array_publisher/output"/>
     <rosparam>
       use_info: false
@@ -30,7 +30,7 @@
 
   <node name="image_cluster_indices_decomposer"
         pkg="jsk_perception" type="image_cluster_indices_decomposer.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="image_publisher/output" />
     <remap from="~input/cluster_indices" to="rects_to_cpi/output" />
     <rosparam>

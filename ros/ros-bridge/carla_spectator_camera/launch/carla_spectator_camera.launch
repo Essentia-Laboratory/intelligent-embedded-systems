@@ -12,7 +12,7 @@
   <param name="/carla/port" value="$(arg port)" />
   <param name="/carla/timeout" value="$(arg timeout)" />
 
-  <node pkg="carla_spectator_camera" type="carla_spectator_camera.py" name="carla_spectator_camera" output="screen">
+  <node pkg="carla_spectator_camera" type="carla_spectator_camera.py" name="carla_spectator_camera" output="log">
       <param name="role_name" value="$(arg role_name)"/>
       <param name="resolution_x" value="$(arg resolution_x)"/>
       <param name="resolution_y" value="$(arg resolution_y)"/>

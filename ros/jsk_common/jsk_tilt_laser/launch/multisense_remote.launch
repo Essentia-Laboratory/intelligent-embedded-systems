@@ -10,7 +10,7 @@
 
   <group ns="$(arg namespace)">
     <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="stereo_manager"
-          output="screen">
+          output="log">
     </node>
     
     <include file="$(find jsk_pcl_ros)/launch/stereo_reconstruction.launch">

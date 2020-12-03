@@ -53,20 +53,20 @@ void LaneSelectNode::initForROS()
   sub1_ = nh_.subscribe("traffic_waypoints_array", 1, &LaneSelectNode::callbackFromLaneArray, this);
   sub5_ = nh_.subscribe("/config/lane_select", 1, &LaneSelectNode::callbackFromConfig, this);
   sub6_ = nh_.subscribe("/decision_maker/state", 1, &LaneSelectNode::callbackFromDecisionMakerState, this);
-  sub2_.subscribe(nh_, "current_pose", 1);
-  sub3_.subscribe(nh_, "current_velocity", 1);
+  sub2_.subscribe(nh_, "/current_pose", 1);
+  sub3_.subscribe(nh_, "/current_velocity", 1);
   pose_twist_sync_.reset(new PoseTwistSync(PoseTwistSyncPolicy(10), sub2_, sub3_));
   pose_twist_sync_->getPolicy()->setMaxIntervalDuration(ros::Duration(0.1));
   pose_twist_sync_->registerCallback(boost::bind(&LaneSelectNode::callbackFromPoseTwistStamped, this, _1, _2));
 
   // setup publisher
-  pub1_ = nh_.advertise<autoware_msgs::Lane>("base_waypoints", 1);
-  pub2_ = nh_.advertise<std_msgs::Int32>("closest_waypoint", 1);
-  pub3_ = nh_.advertise<std_msgs::Int32>("change_flag", 1);
-  pub4_ = nh_.advertise<std_msgs::Int32>("current_lane_id", 1);
-  pub5_ = nh_.advertise<autoware_msgs::VehicleLocation>("vehicle_location", 1);
+  pub1_ = nh_.advertise<autoware_msgs::Lane>("/base_waypoints", 1);
+  pub2_ = nh_.advertise<std_msgs::Int32>("/closest_waypoint", 1);
+  pub3_ = nh_.advertise<std_msgs::Int32>("/change_flag", 1);
+  pub4_ = nh_.advertise<std_msgs::Int32>("/current_lane_id", 1);
+  pub5_ = nh_.advertise<autoware_msgs::VehicleLocation>("/vehicle_location", 1);
 
-  vis_pub1_ = nh_.advertise<visualization_msgs::MarkerArray>("lane_select_marker", 1);
+  vis_pub1_ = nh_.advertise<visualization_msgs::MarkerArray>("/lane_select_marker", 1);
 
   // get from rosparam
   private_nh_.param<double>("lane_change_interval", lane_change_interval_, double(2));
@@ -155,7 +155,7 @@ void LaneSelectNode::processing(const ros::TimerEvent& e)
     }
     catch (std::out_of_range& e)
     {
-      ROS_WARN("[%s] Failed to get closest waypoint num", __APP_NAME__);
+      ROS_INFO("[%s] Failed to get closest waypoint num", __APP_NAME__);
     }
   }
   else
@@ -205,7 +205,7 @@ void LaneSelectNode::createLaneForChange()
   ROS_INFO("[%s] num_lane_change: %d", __APP_NAME__, num_lane_change);
   if (num_lane_change < 0 || num_lane_change >= static_cast<int32_t>(cur_lane.waypoints.size()))
   {
-    ROS_WARN("[%s] current lane doesn't have change flag", __APP_NAME__ );
+    ROS_INFO("[%s] current lane doesn't have change flag", __APP_NAME__ );
     return;
   }
 
@@ -214,7 +214,7 @@ void LaneSelectNode::createLaneForChange()
       (static_cast<ChangeFlag>(cur_lane.waypoints.at(num_lane_change).change_flag) == ChangeFlag::left &&
        left_lane_idx_ < 0))
   {
-    ROS_WARN("[%s] current lane doesn't have the lane for lane change", __APP_NAME__);
+    ROS_INFO("[%s] current lane doesn't have the lane for lane change", __APP_NAME__);
     return;
   }
 
@@ -322,7 +322,7 @@ bool LaneSelectNode::updateClosestWaypointNumberForEachLane()
   }
   if (accum == (-1) * static_cast<int32_t>(tuple_vec_.size()))
   {
-    ROS_WARN("[%s] Cannot get closest waypoints. All closest waypoints are changed to -1...", __APP_NAME__);
+    ROS_INFO("[%s] Cannot get closest waypoints. All closest waypoints are changed to -1...", __APP_NAME__);
     return false;
   }
 
@@ -413,7 +413,7 @@ visualization_msgs::Marker LaneSelectNode::createCurrentLaneMarker()
   visualization_msgs::Marker marker;
   marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
-  marker.ns = "/current_lane_marker";
+  marker.ns = "current_lane_marker";
 
   if (current_lane_idx_ == -1 || std::get<0>(tuple_vec_.at(current_lane_idx_)).waypoints.empty())
   {
@@ -442,7 +442,7 @@ visualization_msgs::Marker LaneSelectNode::createRightLaneMarker()
   visualization_msgs::Marker marker;
   marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
-  marker.ns = "/right_lane_marker";
+  marker.ns = "right_lane_marker";
 
   if (right_lane_idx_ == -1 || std::get<0>(tuple_vec_.at(current_lane_idx_)).waypoints.empty())
   {
@@ -479,7 +479,7 @@ visualization_msgs::Marker LaneSelectNode::createLeftLaneMarker()
   visualization_msgs::Marker marker;
   marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
-  marker.ns = "/left_lane_marker";
+  marker.ns = "left_lane_marker";
 
   if (left_lane_idx_ == -1 || std::get<0>(tuple_vec_.at(current_lane_idx_)).waypoints.empty())
   {
@@ -516,7 +516,7 @@ visualization_msgs::Marker LaneSelectNode::createChangeLaneMarker()
   visualization_msgs::Marker marker;
   marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
-  marker.ns = "/change_lane_marker";
+  marker.ns = "change_lane_marker";
 
   if (std::get<0>(lane_for_change_).waypoints.empty())
   {
@@ -555,7 +555,7 @@ visualization_msgs::Marker LaneSelectNode::createClosestWaypointsMarker()
 
   marker.header.frame_id = "map";
   marker.header.stamp = ros::Time();
-  marker.ns = "/closest_waypoints_marker";
+  marker.ns = "closest_waypoints_marker";
   marker.type = visualization_msgs::Marker::POINTS;
   marker.action = visualization_msgs::Marker::ADD;
   marker.scale.x = 0.5;

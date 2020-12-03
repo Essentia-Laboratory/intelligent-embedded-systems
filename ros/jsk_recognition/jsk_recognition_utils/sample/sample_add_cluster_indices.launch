@@ -1,7 +1,7 @@
 <launch>
   <node name="cluster_indices_publisher0"
         pkg="rostopic" type="rostopic"
-        output="screen"
+        output="log"
         args="pub -r 1 -s /cluster_indices_publisher0/output
               jsk_recognition_msgs/ClusterPointIndices
               '{header: {stamp: now, frame_id: map},
@@ -10,7 +10,7 @@
 
   <node name="cluster_indices_publisher1"
         pkg="rostopic" type="rostopic"
-        output="screen"
+        output="log"
         args="pub -r 1 -s /cluster_indices_publisher1/output
               jsk_recognition_msgs/ClusterPointIndices
               '{header: {stamp: now, frame_id: map},
@@ -19,7 +19,7 @@
 
   <node name="add_cluster_indices"
         pkg="jsk_recognition_utils" type="add_cluster_indices.py"
-        output="screen">
+        output="log">
     <rosparam>
       topics:
         - /cluster_indices_publisher0/output

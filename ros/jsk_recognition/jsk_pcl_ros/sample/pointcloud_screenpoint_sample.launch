@@ -31,7 +31,7 @@
 
   <!-- publish markers, broadcast TF -->
   <node name="display_point" pkg="jsk_pcl_ros" machine="localhost"
-        type="pointcloud_screenpoint.l" output="screen">
+        type="pointcloud_screenpoint.l" output="log">
     <rosparam subst_value="true">
       base_frame: $(arg base_frame)
       sensor_topic: $(arg image)/image_rect_color
@@ -41,13 +41,13 @@
 
   <!-- If PATH is different, you can directly call roseus like below -->
   <!--<node name="display_point" pkg="roseus" machine="$(arg cloud_machine)"
-  	type="roseus" output="screen" respawn="true"
+  	type="roseus" output="log" respawn="true"
         args="$(find jsk_pcl_ros)/euslisp/pointcloud_screenpoint.l">
     <param name="sensor_topic" value="$(arg image)/image_rect_color"/>
     <param name="ray_srv" value="/pointcloud_screenpoint_nodelet/screen_to_point"/>
     </node>-->
 
-  <node name="$(anon rviz)" type="rviz" output="screen" if="$(arg USE_RVIZ)"
+  <node name="$(anon rviz)" type="rviz" output="log" if="$(arg USE_RVIZ)"
         respawn="true" pkg="rviz" machine="$(arg display_machine)"
         args="-d $(find jsk_pcl_ros)/launch/pointcloud_screenpoint.rviz"/>
 

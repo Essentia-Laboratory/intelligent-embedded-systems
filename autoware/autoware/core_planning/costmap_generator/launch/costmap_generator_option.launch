@@ -28,7 +28,7 @@
 
 <group  if="$(arg use_ll2)">
 
-  <node pkg="costmap_generator" type="costmap_generator_lanelet2" name="costmap_generator_lanelet2" output="screen">
+  <node pkg="costmap_generator" type="costmap_generator_lanelet2" name="costmap_generator_lanelet2" output="log">
     <param name="lidar_frame" value="$(arg lidar_frame)" />
     <param name="map_frame" value="$(arg map_frame)" />
     <param name="grid_min_value" value="$(arg grid_min_value)" />
@@ -55,7 +55,7 @@
 
 <group  unless="$(arg use_ll2)">
 
-  <node pkg="costmap_generator" type="costmap_generator" name="costmap_generator" output="screen">
+  <node pkg="costmap_generator" type="costmap_generator" name="costmap_generator" output="log">
     <param name="lidar_frame" value="$(arg lidar_frame)" />
     <param name="map_frame" value="$(arg map_frame)" />
     <param name="grid_min_value" value="$(arg grid_min_value)" />

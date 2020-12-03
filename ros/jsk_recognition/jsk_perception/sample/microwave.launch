@@ -11,7 +11,7 @@
   </node>
 
   <node name="image_vieww" pkg="image_view"
-        type="image_view" output="screen" >
+        type="image_view" output="log" >
     <remap from="image" to="microwave_range/debug_image" />
   </node>
 

@@ -4,7 +4,7 @@
   <arg name="changeIdFrame" default="/talker/changes"/>
 
 	<!-- you can load an exisiting tree with <node ... args="tree.bt"> !-->
-	<node pkg="octomap_server" type="octomap_tracking_server_node" name="octomap_talker" output="screen" args="$(arg path)">
+	<node pkg="octomap_server" type="octomap_tracking_server_node" name="octomap_talker" output="log" args="$(arg path)">
 		<param name="resolution" value="0.02" />
 		<param name="frame_id" type="string" value="map" />
 		<param name="sensor_model/max_range" value="4.0" />

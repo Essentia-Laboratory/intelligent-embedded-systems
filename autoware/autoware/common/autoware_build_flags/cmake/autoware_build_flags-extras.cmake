@@ -11,6 +11,12 @@ else()
   set(CMAKE_CXX_STANDARD 14)
 endif()
 
+if($ENV{USE_TF2})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_TF2=1")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_TF2=0")
+endif()
+
 message(STATUS "CUDA compilation status: $ENV{AUTOWARE_COMPILE_WITH_CUDA}.")
 
 macro(AW_CHECK_CUDA)
@@ -37,3 +43,4 @@ macro(AW_CHECK_CUDA)
     set(USE_CUDA OFF)
   endif()
 endmacro()
+

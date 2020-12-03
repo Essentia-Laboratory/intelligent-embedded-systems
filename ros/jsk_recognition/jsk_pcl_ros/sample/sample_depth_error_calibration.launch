@@ -14,7 +14,7 @@
 
   <node name="depth_error_calibration"
         pkg="jsk_pcl_ros" type="depth_error_calibration.py"
-        output="screen">
+        output="log">
     <remap from="/camera_remote/depth_calibration/set_calibration_parameter"
            to="depth_calibration/set_calibration_parameter"/>
     <rosparam>

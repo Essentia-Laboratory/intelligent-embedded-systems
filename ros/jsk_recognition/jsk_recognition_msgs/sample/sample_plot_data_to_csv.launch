@@ -8,7 +8,7 @@
 
   <node name="plot_data_to_csv"
         pkg="jsk_recognition_msgs" type="plot_data_to_csv.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="plot_data_publisher/output"/>
     <rosparam subst_value="true">
       filename: $(arg csv_path)

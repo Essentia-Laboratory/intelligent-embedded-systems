@@ -5,7 +5,7 @@
   <arg name="horizontalSafetyDistance"   default="1.2" />
   <arg name="verticalSafetyDistance"     default="0.8" />
       
-  <node pkg="op_local_planner" type="op_trajectory_evaluator" name="op_trajectory_evaluator" output="screen">
+  <node pkg="op_local_planner" type="op_trajectory_evaluator" name="op_trajectory_evaluator" output="log">
   
     <param name="enablePrediction"       value="$(arg enablePrediction)" />            
     <param name="horizontalSafetyDistance"   value="$(arg horizontalSafetyDistance)" />

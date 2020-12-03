@@ -5,7 +5,7 @@
   <arg name="baudrate" default="115200" />
   <arg name="frequency" default="100" />
 
-  <node pkg="microstrain_driver" type="3dm_gx5_15_node" name="microstrain_3dm_gx5_15" output="screen">
+  <node pkg="microstrain_driver" type="3dm_gx5_15_node" name="microstrain_3dm_gx5_15" output="log">
     <param name="port" value="$(arg port)" />
     <param name="baudrate" value="$(arg baudrate)" />
     <param name="imu_rate" value="$(arg frequency)" />

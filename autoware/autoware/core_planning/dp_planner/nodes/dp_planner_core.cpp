@@ -84,11 +84,19 @@ PlannerX::PlannerX()
 
   UpdatePlanningParams();
 
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> transform;
+  ROSHelpers::GetTransformFromTF("map", "world", transform);
+  m_OriginPos.position.x  = transform.getOrigin().x();
+  m_OriginPos.position.y  = transform.getOrigin().y();
+  m_OriginPos.position.z  = transform.getOrigin().z();
+#else
   tf::StampedTransform transform;
   ROSHelpers::GetTransformFromTF("map", "world", transform);
   m_OriginPos.position.x  = transform.getOrigin().x();
   m_OriginPos.position.y  = transform.getOrigin().y();
   m_OriginPos.position.z  = transform.getOrigin().z();
+#endif
 
 
   std::string topic_prefix;

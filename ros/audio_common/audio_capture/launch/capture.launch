@@ -10,7 +10,7 @@
   <arg name="ns" default="audio"/>
 
   <group ns="$(arg ns)">
-    <node name="audio_capture" pkg="audio_capture" type="audio_capture" output="screen">
+    <node name="audio_capture" pkg="audio_capture" type="audio_capture" output="log">
       <param name="bitrate" value="128"/>
       <param name="device" value="$(arg device)"/>
       <param name="channels" value="$(arg channels)"/>

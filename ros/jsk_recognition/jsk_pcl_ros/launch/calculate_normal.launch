@@ -11,11 +11,11 @@
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <node if="$(arg create_manager)"
           pkg="nodelet" type="nodelet" name="$(arg manager)"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
 
     <node pkg="nodelet" type="nodelet" name="voxel_grid"
           args="load pcl/VoxelGrid $(arg manager)"
-          output="screen"
+          output="log"
           clear_params="true"
         respawn="false">
       <remap from="~input" to="$(arg input_point)"/>
@@ -25,7 +25,7 @@
     </node>
 
     <node pkg="nodelet" type="nodelet" name="ground_segmentation" args="load pcl/SACSegmentation $(arg manager)"
-          output="screen"
+          output="log"
           clear_params="true"
           respawn="false">
       <remap from="~input" to="voxel_grid/output" />
@@ -50,7 +50,7 @@
     <node pkg="nodelet" type="nodelet" name="convex_hull" args="load pcl/ConvexHull2D $(arg manager)">
       <remap from="~input" to="project_inliers/output" />
     </node>
-    <node pkg="nodelet" type="nodelet" name="extract_nonground_indices" args="load pcl/ExtractIndices $(arg manager)" output="screen" respawn="true">
+    <node pkg="nodelet" type="nodelet" name="extract_nonground_indices" args="load pcl/ExtractIndices $(arg manager)" output="log" respawn="true">
       <remap from="~input"   to="voxel_grid/output" />
       <remap from="~indices" to="ground_segmentation/inliers" />
       <rosparam>
@@ -72,7 +72,7 @@
     </node>
     <node pkg="nodelet" type="nodelet" name="polygon_array_wrapper"
           args="load jsk_pcl/PolygonArrayWrapper $(arg manager)"
-          output="screen">
+          output="log">
       <remap from="~input_polygon" to="convex_hull/output_polygon" />
       <remap from="~input_coefficients" to="ground_segmentation/model" />
     </node>
@@ -85,7 +85,7 @@
      <node pkg="nodelet" type="nodelet"
           name="clustering"
           args="load jsk_pcl/EuclideanClustering $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="extract_nonground_indices/output" />
       <rosparam>
          tolerance: 0.1
@@ -94,7 +94,7 @@
     <node pkg="nodelet" type="nodelet"
           name="cluster_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="extract_nonground_indices/output" />
       <remap from="~target" to="clustering/output" />
       <remap from="~align_planes" to="polygon_array_wrapper/output_polygons" />

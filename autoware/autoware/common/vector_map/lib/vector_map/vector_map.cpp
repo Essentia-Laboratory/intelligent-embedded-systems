@@ -383,162 +383,258 @@ bool VectorMap::hasSubscribed(category_t category) const
   if (category & POINT)
   {
     if (point_.empty())
+    {
+      ROS_INFO("[VectorMap] point has not subscribed.");
       return false;
+    }
   }
   if (category & VECTOR)
   {
     if (vector_.empty())
+    {
+      ROS_INFO("[VectorMap] vector has not subscribed.");
       return false;
+    }
   }
   if (category & LINE)
   {
     if (line_.empty())
+    {
+      ROS_INFO("[VectorMap] line has not subscribed.");
       return false;
+    }
   }
   if (category & AREA)
   {
     if (area_.empty())
+    {
+      ROS_INFO("[VectorMap] area has not subscribed.");
       return false;
+    }
   }
   if (category & POLE)
   {
     if (pole_.empty())
+    {
+      ROS_INFO("[VectorMap] pole has not subscribed.");
       return false;
+    }
   }
   if (category & BOX)
   {
     if (box_.empty())
+    {
+      ROS_INFO("[VectorMap] box has not subscribed.");
       return false;
+    }
   }
   if (category & DTLANE)
   {
     if (dtlane_.empty())
+    {
+      ROS_INFO("[VectorMap] dtlane has not subscribed.");
       return false;
+    }
   }
   if (category & NODE)
   {
     if (node_.empty())
+    {
+      ROS_INFO("[VectorMap] node has not subscribed.");
       return false;
+    }
   }
   if (category & LANE)
   {
     if (lane_.empty())
+    {
+      ROS_INFO("[VectorMap] lane has not subscribed.");
       return false;
+    }
   }
   if (category & WAY_AREA)
   {
     if (way_area_.empty())
+    {
+      ROS_INFO("[VectorMap] way_area has not subscribed.");
       return false;
+    }
   }
   if (category & ROAD_EDGE)
   {
     if (road_edge_.empty())
+    {
+      ROS_INFO("[VectorMap] road_edge has not subscribed.");
       return false;
+    }
   }
   if (category & GUTTER)
   {
     if (gutter_.empty())
+    {
+      ROS_INFO("[VectorMap] gutter has not subscribed.");
       return false;
+    }
   }
   if (category & CURB)
   {
     if (curb_.empty())
+    {
+      ROS_INFO("[VectorMap] curb has not subscribed.");
       return false;
+    }
   }
   if (category & WHITE_LINE)
   {
     if (white_line_.empty())
+    {
+      ROS_INFO("[VectorMap] white_line has not subscribed.");
       return false;
+    }
   }
   if (category & STOP_LINE)
   {
     if (stop_line_.empty())
+    {
+      ROS_INFO("[VectorMap] stop_line has not subscribed.");
       return false;
+    }
   }
   if (category & ZEBRA_ZONE)
   {
     if (zebra_zone_.empty())
+    {
+      ROS_INFO("[VectorMap] zebra_zone has not subscribed.");
       return false;
+    }
   }
   if (category & CROSS_WALK)
   {
     if (cross_walk_.empty())
+    {
+      ROS_INFO("[VectorMap] cross_walk has not subscribed.");
       return false;
+    }
   }
   if (category & ROAD_MARK)
   {
     if (road_mark_.empty())
+    {
+      ROS_INFO("[VectorMap] road_mark has not subscribed.");
       return false;
+    }
   }
   if (category & ROAD_POLE)
   {
     if (road_pole_.empty())
+    {
+      ROS_INFO("[VectorMap] road_pole has not subscribed.");
       return false;
+    }
   }
   if (category & ROAD_SIGN)
   {
     if (road_sign_.empty())
+    {
+      ROS_INFO("[VectorMap] road_sign has not subscribed.");
       return false;
+    }
   }
   if (category & SIGNAL)
   {
     if (signal_.empty())
+    {
+      ROS_INFO("[VectorMap] signal has not subscribed.");
       return false;
+    }
   }
   if (category & STREET_LIGHT)
   {
     if (street_light_.empty())
+    {
+      ROS_INFO("[VectorMap] street_light has not subscribed.");
       return false;
+    }
   }
   if (category & UTILITY_POLE)
   {
     if (utility_pole_.empty())
+    {
+      ROS_INFO("[VectorMap] utility_pole has not subscribed.");
       return false;
+    }
   }
   if (category & GUARD_RAIL)
   {
     if (guard_rail_.empty())
+    {
+      ROS_INFO("[VectorMap] guard_rail has not subscribed.");
       return false;
+    }
   }
   if (category & SIDE_WALK)
   {
     if (side_walk_.empty())
+    {
+      ROS_INFO("[VectorMap] side_walk has not subscribed.");
       return false;
+    }
   }
   if (category & DRIVE_ON_PORTION)
   {
     if (drive_on_portion_.empty())
+    {
+      ROS_INFO("[VectorMap] drive_on_portion has not subscribed.");
       return false;
+    }
   }
   if (category & CROSS_ROAD)
   {
     if (cross_road_.empty())
+    {
+      ROS_INFO("[VectorMap] cross_road has not subscribed.");
       return false;
+    }
   }
   if (category & SIDE_STRIP)
   {
     if (side_strip_.empty())
+    {
+      ROS_INFO("[VectorMap] side_strip has not subscribed.");
       return false;
+    }
   }
   if (category & CURVE_MIRROR)
   {
     if (curve_mirror_.empty())
+    {
+      ROS_INFO("[VectorMap] curve_mirror has not subscribed.");
       return false;
+    }
   }
   if (category & WALL)
   {
     if (wall_.empty())
+    {
+      ROS_INFO("[VectorMap] wall has not subscribed.");
       return false;
+    }
   }
   if (category & FENCE)
   {
     if (fence_.empty())
+    {
+      ROS_INFO("[VectorMap] fence has not subscribed.");
       return false;
+    }
   }
   if (category & RAIL_CROSSING)
   {
     if (rail_crossing_.empty())
+    {
+      ROS_INFO("[VectorMap] rail_crossing has not subscribed.");
       return false;
+    }
   }
   return true;
 }

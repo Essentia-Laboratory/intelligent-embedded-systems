@@ -3,7 +3,7 @@
   <arg name="CREATE_MANAGER" default="true" />
   <node if="$(arg CREATE_MANAGER)"
         pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
-        args="manager" output="screen"/>
+        args="manager" output="log"/>
 
   <node pkg="nodelet" type="nodelet" name="stereo_image_proc"
         args="load stereo_image_proc/point_cloud2 $(arg MANAGER)"

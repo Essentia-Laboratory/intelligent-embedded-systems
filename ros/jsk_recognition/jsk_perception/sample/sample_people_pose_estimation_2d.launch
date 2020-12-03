@@ -11,7 +11,7 @@
 
   <node name="people_pose_estimation_2d"
         pkg="jsk_perception" type="people_pose_estimation_2d.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/info" to="$(arg INPUT_CAMERA_INFO)" />
     <remap from="~input/depth" to="$(arg INPUT_DEPTH_IMAGE)" />
@@ -29,7 +29,7 @@
 
   <node name="people_mask_publisher"
         pkg="jsk_perception" type="people_mask_publisher.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/pose" to="people_pose_estimation_2d/pose_2d" />
     <rosparam subst_value="true">

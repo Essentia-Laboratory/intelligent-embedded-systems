@@ -91,7 +91,7 @@
     <remap from="Feature0D" to="brisk/feature_0d" />
     <remap from="image" to="input_relay/output" />
   </node>
-  <node pkg="jsk_perception" type="tile_image.py" name="tile_image" output="screen">
+  <node pkg="jsk_perception" type="tile_image.py" name="tile_image" output="log">
     <rosparam subst_value="true">
       draw_topic_name: true
       no_sync: true

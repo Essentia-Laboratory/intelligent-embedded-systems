@@ -1,6 +1,6 @@
 <launch>
   <node name="template_track" pkg="jsk_perception"
-	type="matchtemplate.py" output="screen">
+	type="matchtemplate.py" output="log">
     <remap from="reference" to="image_raw" />
     <remap from="search" to="image_raw" />
     <remap from="set_reference_point" to="tracking_result_image/screenpoint" />

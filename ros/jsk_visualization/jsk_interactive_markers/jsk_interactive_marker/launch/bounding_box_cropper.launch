@@ -18,7 +18,7 @@
     <param name="~object_a" value="0.8"/>
   </node>
 
-  <node pkg="jsk_pcl_ros" type="attention_clipper" name="attention_clipper" output="screen">
+  <node pkg="jsk_pcl_ros" type="attention_clipper" name="attention_clipper" output="log">
     <param name="~frame_id" value="/base"/>
     <remap from="~input/pose" to="/marker_6dof/pose" />
     <remap from="~input/points" to="$(arg input_point)" />

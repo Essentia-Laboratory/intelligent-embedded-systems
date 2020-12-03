@@ -8,12 +8,12 @@
 
   <node name="line_segment_manager"
         pkg="nodelet" type="nodelet"
-        args="manager" output="screen" />
+        args="manager" output="log" />
 
   <node name="voxelgrid"
         pkg="nodelet" type="nodelet"
         args="load pcl/VoxelGrid line_segment_manager"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_CLOUD)" />
     <rosparam>
       filter_field_name: z
@@ -26,14 +26,14 @@
   <node name="euclidean_clustering"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/EuclideanClustering line_segment_manager"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg FILTERED_CLOUD)" />
   </node>
 
   <node name="euclidean_clustering_decomposer"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis line_segment_manager"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg FILTERED_CLOUD)" />
     <remap from="~target" to="/euclidean_clustering/output" />
   </node>
@@ -41,7 +41,7 @@
   <node name="line_segment_detector"
         pkg="nodelet" type="nodelet"
         args="standalone jsk_pcl/LineSegmentDetector"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg FILTERED_CLOUD)" />
     <remap from="~input_indices" to="/euclidean_clustering/output" />
     <rosparam>

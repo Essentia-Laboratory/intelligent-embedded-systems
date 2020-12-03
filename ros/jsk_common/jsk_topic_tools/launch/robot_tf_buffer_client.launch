@@ -7,7 +7,7 @@
   </include>
 
   <node pkg="jsk_topic_tools" type="topic_buffer_client"
-	name="topic_buffer_client_for_joint_state_pruned" output="screen">
+	name="topic_buffer_client_for_joint_state_pruned" output="log">
     <param name="use_service" value="false"/>
     <param name="update_rate" value="$(arg JOINT_STATE_UPDATE_RATE)"/>
     <param name="fixed_rate" value="0.1"/>

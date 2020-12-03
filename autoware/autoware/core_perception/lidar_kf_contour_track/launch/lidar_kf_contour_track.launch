@@ -18,7 +18,7 @@
   <arg name="vector_map_filter_distance" default="2.0" /> <!-- set 0 to disable vector map filtering  -->
   <arg name="enableLogging" default="false" />
 
-  <node pkg="lidar_kf_contour_track" type="lidar_kf_contour_track" name="lidar_kf_contour_track" output="screen">
+  <node pkg="lidar_kf_contour_track" type="lidar_kf_contour_track" name="lidar_kf_contour_track" output="log">
 
       <param name="vehicle_width" value="$(arg vehicle_width)" />
     <param name="vehicle_length" value="$(arg vehicle_length)" />    

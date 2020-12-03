@@ -7,7 +7,7 @@
   <node type="nodelet" pkg="nodelet" name="fisheye_manager" args="manager"/>
 
   <node type="nodelet" pkg="nodelet" name="fisheye_sphere_publisher"
-        args="standalone jsk_pcl/FisheyeSpherePublisher" output="screen">
+        args="standalone jsk_pcl/FisheyeSpherePublisher" output="log">
     <remap from="~input" to="/camera/image_rect_color"/>
   </node>
 

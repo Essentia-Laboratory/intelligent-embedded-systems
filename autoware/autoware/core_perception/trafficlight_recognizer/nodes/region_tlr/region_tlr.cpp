@@ -39,6 +39,7 @@
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 
+#define SHOW_DEBUG_INFO 1
 thresholdSet thSet;
 
 static ros::Publisher signalState_pub;
@@ -188,6 +189,9 @@ static void image_raw_cb(const sensor_msgs::Image& image_source)
   msg_converter.image = targetScope;
   superimpose_image_pub.publish(msg_converter.toImageMsg());
 
+#ifdef SHOW_DEBUG_INFO
+  imshow( "tmpImage", targetScope );
+#endif
   /* Display superimpose result image in separate window*/
   if (show_superimpose_result)
   {
@@ -340,15 +344,15 @@ static void extractedPos_cb(const autoware_msgs::Signals::ConstPtr& extractedPos
 
     mk_red.pose.orientation.x = 0.0;
     mk_red.pose.orientation.y = 0.0;
-    mk_red.pose.orientation.y = 0.0;
+    mk_red.pose.orientation.z = 0.0;
     mk_red.pose.orientation.w = 0.0;
     mk_yellow.pose.orientation.x = 0.0;
     mk_yellow.pose.orientation.y = 0.0;
-    mk_yellow.pose.orientation.y = 0.0;
+    mk_yellow.pose.orientation.z = 0.0;
     mk_yellow.pose.orientation.w = 0.0;
     mk_green.pose.orientation.x = 0.0;
     mk_green.pose.orientation.y = 0.0;
-    mk_green.pose.orientation.y = 0.0;
+    mk_green.pose.orientation.z = 0.0;
     mk_green.pose.orientation.w = 0.0;
 
     /* Set the scale of the marker -- We assume lamp radius as 30cm */

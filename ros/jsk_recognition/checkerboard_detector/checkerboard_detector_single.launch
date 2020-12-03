@@ -21,7 +21,7 @@
     <param name="circle_size" value="6" />    <!-- set circle_size as [pixel] -->
 
     <node pkg="checkerboard_detector" type="checkerboard_detector"
-          name="detector_node" respawn="false" output="screen">
+          name="detector_node" respawn="false" output="log">
       <remap from="camera_info" to="/camera/rgb/camera_info"/>
       <remap from="image" to="/camera/rgb/image_rect"/>
     </node>

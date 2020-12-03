@@ -35,7 +35,7 @@
   <arg name="proc_stddev_wz_c" default="0.05"/>
 
 
-  <node pkg="ekf_localizer" type="ekf_localizer" name="ekf_localizer" output="screen">
+  <node pkg="ekf_localizer" type="ekf_localizer" name="ekf_localizer" output="log">
 
     <remap unless="$(arg use_pose_with_covariance)" from="in_pose" to="$(arg input_pose_name)"/>
     <remap unless="$(arg use_pose_with_covariance)" from="in_pose_with_covariance" to="input_pose_with_cov_UNUSED"/>

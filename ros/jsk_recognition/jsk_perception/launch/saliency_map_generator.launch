@@ -4,7 +4,7 @@
   <arg name="print_fps" default="true" />
   
   <node pkg="jsk_perception" type="saliency_map_generator"
-	name="saliency_map_generator" output="screen" >
+	name="saliency_map_generator" output="log" >
     <remap from="~input" to="$(arg image)" />
     <param name="~num_threads" value="$(arg num_thread)" type="int" />
     <param name="=~fps" value="$(arg print_fps)" type="bool" />

@@ -3,7 +3,7 @@
   <!-- launch-prefix="xterm -e gdb -args"  -->
   <node 
         pkg="diagnostic_aggregator" type="aggregator_node"
-        name="diag_agg" args="CPP" output="screen" >
+        name="diag_agg" args="CPP" output="log" >
     <rosparam command="load" 
               file="$(find diagnostic_aggregator)/demo/pr2_analyzers.yaml" />
 

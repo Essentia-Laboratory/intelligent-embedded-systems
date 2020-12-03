@@ -5,7 +5,7 @@
           pkg="camera_calibration"
           type="cameracalibrator.py"
           args="--size=8x6 --square=0.108 --fix-principal-point"
-          output="screen"
+          output="log"
           clear_params="true">
       <!-- add "\-\-use-rational" to args -->
       <remap from="image" to="intensity/image_raw" />
@@ -13,7 +13,7 @@
     </node>
     <!--
     <node name="range_proc" pkg="image_proc" type="image_proc"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="image_raw" to="intensity/image_raw" />
       <remap from="intensity/camera_info" to="camera_info" />
     </node>

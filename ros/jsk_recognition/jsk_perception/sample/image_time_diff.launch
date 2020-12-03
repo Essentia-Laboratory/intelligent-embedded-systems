@@ -1,10 +1,10 @@
 <launch>
   <node pkg="uvc_camera" type="uvc_camera_node" name="uvc_camera_node" />
   <group ns="/" >
-    <node pkg="jsk_perception" type="hsv_decomposer" name="hsv_decomposer" output="screen">
+    <node pkg="jsk_perception" type="hsv_decomposer" name="hsv_decomposer" output="log">
       <remap from="~input" to="image_raw" />
     </node>
-    <node pkg="jsk_perception" type="image_time_diff.py" name="image_time_diff" output="screen" >
+    <node pkg="jsk_perception" type="image_time_diff.py" name="image_time_diff" output="log" >
       <remap from="~input/hue" to="/hsv_decomposer/output/hue" />
       <remap from="~input/saturation" to="/hsv_decomposer/output/saturation" />
     </node>

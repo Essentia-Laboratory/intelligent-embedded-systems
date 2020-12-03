@@ -6,7 +6,7 @@
   <node name="collision_detector"
         pkg="nodelet" type="nodelet"
         args="standalone jsk_pcl/CollisionDetector"
-        output="screen">
+        output="log">
     <remap from="~input" to="/kinect_head/depth_registered/points"/>
     <rosparam>
       world_frame_id: base_footprint

@@ -26,7 +26,7 @@
   <group ns="door_detector">
     <node name="manager"
           pkg="jsk_topic_tools" type="standalone_complexed_nodelet"
-          output="screen" respawn="$(arg respawn)">
+          output="log" respawn="$(arg respawn)">
       <rosparam subst_value="true">
         nodelets:
         - name: input_relay

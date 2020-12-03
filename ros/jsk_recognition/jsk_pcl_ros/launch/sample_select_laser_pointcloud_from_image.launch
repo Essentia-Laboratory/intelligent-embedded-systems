@@ -6,7 +6,7 @@
     <remap from="image" to="$(arg INPUT_IMAGE)" />
   </node>
   <node pkg="jsk_perception" type="rect_to_mask_image"
-        name="rect_to_mask_image" output="screen">
+        name="rect_to_mask_image" output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)/screenrectangle" />
     <remap from="~input/camera_info" to="$(arg INPUT_CAMERA_INFO)" />
   </node>
@@ -17,7 +17,7 @@
   </node>
 
   <node pkg="jsk_pcl_ros" type="supervoxel_segmentation" name="supervoxel_segmentation"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_POINT_CLOUD)" />
   </node>
   <node pkg="jsk_pcl_ros" type="cluster_point_indices_decomposer" name="supervoxel_segmentation_decomposer">

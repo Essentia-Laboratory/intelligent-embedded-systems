@@ -17,7 +17,7 @@
   <!-- manager -->
   <node if="$(arg USE_NODELET_MANAGER)"
         pkg="jsk_topic_tools" type="standalone_complexed_nodelet"
-        name="$(arg NODELET_MANAGER_NAME)" output="screen" />
+        name="$(arg NODELET_MANAGER_NAME)" output="log" />
 
   <!-- nodelets -->
   <group ns="$(arg NODELET_MANAGER_NAME)">

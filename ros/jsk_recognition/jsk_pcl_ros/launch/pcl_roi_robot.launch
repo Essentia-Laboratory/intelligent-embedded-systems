@@ -24,7 +24,7 @@
 	  pkg="nodelet" type="nodelet"
           name="head_pointcloud_mux"
           args="load jsk_topic_tools/MUX $(arg HEAD_NODELET_MANAGER)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <rosparam subst_value="True">
         topics: $(arg HEAD_TOPIC)
       </rosparam>
@@ -47,17 +47,17 @@
           name="pcl_roi_robot_manager" args="manager"
           launch-prefix="xterm -e gdb --args"
           if="$(arg GDB)"
-          output="screen"/>
+          output="log"/>
     <node pkg="nodelet" type="nodelet"
           name="pcl_roi_robot_manager" args="manager"
           unless="$(arg GDB)"
-          output="screen"/>
+          output="log"/>
 
     <node if="$(arg USE_HEAD_POINTCLOUD)"
 	  pkg="nodelet" type="nodelet"
           name="voxel_grid_manager"
           args="load jsk_pcl/VoxelGridDownsampleManager $(arg HEAD_NODELET_MANAGER)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <param name="base_frame" value="$(arg BASE_FRAME)"/>
       <param name="max_points" value="100"/>
       <param name="rate" value="0.1"/>
@@ -70,7 +70,7 @@
 	  pkg="nodelet" type="nodelet"
           name="l_hand_voxel_grid_manager"
           args="load jsk_pcl/VoxelGridDownsampleManager /pointcloud_roi/pcl_roi_robot_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <param name="base_frame" value="$(arg BASE_FRAME)"/>
       <remap from="~input" to="$(arg LHAND_SELECTED)" />
       <remap from="~add_grid" to="add_grid"/>
@@ -80,7 +80,7 @@
 	  pkg="nodelet" type="nodelet"
           name="r_hand_voxel_grid_manager"
           args="load jsk_pcl/VoxelGridDownsampleManager /pointcloud_roi/pcl_roi_robot_manager"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <param name="base_frame" value="$(arg BASE_FRAME)"/>
       <remap from="~input" to="$(arg RHAND_SELECTED)" />
       <remap from="~add_grid" to="add_grid"/>

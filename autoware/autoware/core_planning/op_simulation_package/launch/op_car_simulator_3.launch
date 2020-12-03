@@ -60,7 +60,7 @@
   <arg name="enableUsingJoyStick"   default="false" />  
   
   
-  <node pkg="op_simulation_package" type="op_car_simulator" name="op_car_simulator3" output="screen">    
+  <node pkg="op_simulation_package" type="op_car_simulator" name="op_car_simulator3" output="log">    
     <param name="id"               value="$(arg id)" />        
     <param name="enableRvizPoseSelect"       value="$(arg enableRvizPoseSelect)" />      
     <param name="enableLooper"           value="$(arg enableLooper)" />        

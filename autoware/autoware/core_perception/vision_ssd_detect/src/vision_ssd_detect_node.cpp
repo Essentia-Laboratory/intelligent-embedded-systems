@@ -37,6 +37,8 @@
 
 #include "vision_ssd_detect.h"
 
+#define __APP_NAME__ "ssdunc"
+
 class ROSSSDApp
 {
   ros::Subscriber subscriber_image_raw_;

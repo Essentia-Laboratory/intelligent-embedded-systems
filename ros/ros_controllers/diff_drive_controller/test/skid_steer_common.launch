@@ -16,7 +16,7 @@
 
   <!-- Spawn controller -->
   <node name="controller_spawner"
-        pkg="controller_manager" type="spawner" output="screen"
+        pkg="controller_manager" type="spawner" output="log"
         args="skidsteerbot_controller" />
 
   <!-- rqt_plot monitoring -->

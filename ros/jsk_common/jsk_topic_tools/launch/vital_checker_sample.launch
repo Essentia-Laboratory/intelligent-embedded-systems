@@ -1,6 +1,6 @@
 <launch>
   <node pkg="jsk_topic_tools" name="vital_checker"
-        output="screen"
+        output="log"
         type="vital_checker">
     <param name="title" value="hoge" />
     <remap from="~input" to="hoge" />

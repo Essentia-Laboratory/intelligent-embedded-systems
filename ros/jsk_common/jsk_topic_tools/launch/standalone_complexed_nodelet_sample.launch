@@ -1,7 +1,7 @@
 <launch>
   <node pkg="rostopic" type="rostopic" name="input" args="pub input std_msgs/String '{data: input}' -r 10" />
   <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="standalone_complexed_nodelet"
-        output="screen">
+        output="log">
     <rosparam>
       nodelets:
         - name: relay_0

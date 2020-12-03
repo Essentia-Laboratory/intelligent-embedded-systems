@@ -13,6 +13,6 @@
 
   <node name="sliding_window_object_detector_trainer"
         pkg="jsk_perception" type="sliding_window_object_detector_trainer_node"
-        output="screen">
+        output="log">
   </node>
 </launch>

@@ -622,7 +622,7 @@ void binMapCallback(const autoware_lanelet2_msgs::MapBin& msg)
   g_loaded_lanelet_map = true;
   lanelet::ConstLanelets all_lanelets = lanelet::utils::query::laneletLayer(g_lanelet_map);
   g_crosswalk_lanelets = lanelet::utils::query::crosswalkLanelets(all_lanelets);
-  ROS_INFO("velocity_set_lanelet2: lanelet map loaded\n");
+  ROS_INFO("[velocity_set_lanelet2] velocity_set_lanelet2: lanelet map loaded\n");
 }
 
 int main(int argc, char** argv)
@@ -691,7 +691,7 @@ int main(int argc, char** argv)
     }
     catch(tf2::TransformException &ex)
     {
-        ROS_WARN("Failed to get map->lidar transform. skip computation: %s", ex.what());
+        ROS_WARN("[velocity_set_lanelet2] Failed to get map->lidar transform. skip computation: %s", ex.what());
         continue;
     }
 
@@ -709,7 +709,7 @@ int main(int argc, char** argv)
     {
       if (!g_loaded_lanelet_map)
       {
-        ROS_WARN("use_crosswalk_detection is true, but lanelet map is not loaded!");
+        ROS_WARN("[velocity_set_lanelet2] use_crosswalk_detection is true, but lanelet map is not loaded!");
       }
       detection_waypoint =
           findClosestCrosswalk(g_crosswalk_lanelets, closest_waypoint, vs_path.getPrevWaypoints(), STOP_SEARCH_DISTANCE,

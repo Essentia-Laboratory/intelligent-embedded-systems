@@ -20,7 +20,7 @@
     <remap from="image_marker" to="rect_array_marker/output" />
   </node>
   <node pkg="jsk_perception" type="rect_array_actual_size_filter" name="rect_array_actual_size_filter"
-        output="screen">
+        output="log">
     <remap from="~input" to="selective_search/output" />
     <remap from="~input/depth_image" to="$(arg INPUT_DEPTH_IMAGE)" />
     <remap from="~input/info" to="$(arg INPUT_CAMERA_INFO)" />

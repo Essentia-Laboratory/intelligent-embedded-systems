@@ -18,7 +18,7 @@
       <remap from="image" to="/camera/ir/image_rect"/>
       <remap from="/checkerdetector/ObjectDetection" to="/ir_object_detection" />
     </node>
-    <node pkg="checkerboard_detector" name="objectdetection_echo" type="objectdetection_transform_echo" output="screen">
+    <node pkg="checkerboard_detector" name="objectdetection_echo" type="objectdetection_transform_echo" output="log">
       <remap from="detection1" to="/rgb_object_detection" />
       <remap from="detection2" to="/ir_object_detection" />
     </node>

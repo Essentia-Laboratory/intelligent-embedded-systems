@@ -6,7 +6,7 @@
   <arg name="USE_UPDATE_RATE" default="false" />
   <arg name="UPDATE_RATE" default="1" />
   <arg name="FIXED_RATE" default="0.1" />
-  <arg name="OUTPUT" default="screen" />
+  <arg name="OUTPUT" default="log" />
 
   <node pkg="roscpp_tutorials" type="listener" name="listener"
         output="$(arg OUTPUT)">

@@ -11,7 +11,7 @@
     <remap from="image" to="colorize_raw_heightmap/output" />
   </node>
   <node pkg="jsk_pcl_ros" type="heightmap_morphological_filtering" name="complete_hole"
-        output="screen">
+        output="log">
     <remap from="~input" to="heightmap_converter/output" />
   </node>
   <node pkg="jsk_perception" type="colorize_float_image" name="colorize_filtered_heightmap">

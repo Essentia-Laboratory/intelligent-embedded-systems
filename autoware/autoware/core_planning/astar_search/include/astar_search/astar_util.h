@@ -17,7 +17,11 @@
 #ifndef ASTAR_UTIL_H
 #define ASTAR_UTIL_H
 
-#include <tf/tf.h>
+#if USE_TF2
+# include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+# include <tf2/convert.h>
+#endif
+# include <tf/tf.h>
 
 enum class STATUS : uint8_t
 {
@@ -91,6 +95,26 @@ inline double modifyTheta(double theta)
   return theta;
 }
 
+#if USE_TF2
+inline geometry_msgs::Pose transformPose(const geometry_msgs::Pose& pose, const tf2::Stamped<tf2::Transform>& tf)
+{
+  geometry_msgs::Pose ros_pose;
+  geometry_msgs::TransformStamped transform = tf2::toMsg( tf );
+
+  tf2::doTransform(pose, ros_pose, transform);
+
+  return ros_pose;
+}
+
+inline geometry_msgs::Pose transformPose(const geometry_msgs::Pose& pose, const geometry_msgs::TransformStamped& transform)
+{
+  geometry_msgs::Pose ros_pose;
+
+  tf2::doTransform(pose, ros_pose, transform);
+
+  return ros_pose;
+}
+#else
 inline geometry_msgs::Pose transformPose(const geometry_msgs::Pose& pose, const tf::Transform& tf)
 {
   // Convert ROS pose to TF pose
@@ -106,6 +130,7 @@ inline geometry_msgs::Pose transformPose(const geometry_msgs::Pose& pose, const 
 
   return ros_pose;
 }
+#endif
 
 inline WaveFrontNode getWaveFrontNode(int x, int y, double cost)
 {
@@ -141,7 +166,13 @@ inline geometry_msgs::Pose xytToPoseMsg(double x, double y, double theta)
   geometry_msgs::Pose p;
   p.position.x = x;
   p.position.y = y;
+#if USE_TF2
+  tf2::Quaternion q;
+  q.setRPY(0.0, 0.0, theta);
+  p.orientation = tf2::toMsg(q);
+#else
   p.orientation = tf::createQuaternionMsgFromYaw(theta);
+#endif
 
   return p;
 }

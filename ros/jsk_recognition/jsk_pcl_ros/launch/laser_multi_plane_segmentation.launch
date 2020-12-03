@@ -16,7 +16,7 @@
 
   <node pkg="nodelet" type="nodelet" name="laser_multiplane_manager"
         args="manager"
-        output="screen"/>  
+        output="log"/>  
   <node pkg="nodelet" type="nodelet" name="laser_transform_input"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/TfTransformCloud laser_multiplane_manager">

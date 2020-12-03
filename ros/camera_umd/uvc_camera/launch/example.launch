@@ -1,7 +1,7 @@
 <launch>
     <arg name="device" default="/dev/video1" />
 
-    <node name="example_node" pkg="uvc_camera" type="uvc_camera_node" output="screen">
+    <node name="example_node" pkg="uvc_camera" type="uvc_camera_node" output="log">
       <remap from="image_raw/compressed" to="example_node/compressed" />
       <param name="device" value="$(arg device)" />
       <param name="width" value="640" />

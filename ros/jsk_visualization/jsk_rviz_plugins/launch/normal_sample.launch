@@ -6,11 +6,11 @@
 
   <group ns="pcl_nodelet">
     <node pkg="nodelet" type="nodelet" name="manager"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
 
     <node pkg="nodelet" type="nodelet" name="voxel_grid"
           args="load pcl/VoxelGrid manager"
-          output="screen"
+          output="log"
           clear_params="true"
           respawn="false">
       <remap from="~input" to="/camera/depth_registered/points"/>

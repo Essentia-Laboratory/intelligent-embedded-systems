@@ -1,7 +1,7 @@
 <launch>
   <group ns="silverhammer">
     <node pkg="jsk_network_tools" type="silverhammer_lowspeed_receiver.py"
-          output="screen"
+          output="log"
           name="fc_receiver">
       <rosparam>
         message: jsk_network_tools/FC2OCS

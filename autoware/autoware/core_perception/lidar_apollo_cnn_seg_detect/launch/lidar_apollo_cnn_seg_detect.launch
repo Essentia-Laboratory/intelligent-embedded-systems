@@ -12,7 +12,7 @@
   <arg name="use_constant_feature" default="false"/>
   <arg name="normalize_lidar_intensity" default="false"/>
 
-  <node pkg="lidar_apollo_cnn_seg_detect" type="lidar_apollo_cnn_seg_detect" name="lidar_apollo_cnn_seg_detect_01" output="screen">
+  <node pkg="lidar_apollo_cnn_seg_detect" type="lidar_apollo_cnn_seg_detect" name="lidar_apollo_cnn_seg_detect_01" output="log">
     <param name="network_definition_file" value="$(arg network_definition_file)" />
     <param name="pretrained_model_file" value="$(arg pretrained_model_file)" />
     <param name="points_src" value="$(arg points_src)" />
@@ -27,6 +27,6 @@
   </node>
 
   <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="cluster_detect_visualization_01"
-          output="screen" ns="/detection/lidar_detector/" />
+          output="log" ns="/detection/lidar_detector/" />
 
 </launch>

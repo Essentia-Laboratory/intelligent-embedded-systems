@@ -26,7 +26,7 @@
     </node>-->
 
   <!-- publish anottation box-->
-    <node pkg="kitti_box_publisher" type="kitti_box_publisher.py" name="kitti_box_publisher" args="$(arg directory)/tracklet_labels.xml" output="screen"/>
+    <node pkg="kitti_box_publisher" type="kitti_box_publisher.py" name="kitti_box_publisher" args="$(arg directory)/tracklet_labels.xml" output="log"/>
 
 
     <node name="kitti_player" pkg="kitti_player" type="kitti_player"

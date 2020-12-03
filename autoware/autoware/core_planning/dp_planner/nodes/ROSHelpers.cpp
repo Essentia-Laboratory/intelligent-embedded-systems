@@ -15,7 +15,6 @@
 #include "op_planner/MappingHelpers.h"
 #include "op_planner/MatrixOperations.h"
 
-
 namespace PlannerXNS
 {
 
@@ -26,13 +25,38 @@ ROSHelpers::ROSHelpers() {
 ROSHelpers::~ROSHelpers() {
 }
 
+#if USE_TF2
+void ROSHelpers::GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf2::Stamped<tf2::Transform> &transform)
+#else
 void ROSHelpers::GetTransformFromTF(const std::string parent_frame, const std::string child_frame, tf::StampedTransform &transform)
+#endif
 {
+#if USE_TF2
+  static tf2_ros::Buffer buffer;
+  static tf2_ros::TransformListener listener(buffer);
+#else
   static tf::TransformListener listener;
+#endif
 
   int nFailedCounter = 0;
   while (1)
   {
+#if USE_TF2
+    try
+    {
+      geometry_msgs::TransformStamped tfGeom = buffer.lookupTransform(parent_frame, child_frame, ros::Time(0), ros::Duration(0));
+      tf2::convert(tfGeom, transform);
+      break;
+    }
+    catch( tf2::TransformException &ex)
+    {
+      if(nFailedCounter > 2)
+        ROS_ERROR("%s", ex.what());
+      ros::Duration(1.0).sleep();
+      nFailedCounter ++;
+    }
+
+#else
     try
     {
       listener.lookupTransform(parent_frame, child_frame, ros::Time(0), transform);
@@ -47,6 +71,7 @@ void ROSHelpers::GetTransformFromTF(const std::string parent_frame, const std::s
       ros::Duration(1.0).sleep();
       nFailedCounter ++;
     }
+#endif
   }
 }
 

@@ -12,7 +12,7 @@
   <arg name="fallbackMinGoalDistanceTh" default="0.0" /> <!-- When no valid path can be found, look for the closest valid path to the goal with distance under this threshold -->
   <arg name="planningMaxAttempt"        default="0" /> <!-- When no valid path can be found, retry the process up to a maximum number of attempt, zero means unlimited, only positive values -->
 
-  <node pkg="way_planner" type="way_planner" name="way_planner" output="screen">
+  <node pkg="way_planner" type="way_planner" name="way_planner" output="log">
     <param name="pathDensity"               value="$(arg pathDensity)" />
     <param name="enableSmoothing"           value="$(arg enableSmoothing)" />
     <param name="enableLaneChange"          value="$(arg enableLaneChange)" />

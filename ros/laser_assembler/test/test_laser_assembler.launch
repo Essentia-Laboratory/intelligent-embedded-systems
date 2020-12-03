@@ -1,8 +1,8 @@
 <launch>
 
-  <node pkg="laser_assembler" type="dummy_scan_producer" output="screen" name="dummy_scan_producer" />
+  <node pkg="laser_assembler" type="dummy_scan_producer" output="log" name="dummy_scan_producer" />
 
-  <node pkg="laser_assembler" type="laser_scan_assembler" output="screen"  name="laser_scan_assembler">
+  <node pkg="laser_assembler" type="laser_scan_assembler" output="log"  name="laser_scan_assembler">
     <remap from="scan" to="dummy_scan"/>
     <param name="tf_cache_time_secs" type="double" value="10.0" />
     <param name="max_scans" type="int" value="400" />

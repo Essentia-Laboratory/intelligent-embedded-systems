@@ -16,7 +16,7 @@
   
   <arg name="testing_mode"         default="1" /> <!-- Simulation Mode: 0, ROSbag playback mode: 1, actual sensing mode: 2 --> 
   
-  <node pkg="op_utilities" type="op_bag_player" name="op_bag_player" output="screen">
+  <node pkg="op_utilities" type="op_bag_player" name="op_bag_player" output="log">
     <param name="width"             value="$(arg width)" />
     <param name="height"             value="$(arg height)" />    
     <param name="info_ratio"           value="$(arg info_ratio)" />    

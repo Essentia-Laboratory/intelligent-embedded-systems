@@ -5,7 +5,7 @@
     <node name="pointcloud_throttle"
           pkg="nodelet"
           type="nodelet"
-          output="screen"
+          output="log"
           args="load jsk_pcl/NodeletPointCloudThrottle $(arg MANAGER)">
       <remap from="topic_in"  to="/camera/depth_registered/points" />
       <remap from="topic_out" to="/camera/depth_registered/points_throttle" />
@@ -14,7 +14,7 @@
     <node name="image_throttle"
           pkg="nodelet"
           type="nodelet"
-          output="screen"
+          output="log"
           args="load jsk_pcl/NodeletImageThrottle $(arg MANAGER)">
       <remap from="topic_in"  to="/camera/rgb/image_rect_color" />
       <remap from="topic_out" to="/camera/rgb/image_rect_color_throttle" />
@@ -24,7 +24,7 @@
     <node name="image_mux"
           pkg="nodelet"
           type="nodelet"
-          output="screen"
+          output="log"
           clear_params="true"
           args="load jsk_pcl/NodeletImageMUX $(arg MANAGER)">
       <rosparam>
@@ -38,7 +38,7 @@
           pkg="nodelet"
           if="false"
           type="nodelet"
-          output="screen"
+          output="log"
           clear_params="true"
           args="load jsk_pcl/NodeletImageDEMUX $(arg MANAGER)">
       <rosparam>

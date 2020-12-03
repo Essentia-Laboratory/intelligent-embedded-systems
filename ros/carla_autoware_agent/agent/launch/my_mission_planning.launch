@@ -18,7 +18,7 @@
   -->
   <include file='$(find decision_maker)/launch/decision_maker.launch'>
     <arg name='auto_engage' value='true' />
-    <arg name='disuse_vector_map' value='true'/>
+    <arg name='disuse_vector_map' value='false'/>
   </include>
 
   <!--
@@ -33,18 +33,22 @@
     Out: /op_destinations_rviz [visualization_msgs::MarkerArray]
     Out: /vector_map_center_lines_rviz [visualization_msgs::MarkerArray]
   -->
+<!--
   <group>
+-->
     <remap from='/lane_waypoints_array' to='/based/lane_waypoints_raw'/>
     <include file='$(find op_global_planner)/launch/op_global_planner.launch'>
       <arg name='pathDensity' value='0.75' /> 
       <arg name='enableSmoothing' value='true' /> 
-      <arg name='enableLaneChange' value='false' />
+      <arg name='enableLaneChange' value='true' />
       <arg name='enableRvizInput' value='true' />
       <arg name='enableReplan' value='true' />
       <arg name='velocitySource' value='1' />
       <arg name='mapSource' value='0'/>
     </include>
+<!--
   </group>
+-->
 
   <!-- 
     # waypoint replanner #
@@ -52,17 +56,35 @@
     Out:  /based/lane_waypoints_array [autoware_msgs::LaneArray]
     In:   /based/lane_waypoints_raw [autoware_msgs::LaneArray]
   -->
+<!--
   <node pkg='rostopic' type='rostopic' name='config_waypoint_replanner_topic'
         args='pub -l /config/waypoint_replanner autoware_config_msgs/ConfigWaypointReplanner
-        "{ replanning_mode: true, use_decision_maker: true, velocity_max: 20.0,
-           velocity_min: 0.0, accel_limit: 3.00, decel_limit: 3.00, radius_thresh: 20.0, radius_min: 0.0,
-           resample_mode: true, resample_interval: 1.0, velocity_offset: 4, end_point_offset: 0,
-           braking_distance: 0, replan_curve_mode: true, replan_endpoint_mode: false, overwrite_vmax_mode: false,
-           realtime_tuning_mode: false}"' />
+        "{ replanning_mode: true, use_decision_maker: true, velocity_max: 40.0,
+           velocity_min: 0.0, accel_limit: 3.00, decel_limit: 3.00, radius_min: 0.0,
+           resample_mode: true, resample_interval: 1.0, 
+           replan_curve_mode: true, replan_endpoint_mode: false, 
+           realtime_tuning_mode: true}"' />
+-->
 
-  <node pkg='waypoint_maker' type='waypoint_replanner' name='waypoint_replanner'>
+<!--
+  <include file="$(find waypoint_maker)/launch/waypoint_loader.launch"/>
+-->
+  <node pkg='waypoint_maker' type='waypoint_replanner' name='waypoint_replanner' output="screen">
+    <param name="replanning_mode" value="true" />
+    <param name="realtime_tuning_mode" value="true" />
+    <param name="resample_mode" value="true" />
+    <param name="resample_interval" value="1.0" />
+    <param name="replan_curve_mode" value="true" />
+    <param name="replan_endpoint_mode" value="false" />
+    <param name="velocity_max" value="20.0" />
+    <param name="radius_min" value="0.0" />
+    <param name="velocity_min" value="0.0" />
+    <param name="accel_limit" value="3.0" />
+    <param name="decel_limit" value="3.0" />
+    <param name="lateral_accel_limit" value="0.0" />
     <param name='use_decision_maker' value='true'/>
   </node>
+
 
   <!--
     # lane_rule #

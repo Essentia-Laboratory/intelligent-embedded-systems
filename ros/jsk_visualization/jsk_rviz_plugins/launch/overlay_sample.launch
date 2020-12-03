@@ -25,6 +25,6 @@
         args="pub -r 1 /sample_string std_msgs/String
               'This is a sample message of type std_msgs/String.'"/>
   <node pkg="rviz" type="rviz" name="rviz"
-        output="screen"
+        output="log"
         args="-d $(find jsk_rviz_plugins)/cfg/overlay_sample.rviz"/>
 </launch>

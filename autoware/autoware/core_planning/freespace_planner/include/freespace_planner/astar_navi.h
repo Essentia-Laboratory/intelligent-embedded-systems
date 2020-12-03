@@ -21,13 +21,17 @@
 #include <vector>
 
 #include <ros/ros.h>
-#include <tf/transform_listener.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <autoware_msgs/LaneArray.h>
 
 #include "astar_search/astar_search.h"
 
+#if USE_TF2
+# include <tf2_ros/transform_listener.h>
+#else
+# include <tf/transform_listener.h>
+#endif
 class AstarNavi
 {
 public:
@@ -42,7 +46,12 @@ private:
   ros::Subscriber costmap_sub_;
   ros::Subscriber current_pose_sub_;
   ros::Subscriber goal_pose_sub_;
+#if USE_TF2
+  tf2_ros::Buffer tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+#else
   tf::TransformListener tf_listener_;
+#endif
 
   // params
   double waypoints_velocity_;   // constant velocity on planned waypoints [km/h]
@@ -67,7 +76,11 @@ private:
   void goalPoseCallback(const geometry_msgs::PoseStamped& msg);
 
   // fucntions
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> getTransform(const std::string& from, const std::string& to);
+#else
   tf::Transform getTransform(const std::string& from, const std::string& to);
+#endif
   void publishWaypoints(const nav_msgs::Path& path, const double& velocity);
   void publishStopWaypoints();
 };

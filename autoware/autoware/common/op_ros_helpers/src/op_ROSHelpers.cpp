@@ -354,9 +354,9 @@ void ROSHelpers::ConvertPredictedTrajectoriesMarkers(std::vector<std::vector<Pla
   for(unsigned int i = 0; i < paths.size(); i++)
   {
     double additional_z = 0;
-    double basic_color = 0.5;
+//    double basic_color = 0.5;
     double prop = 1.0;
-    bool bCurrent = false;
+//    bool bCurrent = false;
 //    if(paths.at(i).size()>0)
 //    {
 //
@@ -746,7 +746,7 @@ void ROSHelpers::TrajectoriesToColoredMarkers(const std::vector<std::vector<Plan
       lane_waypoint_marker.color.b = 0.0;
     }
 
-    if(i == iClosest)
+    if( ((int) i) == iClosest )
     {
       lane_waypoint_marker.color.r = 1.0;
       lane_waypoint_marker.color.g = 0.0;

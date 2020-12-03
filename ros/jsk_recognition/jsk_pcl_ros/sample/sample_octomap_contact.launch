@@ -34,7 +34,7 @@
 
   <!-- octomap -->
   <node pkg="jsk_pcl_ros" type="octomap_server_contact" name="octomap_server_contact"
-        output="screen" >
+        output="log" >
     <param name="resolution" value="0.01" />
     <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
     <param name="frame_id" type="string" value="base_link" />

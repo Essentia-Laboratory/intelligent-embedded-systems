@@ -45,7 +45,6 @@
 #include <tf/transform_listener.h>
 #include <tf/tf.h>
 
-#define USE_TF2 0
 #if USE_TF2
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>

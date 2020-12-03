@@ -3,6 +3,6 @@
   <arg name="SIZE" />
   <arg name="OUTPUT" />
   <node pkg="rosbag" type="record" name="always_rosbag_record" respawn="true"
-        output="screen"
+        output="log"
         args="--split --topic $(arg TOPICS) --size $(arg SIZE) -o $(arg OUTPUT)" />
 </launch>

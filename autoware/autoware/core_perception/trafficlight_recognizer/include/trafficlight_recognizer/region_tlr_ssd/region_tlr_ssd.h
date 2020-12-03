@@ -21,6 +21,7 @@
 #include <vector>
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
 
 #include <ros/ros.h>
 #include <autoware_msgs/Signals.h>

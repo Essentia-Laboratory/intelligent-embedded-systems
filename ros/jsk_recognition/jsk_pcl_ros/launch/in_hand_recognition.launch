@@ -36,19 +36,19 @@
     <remap from="image_rect" to="resized/depth" />
     <remap from="points" to="template/points" /> 
   </node>
-  <node pkg="pr2_navigation_self_filter" type="self_filter" name="self_filter_sensor" output="screen"
+  <node pkg="pr2_navigation_self_filter" type="self_filter" name="self_filter_sensor" output="log"
         if="$(arg use_self_filter_for_sensor)">
     <remap from="cloud_in" to="$(arg input_cloud)" />
     <remap from="cloud_out" to="~self_filtered_cloud" />
     <rosparam command="load" file="$(arg self_filter_param)" />
   </node>
-  <node pkg="pr2_navigation_self_filter" type="self_filter" name="self_filter_template" output="screen"
+  <node pkg="pr2_navigation_self_filter" type="self_filter" name="self_filter_template" output="log"
         if="$(arg use_self_filter_for_template)">
     <remap from="cloud_in" to="template/points" />
     <remap from="cloud_out" to="~self_filtered_cloud" />
     <rosparam command="load" file="$(arg self_filter_param)" />
   </node>
-  <node pkg="jsk_pcl_ros" type="icp_registration" name="icp_registration" output="screen" >
+  <node pkg="jsk_pcl_ros" type="icp_registration" name="icp_registration" output="log" >
     <remap if="$(arg use_self_filter_for_template)" from="~input_reference" to="self_filter_template/self_filtered_cloud"/>
     <remap unless="$(arg use_self_filter_for_template)" from="~input_reference" to="template/points"/>
     <remap from="~input_reference_array" to="in_hand_recognition_manager/dummy_array"/>

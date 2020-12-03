@@ -7,7 +7,7 @@
 
   <node name="rect_array_publisher"
         pkg="rostopic" type="rostopic"
-        output="screen"
+        output="log"
         args="pub -r 1 -s /rect_array_publisher/output jsk_recognition_msgs/RectArray
               '{header: {stamp: now, frame_id: camera_rgb_optical_frame},
                 rects: [{x: 50, y: 50, width: 200, height: 80},
@@ -16,7 +16,7 @@
 
   <node name="rect_array_to_polygon_array"
         pkg="jsk_recognition_utils" type="rect_array_to_polygon_array.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="rect_array_publisher/output"/>
   </node>
 

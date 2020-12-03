@@ -7,7 +7,7 @@
   </node>
 
   <node pkg="jsk_pcl_ros" type="border_estimator" name="border_estimator"
-        output="screen">
+        output="log">
     <remap from="~input" to="/laser_cloud_from_camera_frame/output" />
     <remap from="~input_camera_info" to="/camera/rgb/camera_info" if="false"/>
     <rosparam>

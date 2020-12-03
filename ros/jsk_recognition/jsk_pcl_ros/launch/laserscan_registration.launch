@@ -15,7 +15,7 @@
     <arg name="laser_scan" value="$(arg laser)" />
   </include>
 
-  <node pkg="jsk_tilt_laser" type="tilt_laser_assembler.py" name="tilt_laser_controller" output="screen">
+  <node pkg="jsk_tilt_laser" type="tilt_laser_assembler.py" name="tilt_laser_controller" output="log">
     <param name="tilt_joint_name" value="laser_tilt_mount_joint" />
     <param name="tilt_joint_min_angle" value="-0.67" />
     <param name="tilt_joint_max_angle" value="1.02" />
@@ -27,9 +27,9 @@
   <node pkg="topic_tools" type="relay" name="laserscan_registration_camera_info_publisher"
         args="/openni/rgb/camera_info $(arg laser)/depth/camera_info" />
 
-  <node pkg="nodelet" type="nodelet" name="laserscan_registration_manager" args="manager" output="screen"
+  <node pkg="nodelet" type="nodelet" name="laserscan_registration_manager" args="manager" output="log"
         unless="$(arg use_gdb)"/>
-  <node pkg="nodelet" type="nodelet" name="laserscan_registration_manager" args="manager" output="screen"
+  <node pkg="nodelet" type="nodelet" name="laserscan_registration_manager" args="manager" output="log"
         launch-prefix="xterm -e gdb --args"
         if="$(arg use_gdb)"/>
 

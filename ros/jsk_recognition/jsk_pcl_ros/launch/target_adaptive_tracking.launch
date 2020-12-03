@@ -10,7 +10,7 @@
   <!-- <include file="$(find jsk_pcl_ros)/sample/tracking_sample.launch" /> -->
   
   <!-- <node pkg="jsk_pcl_ros" type="target_adaptive_tracking"  -->
-  <!-- 	name="target_adaptive_tracking" output="screen" respawn="false"> -->
+  <!-- 	name="target_adaptive_tracking" output="log" respawn="false"> -->
   <!--   <remap from="~input_cloud" to="/camera/depth_registered/points" /> -->
   <!--   <!-\- <remap from="input_cloud" to="/pcl_filter_utils/output/cloud" /> -\-> -->
   <!--   <remap from="~input_obj_cloud" to="/object_model/output/cloud" /> -->
@@ -20,7 +20,7 @@
   <!-- </node> -->
 
     <node pkg="jsk_pcl_ros" type="target_adaptive_tracking"
-  	name="target_adaptive_tracking" output="screen" respawn="false">
+  	name="target_adaptive_tracking" output="log" respawn="false">
     <remap from="~input_cloud" to="$(arg input_cloud)" />
     <remap from="~input_obj_cloud" to="$(arg model_cloud)" />
     <remap from="~input_bkgd_cloud" to="$(arg background_cloud)" />
@@ -40,7 +40,7 @@
 	args=" -d $(find jsk_pcl_ros)/sample/rviz/tracking.rviz"/>
   
   <node pkg="jsk_pcl_ros" type="cluster_point_indices_decomposer" 
-	name="supervoxel_segmentation_decomposer" output="screen">
+	name="supervoxel_segmentation_decomposer" output="log">
     <remap from="~input" to="/target_adaptive_tracking/supervoxel/cloud" />
     <remap from="~target" to="/target_adaptive_tracking/supervoxel/indices" />
   </node>

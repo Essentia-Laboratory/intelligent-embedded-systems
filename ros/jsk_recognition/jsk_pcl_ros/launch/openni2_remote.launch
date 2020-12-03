@@ -114,7 +114,7 @@
           args="load jsk_pcl/DepthCalibration $(arg manager) $(arg bond)"
           respawn="$(arg respawn)"
           clear_params="true"
-          output="screen">
+          output="log">
         <param name="use_warn" value="$(arg use_warn)" />
         <param name="uv_scale" value="$(arg uv_scale)" />
         <remap from="~input" to="/$(arg camera)/depth_registered/hw_registered/image_rect_raw" />

@@ -14,7 +14,7 @@
     <param name="robot_description" textfile="$(find hrpsys_gazebo_tutorials)/environment_models/Cube/Cube.urdf" />
 
     <node pkg="nodelet" type="nodelet" name="resize_points_publisher"
-          args="standalone jsk_pcl/ResizePointsPublisher" output="screen">
+          args="standalone jsk_pcl/ResizePointsPublisher" output="log">
       <remap from="~input" to="$(arg INPUT)" />
       <remap from="~output" to="$(arg INPUT)_resized" />
       <param name="step_x" value="4" />
@@ -22,7 +22,7 @@
     </node>
 
     <node pkg="nodelet" type="nodelet" name="octomap_server"
-          args="standalone jsk_pcl/OctomapServerContact" output="screen">
+          args="standalone jsk_pcl/OctomapServerContact" output="log">
       <param name="resolution" value="0.05" />
 
       <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
@@ -66,7 +66,7 @@
     </node>
 
     <node pkg="jsk_pcl_ros" type="test_contact_sensor.py" name="test_contact_sensor"
-          output="screen" />
+          output="log" />
   </group>
 
 </launch>

@@ -29,11 +29,11 @@
   <!-- tabletop object detection -->
   <node name="$(arg manager)" pkg="nodelet" type="nodelet" args="manager"
         machine="$(arg machine)" if="$(arg launch_manager)"
-        output="screen" />
+        output="log" />
 
   <node name="multi_plane_estimate" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg manager)"
-        output="screen"
+        output="log"
         if="$(arg launch_manager)"
         machine="$(arg machine)">
     <remap from="~input" to="$(arg input)" />
@@ -44,13 +44,13 @@
   </node>
   <node name="polygon_magnifier" pkg="nodelet" type="nodelet"
         args="load jsk_pcl_utils/PolygonMagnifier $(arg manager)"
-        output="screen"
+        output="log"
         machine="$(arg machine)">
     <remap from="~input" to="multi_plane_estimate/output_refined_polygon" />
   </node>
   <node name="plane_extraction" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/MultiPlaneExtraction $(arg manager)"
-        output="screen"
+        output="log"
         machine="$(arg machine)">
     <remap from="~input" to="$(arg input)" />
     <remap from="~indices" to="/multi_plane_estimate/output_refined" />
@@ -68,7 +68,7 @@
 
   <node name="rects_to_cpi"
         pkg="jsk_recognition_utils" type="rect_array_to_cluster_point_indices.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg output_rects)"/>
     <remap from="~input/info" to="$(arg camera_info)"/>
     <rosparam>
@@ -79,14 +79,14 @@
 
   <node name="image_cpi_decomposer"
         pkg="jsk_perception" type="image_cluster_indices_decomposer.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg input_image)"/>
     <remap from="~input/cluster_indices" to="rects_to_cpi/output" />
   </node>
 
   <node name="segmentation_decomposer" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg manager)"
-        output="screen"
+        output="log"
         machine="$(arg machine)">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~target" to="/rects_to_cpi/output" />
@@ -101,13 +101,13 @@
 
   <!-- interactive -->
   <node name="bounding_box_marker" pkg="jsk_interactive_marker" type="bounding_box_marker"
-        output="screen"
+        output="log"
         machine="$(arg machine)">
     <remap from="~bounding_box_array" to="segmentation_decomposer/boxes" />
   </node>
   <node name="selected_cloud" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/SelectedClusterPublisher $(arg manager)"
-        output="screen"
+        output="log"
         machine="$(arg machine)">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~indices" to="/euclidean_clustering/output" />
@@ -133,7 +133,7 @@
     </node>
     <node name="octree_change_detector_euclidean_filter_points" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg manager)"
-          output="screen"
+          output="log"
           machine="$(arg machine)">
       <remap from="~input" to="octree_change_detector/octree_change_result" />
       <remap from="~target" to="octree_change_detector_euclidean_filter/output" />
@@ -146,7 +146,7 @@
     </node>
     <node name="voxelgrid" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/OctreeVoxelGrid $(arg manager)"
-          output="screen" clear_params="true"
+          output="log" clear_params="true"
           machine="$(arg machine)">
       <remap from="~input" to="input_relay/output" />
       <param name="resolution" value="0.01" />
@@ -157,7 +157,7 @@
     </node>
     <node name="model_voxelgrid" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/OctreeVoxelGrid $(arg manager)"
-          output="screen" clear_params="true"
+          output="log" clear_params="true"
           machine="$(arg machine)">
       <remap from="~input" to="/selected_pointcloud" />
       <param name="resolution" value="0.01" />
@@ -168,7 +168,7 @@
     </node>
     <node name="particle_filter_tracker" pkg="nodelet" type="nodelet"
           args="load jsk_pcl/ParticleFilterTracking $(arg manager)"
-          output="screen" clear_params="true"
+          output="log" clear_params="true"
           machine="$(arg machine)">
       <remap from="~input" to="voxelgrid/output" />
       <remap from="~input_change" to="octree_change_detector/octree_change_result" />
@@ -184,12 +184,12 @@
     </node>
     <node name="cloud_on_plane" pkg="nodelet" type="nodelet"
           args="load jsk_pcl_utils/CloudOnPlane $(arg manager)"
-          output="screen" machine="$(arg machine)">
+          output="log" machine="$(arg machine)">
       <remap from="~input" to="particle_filter_tracker/track_result" />
       <remap from="~input/polygon" to="polygon_magnifier/output" />
     </node>
     <node name="cloud_on_plane_info" pkg="jsk_pcl_ros_utils" type="cloud_on_plane_info.py"
-          output="screen">
+          output="log">
       <remap from="~input" to="cloud_on_plane/output" />
       <rosparam>
         left: 10
@@ -198,7 +198,7 @@
       </rosparam>
     </node>
     <node name="tracker_status_info" pkg="jsk_pcl_ros" type="tracker_status_info.py"
-          output="screen">
+          output="log">
       <remap from="~input" to="particle_filter_tracker/output/tracker_status" />
       <rosparam>
         left: 10

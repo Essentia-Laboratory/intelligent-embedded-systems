@@ -57,7 +57,7 @@
     <remap from="/assoc_tf" to="/dynamic_tf_publisher_remote/assoc_tf"/>
     <remap from="/publish_tf" to="/dynamic_tf_publisher_remote/publish_tf"/>
     
-    <node pkg="jsk_interactive_marker" type="interactive_marker_interface" name="jsk_interactive_marker_manipulation" output="screen">
+    <node pkg="jsk_interactive_marker" type="interactive_marker_interface" name="jsk_interactive_marker_manipulation" output="log">
       <param name="use_center_sphere" type="boolean" value="true"/>
       <param name="change_using_ik_menu" type="boolean" value="true"/>
       <param name="base_frame" type="string" value="/BODY"/>
@@ -77,7 +77,7 @@
     </node>
 
 
-    <node pkg="roseus" type="roseus" name="ik_controller" args="$(find jsk_interactive_marker)/euslisp/ik-controller-main.l" output="screen">
+    <node pkg="roseus" type="roseus" name="ik_controller" args="$(find jsk_interactive_marker)/euslisp/ik-controller-main.l" output="log">
       <param name="robot" value="$(arg ROBOT)"/>
       <param name="frame_id" value="BODY"/>
       <param name="use_ik_server" value="false"/>

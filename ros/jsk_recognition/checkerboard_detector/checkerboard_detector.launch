@@ -27,7 +27,7 @@
     <param name="circle_size" value="6" />    <!-- set circle_size as [pixel] -->
 
     <node pkg="checkerboard_detector" name="checkerboard_detector"
-          type="checkerboard_detector" respawn="false" output="screen">
+          type="checkerboard_detector" respawn="false" output="log">
       <remap from="camera_info" to="/wide_stereo/left/camera_info"/>
       <remap from="image" to="/wide_stereo/left/image_rect"/>
     </node>

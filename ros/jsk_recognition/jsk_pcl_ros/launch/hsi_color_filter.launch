@@ -27,10 +27,10 @@
   <group ns="$(arg DEFAULT_NAMESPACE)">
     <node if="$(arg create_manager)"
           pkg="nodelet" type="nodelet" name="$(arg manager)"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
 
     <node pkg="nodelet" type="nodelet" name="hsi_filter$(arg FILTER_NAME_SUFFIX)"
-          args="load jsk_pcl/HSIColorFilter $(arg manager)" output="screen">
+          args="load jsk_pcl/HSIColorFilter $(arg manager)" output="log">
       <remap from="~input" to="$(arg INPUT)" />
       <remap from="~output" to="$(arg OUTPUT)" />
       <rosparam>
@@ -45,7 +45,7 @@
       <param name="i_limit_min" value="$(arg i_min)" />
     </node>
     <node pkg="nodelet" type="nodelet" name="euclidean_clustering$(arg FILTER_NAME_SUFFIX)"
-          args="load jsk_pcl/EuclideanClustering $(arg manager)" output="screen">
+          args="load jsk_pcl/EuclideanClustering $(arg manager)" output="log">
       <remap from="~input" to="$(arg OUTPUT)" />
       <rosparam>
         tolerance: 0.02
@@ -56,7 +56,7 @@
     <node pkg="nodelet" type="nodelet"
           name="cluster_decomposer$(arg FILTER_NAME_SUFFIX)"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg OUTPUT)" />
       <remap from="~target" to="euclidean_clustering$(arg FILTER_NAME_SUFFIX)/output" />
       <remap from="~debug_output" to="debug_output$(arg FILTER_NAME_SUFFIX)" />

@@ -9,12 +9,12 @@
 
   <node type="nodelet" pkg="nodelet" name="fisheye_manager" args="manager"/>
   <node type="nodelet" pkg="nodelet" name="fisheye_to_panorama"
-        args="load jsk_perception/FisheyeToPanorama fisheye_manager" output="screen">
+        args="load jsk_perception/FisheyeToPanorama fisheye_manager" output="log">
     <remap from="~input" to="/camera/image_rect_color"/>
     <param name="use_panorama" value="true"/>
   </node>
   <node type="nodelet" pkg="nodelet" name="fisheye_sphere"
-        args="load jsk_pcl/FisheyeSpherePublisher fisheye_manager" output="screen">
+        args="load jsk_pcl/FisheyeSpherePublisher fisheye_manager" output="log">
     <remap from="~input" to="/camera/image_rect_color"/>
   </node>
   <node type="image_view2" pkg="image_view2" name="fisheye_image_view">

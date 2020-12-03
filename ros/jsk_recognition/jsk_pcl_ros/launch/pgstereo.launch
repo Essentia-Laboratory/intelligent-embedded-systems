@@ -1,7 +1,7 @@
 <launch>
   <arg name="RUN_DRIVER" default="true" />
   <node pkg="nodelet" type="nodelet" name="manager" args="manager"
-        output="screen" />
+        output="log" />
     <group ns="left">
       <node pkg="nodelet" type="nodelet"
             args="load pointgrey_camera_driver/PointGreyCameraNodelet /manager"
@@ -57,7 +57,7 @@
       </node>
     </group>
     <node pkg="stereo_image_proc" type="stereo_image_proc"
-          name="stereo_image_proc_2" output="screen">
+          name="stereo_image_proc_2" output="log">
       <param name="approximate_sync" value="true" />
       <remap from="left/image_raw" to="left_1_2/image_raw"/>
       <remap from="left/camera_info" to="left_1_2/camera_info"/>
@@ -91,7 +91,7 @@
       </node>
     </group>
     <node pkg="stereo_image_proc" type="stereo_image_proc"
-          name="stereo_image_proc_4" output="screen">
+          name="stereo_image_proc_4" output="log">
       <param name="approximate_sync" value="true" />
       <remap from="left/image_raw" to="left_1_4/image_raw"/>
       <remap from="right/image_raw" to="right_1_4/image_raw"/>

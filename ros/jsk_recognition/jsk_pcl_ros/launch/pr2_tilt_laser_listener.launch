@@ -1,7 +1,7 @@
 <launch>
   <node pkg="jsk_pcl_ros" type="tilt_laser_listener"
         name="tilt_laser_listener"
-        output="screen">
+        output="log">
     <remap from="~input" to="/joint_states" />
     <rosparam>
       laser_type: tilt_half_down

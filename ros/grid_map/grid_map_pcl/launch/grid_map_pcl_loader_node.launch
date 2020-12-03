@@ -11,7 +11,7 @@
   <arg name="set_verbosity_to_debug" default="false"/>
     
   <node name="grid_map_pcl_loader_node" pkg="grid_map_pcl"
-      type="grid_map_pcl_loader_node" output="screen" launch-prefix="$(arg prefix)">
+      type="grid_map_pcl_loader_node" output="log" launch-prefix="$(arg prefix)">
     <rosparam file="$(find grid_map_pcl)/config/parameters.yaml" />
     <param name="pcd_filename"            type="string" value="$(arg pcd_filename)" />
     <param name="map_rosbag_topic"        type="string" value="$(arg map_rosbag_topic)" />

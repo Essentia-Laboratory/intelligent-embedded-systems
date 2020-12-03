@@ -1,6 +1,6 @@
 <launch>
   <node pkg="jsk_perception" name="plane_detector"
-        type="plane_detector" output="screen"
+        type="plane_detector" output="log"
         clear_params="true" >
     <remap from="points_in" to="/passthroughz/output" />
     <param name="use_normal" value="true" />
@@ -8,10 +8,10 @@
   </node>
 
   <node name="pcl_manager" pkg="nodelet" type="nodelet"
-        args="manager" output="screen" />
+        args="manager" output="log" />
 
   <node pkg="nodelet" type="nodelet" name="passthroughz" args="load
-    pcl/PassThrough pcl_manager" output="screen" clear_params="true">
+    pcl/PassThrough pcl_manager" output="log" clear_params="true">
     <remap from="~input" to="/camera/rgb/points" />
 
     <rosparam>
@@ -24,7 +24,7 @@
 
   <!-- extract color -->
   <node pkg="jsk_perception" name="color_extractor"
-        type="color_extractor" output="screen"
+        type="color_extractor" output="log"
         clear_params="true" >
     <remap from="~input" to="/plane_detector/points_out"/>
     <param name="use_h" value="true"/>
@@ -38,7 +38,7 @@
 
   <!-- euclidean clustering service -->
   <node pkg="jsk_perception" name="euclidean_clustering"
-        type="euclidean_clustering" output="screen"
+        type="euclidean_clustering" output="log"
         clear_params="true">
     <remap from="~input" to="/color_extractor/output" />
     <param name="publish_array" value="true" />

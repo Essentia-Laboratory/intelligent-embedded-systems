@@ -17,7 +17,7 @@
 
   <arg name="nodename" default="facedetector" />  <!-- Default is 0 length str -->
 
-  <node pkg="face_detector" type="face_detector" name="$(arg nodename)" output="screen">
+  <node pkg="face_detector" type="face_detector" name="$(arg nodename)" output="log">
     <remap from="camera" to="$(arg camera)" />
     <remap from="rgb_ns" to="$(arg rgb_ns)" />
     <remap from="depth_ns" to="$(arg depth_ns)" />

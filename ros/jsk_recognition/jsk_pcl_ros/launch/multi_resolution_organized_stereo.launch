@@ -11,7 +11,7 @@
 
   <group ns="$(arg NAMESPACE)">
     <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet" name="manager"
-          output="screen"
+          output="log"
           if="$(arg RUN_MANAGER)"/>
     <group ns="$(arg MANAGER)"> <!-- to use same nodelet as points/depth -->
       <rosparam subst_value="true">

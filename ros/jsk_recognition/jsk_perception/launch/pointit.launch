@@ -9,7 +9,7 @@
 
   <node name="people_pose_estimation_2d"
         pkg="jsk_perception" type="people_pose_estimation_2d.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg input_rgb)" />
     <remap from="~input/info" to="$(arg input_camera_info)" />
     <remap from="~input/depth" to="$(arg input_depth)" />
@@ -36,7 +36,7 @@
   </include>
 
   <node name="pointit" pkg="jsk_perception" type="pointit.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="people_pose_estimation_2d/pose"/>
     <remap from="~input/boxes" to="segmentation_decomposer/boxes"/>
     <rosparam>

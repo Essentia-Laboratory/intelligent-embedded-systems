@@ -23,7 +23,7 @@
       <remap from="out" to="image_raw" />
     </node>
     <node name="image_proc" pkg="image_proc" type="image_proc" />
-    <node name="video_recorder" pkg="image_view" type="video_recorder" output="screen">
+    <node name="video_recorder" pkg="image_view" type="video_recorder" output="log">
       <remap from="image" to="image_rect_color" />
       <rosparam subst_value="true">
         fps: $(arg fps)

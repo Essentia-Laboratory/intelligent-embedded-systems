@@ -5,7 +5,7 @@
   <arg name="HEIGHT" default="512"/>
   <arg name="NS" default="flir_adk"/>
 
-  <node ns="$(arg NS)" name="flir_adk_01" pkg="gscam" type="gscam" output="screen">
+  <node ns="$(arg NS)" name="flir_adk_01" pkg="gscam" type="gscam" output="log">
     <param name="camera_name" value="flir"/>
     <param name="gscam_config"
            value="v4l2src device=$(arg DEVICE) ! video/x-raw-yuv,framerate=$(arg FPS)/1,width=$(arg WIDTH),height=$(arg HEIGHT) ! ffmpegcolorspace "/>

@@ -1,6 +1,6 @@
 <launch>
   <node name="image_siftnode" pkg="imagesift" type="imagesurf"
-	output="screen" >
+	output="log" >
     <remap from="image" to="image_rect_color" />
   </node>
 

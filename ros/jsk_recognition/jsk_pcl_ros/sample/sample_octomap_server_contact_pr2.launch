@@ -6,10 +6,10 @@
   </node>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-        respawn="true" output="screen" />
+        respawn="true" output="log" />
 
   <node pkg="jsk_pcl_ros" type="octomap_server_contact" name="octomap_server"
-        output="screen" >
+        output="log" >
     <!-- data source to integrate (PointCloud2) -->
     <remap from="cloud_in" to="/camera_cloud" />
     <remap from="proximity_in" to="/hand_cloud" />
@@ -60,7 +60,7 @@
   <node pkg="tf" type="static_transform_publisher" name="robot_to_octomap" args="0.5 0.0 1.4 0 0 0 /base_footprint /octomap_world 20" />
 
   <node pkg="jsk_pcl_ros" type="test_contact_sensor.py" name="test_contact_sensor"
-        output="screen" />
+        output="log" />
 
   <node pkg="rviz" type="rviz" name="rviz"
         args="-d  $(find jsk_pcl_ros)/config/octomap_server_contact_pr2.rviz" />

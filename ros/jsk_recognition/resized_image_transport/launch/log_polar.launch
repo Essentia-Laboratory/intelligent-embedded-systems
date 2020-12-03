@@ -9,7 +9,7 @@
     <!-- nodes for robot -->
     <node pkg="resized_image_transport" type="log_polar" name="log_polar"
 	  alaunch-prefix="gdb -ex run --args"
-	  output="screen">
+	  output="log">
 <!--          output="log" > -->
       <remap from="~input/image" to="$(arg INPUT_IMAGE)" />
       <remap from="~output/image" to="~image" />
@@ -20,7 +20,7 @@
     </node>
     
     <node pkg="resized_image_transport" type="image_resizer" name="log_polar_image_resizer"
-    	  output="screen">
+    	  output="log">
       <remap from="~input/image" to="log_polar/image" />
       <remap from="~output/image" to="~image" />
       <param name="resize_scale_x" value="$(arg RESIZE_RATE)" />
@@ -30,13 +30,13 @@
 
     <!-- nodes for remote machine -->
     <node pkg="image_transport" type="republish" name="republish_log_polar_image_resizer"
-	  args="compressed" output="screen">
+	  args="compressed" output="log">
       <remap from="in" to="log_polar_image_resizer/image" />
       <remap from="out" to="~image" />
     </node>
 
     <node pkg="resized_image_transport" type="image_resizer" name="log_polar_image_enlarger"
-    	  output="screen">
+    	  output="log">
       <remap from="~input/image" to="republish_log_polar_image_resizer/image" />
       <remap from="~output/image" to="~image" />
       <param name="width" value="$(arg WIDTH)" />
@@ -46,7 +46,7 @@
     </node>
 
     <node pkg="resized_image_transport" type="log_polar" name="inverse_log_polar"
-          output="screen">
+          output="log">
       <param name="inverse_log_polar" value="true"/>
       <remap from="~input/image" to="/$(arg CAMERA_NS)/log_polar_image_enlarger/image" />
       <remap from="~output/image" to="~image" />

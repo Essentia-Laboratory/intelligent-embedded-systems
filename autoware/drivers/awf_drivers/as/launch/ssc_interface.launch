@@ -11,7 +11,7 @@
   <arg name="deceleration_limit" default="3.0"/>
   <arg name="max_curvature_rate" default="0.75"/>
 
-  <node pkg="as" type="ssc_interface" name="ssc_interface" output="screen">
+  <node pkg="as" type="ssc_interface" name="ssc_interface" output="log">
     <param name="use_adaptive_gear_ratio" value="$(arg use_adaptive_gear_ratio)" />
     <param name="enable_reverse_motion" value="$(arg enable_reverse_motion)" />
     <param name="command_timeout" value="$(arg command_timeout)" />

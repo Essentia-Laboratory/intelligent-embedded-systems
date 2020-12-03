@@ -6,11 +6,11 @@
   <group ns="pcl_nodelet">
      <node if="$(arg create_manager)"
           pkg="nodelet" type="nodelet" name="$(arg manager)"
-          args="manager" output="screen"/>
+          args="manager" output="log"/>
      <node pkg="nodelet" type="nodelet"
           name="voxelgrid"
           args="load pcl/VoxelGrid $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="$(arg input_point)" />
       <rosparam>
         filter_field_name: z
@@ -22,7 +22,7 @@
      <node pkg="nodelet" type="nodelet"
           name="clustering"
           args="load jsk_pcl/EuclideanClustering $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/voxelgrid/output" />
       <rosparam>
          tolerance: 0.1
@@ -31,7 +31,7 @@
     <node pkg="nodelet" type="nodelet"
           name="cluster_decomposer"
           args="load jsk_pcl/ClusterPointIndicesDecomposerZAxis $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/voxelgrid/output" />
       <remap from="~target" to="/pcl_nodelet/clustering/output" />
       <rosparam>
@@ -41,7 +41,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher00"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output00" />
       <rosparam>
         frame: cluster00
@@ -51,7 +51,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher01"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output01" />
       <rosparam>
         frame: cluster01
@@ -61,7 +61,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher02"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output02" />
       <rosparam>
         frame: cluster02
@@ -71,7 +71,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher03"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output03" />
       <rosparam>
         frame: cluster03
@@ -81,7 +81,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher04"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output04" />
       <rosparam>
         frame: cluster04
@@ -91,7 +91,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher05"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output05" />
       <rosparam>
         frame: cluster05
@@ -101,7 +101,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher06"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output06" />
       <rosparam>
         frame: cluster06
@@ -111,7 +111,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher07"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output07" />
       <rosparam>
         frame: cluster07
@@ -121,7 +121,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher08"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output08" />
       <rosparam>
         frame: cluster08
@@ -131,7 +131,7 @@
     <node pkg="nodelet" type="nodelet"
           name="centroid_publisher09"
           args="load jsk_pcl/CentroidPublisher $(arg manager)"
-          output="screen" clear_params="true">
+          output="log" clear_params="true">
       <remap from="~input" to="/pcl_nodelet/cluster_decomposer/output09" />
       <rosparam>
         frame: cluster09

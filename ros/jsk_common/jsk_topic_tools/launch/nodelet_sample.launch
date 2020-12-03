@@ -4,7 +4,7 @@
     <node pkg="nodelet"
           type="nodelet"
           name="throttle"
-          output="screen"
+          output="log"
           clear_params="true"
           args="load jsk_topic_tools/LightweightThrottle /camera/camera_nodelet_manager">
       <remap from="~input" to="/camera/depth/points" />
@@ -15,7 +15,7 @@
     <node pkg="nodelet"
           type="nodelet"
           name="mux"
-          output="screen"
+          output="log"
           clear_params="true"
           args="load jsk_topic_tools/MUX /camera/camera_nodelet_manager">
       <rosparam>

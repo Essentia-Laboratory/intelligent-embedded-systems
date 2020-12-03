@@ -26,7 +26,7 @@
   </include>
 
   <node name="face_recognition" pkg="opencv_apps" type="face_recognition"
-        output="screen">
+        output="log">
     <param name="data_dir" value="$(arg data_dir)" />
     <param name="queue_size" value="$(arg queue_size)" />
     <remap from="image" to="$(arg image)" />

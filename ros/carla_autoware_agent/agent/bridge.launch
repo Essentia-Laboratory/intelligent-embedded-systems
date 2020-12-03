@@ -54,7 +54,7 @@
   <node pkg='carla_autoware_bridge' type='odometry_to_posestamped' name='odometry_to_posestamped'/>
 
   <!-- convert twist to carla ackermann drive-->
-  <node pkg='carla_autoware_bridge' type='vehiclecmd_to_ackermanndrive' name='vehiclecmd_to_ackermanndrive' output='screen'>
+  <node pkg='carla_autoware_bridge' type='vehiclecmd_to_ackermanndrive' name='vehiclecmd_to_ackermanndrive' output='log'>
     <param name='wheelbase' value='$(arg wheelbase)'/>
   </node>
 

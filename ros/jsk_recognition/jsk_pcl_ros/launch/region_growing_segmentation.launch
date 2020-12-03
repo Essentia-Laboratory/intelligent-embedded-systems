@@ -2,7 +2,7 @@
   <arg name="INPUT" default="/camera/depth_registered/points" />
   <node pkg="nodelet" type="nodelet" name="manager"
         args="manager"
-        output="screen"/>
+        output="log"/>
   <node pkg="nodelet" type="nodelet" name="normal_estimate"
         args="load pcl/NormalEstimationOMP manager"
         clear_params="true">
@@ -40,7 +40,7 @@
   <node pkg="nodelet" type="nodelet"
         name="cluster_decomposer"
         args="load jsk_pcl/ClusterPointIndicesDecomposer manager"
-        output="screen" clear_params="true">
+        output="log" clear_params="true">
     <remap from="~input" to="/remove_nan/output" />
     <remap from="~target" to="/region_segment/output" />
     <rosparam>

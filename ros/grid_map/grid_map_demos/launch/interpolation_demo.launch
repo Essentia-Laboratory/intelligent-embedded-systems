@@ -3,7 +3,7 @@
   <arg name="launch_rviz" default="true" />
   <!-- Launch the grid map iterators demo node -->
   <node pkg="grid_map_demos" type="interpolation_demo"
-    name="grid_map_interpolation_demo" output="screen" launch-prefix="">
+    name="grid_map_interpolation_demo" output="log" launch-prefix="">
     <rosparam command="load"
       file="$(find grid_map_demos)/config/interpolation_demo.yaml" />
   </node>

@@ -99,7 +99,7 @@ ROS_INFO("[%s] --> WaypointReplannerNode publishLaneArray", __APP_NAME__);
   if (replanning_mode_)
   {
     replan(array);
-  }
+  }    
 
   lane_pub_.publish(array);
   is_first_publish_ = false;

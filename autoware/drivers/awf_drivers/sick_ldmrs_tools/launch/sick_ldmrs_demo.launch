@@ -4,7 +4,7 @@
   <arg name="hostname" default="192.168.0.1" />
 
   <!-- start the actual driver node -->
-  <node name="sick_ldmrs_node" pkg="sick_ldmrs_driver" type="sick_ldmrs_node" output="screen">
+  <node name="sick_ldmrs_node" pkg="sick_ldmrs_driver" type="sick_ldmrs_node" output="log">
     <!-- change frequency to 12.5 Hz so that the scanner outputs object tracking results -->
     <param name="scan_frequency" type="int" value="0" />
     <param name="hostname" type="string" value="$(arg hostname)" />
@@ -14,21 +14,21 @@
   <include file="$(find sick_ldmrs_description)/launch/upload_urdf.launch" />
 
   <!-- start a node that subscribes to object tracking results and publishes markers for RViz -->
-  <node name="sick_ldmrs_object_marker" pkg="sick_ldmrs_tools" type="sick_ldmrs_object_marker" output="screen" />
+  <node name="sick_ldmrs_object_marker" pkg="sick_ldmrs_tools" type="sick_ldmrs_object_marker" output="log" />
 
-  <node name="sick_ldmrs_all_layer_assembler" pkg="sick_ldmrs_tools" type="sick_ldmrs_all_layer_assembler" output="screen">
+  <node name="sick_ldmrs_all_layer_assembler" pkg="sick_ldmrs_tools" type="sick_ldmrs_all_layer_assembler" output="log">
     <param name="fixed_frame" value="ldmrs_mount_link" />   <!-- on a real robot, this should be an actually fixed frame like /odom or /map -->
   </node>
 
-  <node name="sick_ldmrs_filter_first" pkg="sick_ldmrs_tools" type="sick_ldmrs_filter_first" output="screen">
+  <node name="sick_ldmrs_filter_first" pkg="sick_ldmrs_tools" type="sick_ldmrs_filter_first" output="log">
     <remap from="cloud" to="all_layers" />
   </node>
 
-  <node name="sick_ldmrs_make_organized" pkg="sick_ldmrs_tools" type="sick_ldmrs_make_organized" output="screen">
+  <node name="sick_ldmrs_make_organized" pkg="sick_ldmrs_tools" type="sick_ldmrs_make_organized" output="log">
     <remap from="cloud" to="first" />
   </node>
 
-  <node name="sick_ldmrs_remove_background" pkg="sick_ldmrs_tools" type="sick_ldmrs_remove_background" output="screen">
+  <node name="sick_ldmrs_remove_background" pkg="sick_ldmrs_tools" type="sick_ldmrs_remove_background" output="log">
     <remap from="cloud" to="organized" />
   </node>
 

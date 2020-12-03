@@ -12,7 +12,7 @@
   <include file="$(find jsk_pcl_ros)/sample/include/play_rosbag_pr2_sink.xml"/>
 
   <node name="$(arg manager)" pkg="nodelet" type="nodelet"
-        args="manager" output="screen"/>
+        args="manager" output="log"/>
 
   <!-- publish reference cloud -->
   <node name="kettle_pose_publisher"

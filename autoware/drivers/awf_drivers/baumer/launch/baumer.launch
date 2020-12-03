@@ -5,7 +5,7 @@
   <arg name="brightness" default="0.7"/>
   <arg name="CalibrationFile" default=""/>
 
-  <node pkg="vlg22c_cam" type="vlg22c_cam_node" name="vlg22c" cwd="node" output="screen">
+  <node pkg="vlg22c_cam" type="vlg22c_cam_node" name="vlg22c" cwd="node" output="log">
     <param name="fps" value="$(arg fps)"/>
     <param name="scale" value="$(arg scale)"/>
     <param name="brightness" value="$(arg brightness)"/>

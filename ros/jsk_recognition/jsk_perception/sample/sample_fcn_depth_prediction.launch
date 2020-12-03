@@ -28,7 +28,7 @@
 
   <node name="fcn_depth_prediction"
         pkg="jsk_perception" type="fcn_depth_prediction.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)" />
     <remap from="~input/depth" to="$(arg DEPTH_IMAGE)" />
     <remap from="~target_names" to="label_names" />

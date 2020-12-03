@@ -1,7 +1,7 @@
 <!-- -*- mode: xml -*- -->
 <launch>
   <node name="range" pkg="swissranger_camera" type="swissranger_camera"
-        respawn="false" output="screen" clear_params="true">
+        respawn="false" output="log" clear_params="true">
     <param name="frame_id" type="string" value="/SR4000"/>
     <!--
     <param name="camera_info_url"

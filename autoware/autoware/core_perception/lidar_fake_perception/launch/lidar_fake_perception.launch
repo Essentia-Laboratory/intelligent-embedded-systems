@@ -34,7 +34,7 @@
   <arg name="object_label" default="Stable"/>
   <arg name="object_frame" default="velodyne"/>
 
-  <node pkg="lidar_fake_perception" type="lidar_fake_perception_node" name="lidar_fake_perception" output="screen">
+  <node pkg="lidar_fake_perception" type="lidar_fake_perception_node" name="lidar_fake_perception" output="log">
     <remap from="/move_base_simple/goal" to="$(arg initial_pose_topic)"/>
     <remap from="/detected_objects" to="$(arg real_objects_topic)"/>
     <remap from="/points_raw" to="$(arg real_points_topic)"/>
@@ -63,6 +63,6 @@
   </node>
 
   <node pkg="detected_objects_visualizer" type="visualize_detected_objects" name="fake_perception_visualization_01"
-        output="screen" ns="/detection/fake_perception/" />
+        output="log" ns="/detection/fake_perception/" />
 
 </launch>

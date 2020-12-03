@@ -9,14 +9,14 @@
   <!-- Start four_wheel_steering -->
   <node name="four_wheel_steering"
       pkg="four_wheel_steering_controller"
-      type="four_wheel_steering" output="screen"/>
+      type="four_wheel_steering" output="log"/>
 
   <!-- Load controller config -->
   <rosparam command="load" file="$(find four_wheel_steering_controller)/test/config/four_wheel_steering_controller_twist_cmd.yaml" />
 
   <!-- Spawn controller -->
   <node name="controller_spawner"
-        pkg="controller_manager" type="spawner" output="screen"
+        pkg="controller_manager" type="spawner" output="log"
         args="four_wheel_steering_controller --shutdown-timeout 5" />
 
   <!-- rqt_plot monitoring -->

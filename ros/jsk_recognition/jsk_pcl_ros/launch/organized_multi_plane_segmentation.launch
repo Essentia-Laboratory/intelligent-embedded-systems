@@ -22,12 +22,12 @@
           machine="$(arg MACHINE)"
           if="$(arg GDB)"
           launch-prefix="xterm -e gdb --args"
-          output="screen"/>
+          output="log"/>
     <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
           args="manager"
           machine="$(arg MACHINE)"
           unless="$(arg GDB)"
-          output="screen"/>
+          output="log"/>
   </group>
 
   
@@ -35,7 +35,7 @@
     <arg name="SELF_FILTER_PARAM" default="$(find jsk_pr2_startup)/jsk_pr2_sensors/tilt_self_filter.yaml" />
     <node pkg="pr2_navigation_self_filter"
           type="self_filter" clear_params="true"
-          name="openni_cloud_self_filter" respawn="true" output="screen">
+          name="openni_cloud_self_filter" respawn="true" output="log">
       <remap from="cloud_in" to="$(arg INPUT)" />
       <remap from="cloud_out" to="~cloud_out" />
       <rosparam command="load" file="$(arg SELF_FILTER_PARAM)" />
@@ -129,7 +129,7 @@
         name="cluster_decomposer"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~target" to="/multi_plane_estimate/output" />
     <rosparam>
@@ -141,7 +141,7 @@
         name="cluster_decomposer2"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~target" to="/multi_plane_estimate/output_nonconnected" />
     <rosparam>
@@ -154,7 +154,7 @@
         name="plane_extraction"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/MultiPlaneExtraction $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~indices" to="/multi_plane_estimate/output_refined" />
     <remap from="~input_polygons" to="/multi_plane_estimate/output_refined_polygon" />
@@ -163,7 +163,7 @@
   
   <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
         machine="$(arg MACHINE)"
-        args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)" output="screen">
+        args="load jsk_pcl/EuclideanClustering /$(arg MANAGER)" output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <rosparam>
       tolerance: 0.02
@@ -175,7 +175,7 @@
         name="cluster_decomposer_final"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~target" to="/euclidean_clustering/output_throttle" />
     <remap from="~align_planes" to="/multi_plane_estimate/output_refined_polygon" />
@@ -203,7 +203,7 @@
   <node pkg="nodelet" type="nodelet"
         name="throttle_segmentation"
         args="load jsk_topic_tools/LightweightThrottle /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="euclidean_clustering/output" />
     <remap from="~output" to="euclidean_clustering/output_throttle" />
   </node>
@@ -211,7 +211,7 @@
         type="bounding_box_marker"
         machine="$(arg MACHINE)"
         name="bounding_box_marker"
-        output="screen"
+        output="log"
         >
     <remap from="~bounding_box_array" to="cluster_decomposer_final/boxes" />
   </node>
@@ -219,7 +219,7 @@
         name="selected_cloud"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/SelectedClusterPublisher /$(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="/plane_extraction/output" />
     <remap from="~indices" to="/euclidean_clustering/output" />
     <remap from="~selected_index" to="/bounding_box_marker/selected_index" />
@@ -236,7 +236,7 @@
     <node pkg="nodelet" type="nodelet" name="color_histogram"
           args="load jsk_pcl/ColorHistogramMatcher /$(arg MANAGER)"
           machine="$(arg MACHINE)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" />-->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~input_indices" to="grid_sampler/output" />
@@ -249,7 +249,7 @@
     <node pkg="nodelet" type="nodelet" name="grid_sampler"
           args="load jsk_pcl/GridSampler /$(arg MANAGER)"
           machine="$(arg MACHINE)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <rosparam>
@@ -260,7 +260,7 @@
           name="grid_sample_decompose"
           machine="$(arg MACHINE)"
           args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~target" to="grid_sampler/output" />
@@ -273,7 +273,7 @@
           name="match_result"
           machine="$(arg MACHINE)"
           args="load jsk_pcl/ClusterPointIndicesDecomposer /$(arg MANAGER)"
-          output="screen">
+          output="log">
       <!-- <remap from="~input" to="/plane_extraction/output" /> -->
       <remap from="~input" to="input_relay/output"/>
       <remap from="~target" to="color_histogram/output" />
@@ -286,7 +286,7 @@
         if="$(arg HANDLE_ESTIMATOR)"
         machine="$(arg MACHINE)"
         args="$(find jsk_pcl_ros)/euslisp/handle_estimator.l"
-	output="screen">
+	output="log">
     <remap from="~input_box" to="/bounding_box_marker/selected_box" />
     <rosparam>
       approach_offset: 0.1
@@ -319,7 +319,7 @@
       <param name="frame_id" value="$(arg BASE_FRAME_ID)" />
     </node>
     <node pkg="nodelet" type="nodelet" name="env_server"
-          output="screen"
+          output="log"
           args="load jsk_pcl/EnvironmentPlaneModeling /$(arg MANAGER)" >
       <remap from="~input" to="transform_input/output" />
       <remap from="~indices" to="/multi_plane_estimate/output_refined" />

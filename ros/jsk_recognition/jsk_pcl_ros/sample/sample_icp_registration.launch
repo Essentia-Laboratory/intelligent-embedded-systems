@@ -33,7 +33,7 @@
 
    <node name="multi_plane_estimate" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/OrganizedMultiPlaneSegmentation $(arg manager)"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg input)" />
     <rosparam>
       max_curvature: 0.01
@@ -42,12 +42,12 @@
   </node>
   <node name="polygon_magnifier" pkg="nodelet" type="nodelet"
         args="load jsk_pcl_utils/PolygonMagnifier $(arg manager)"
-        output="screen">
+        output="log">
     <remap from="~input" to="multi_plane_estimate/output_refined_polygon" />
   </node>
   <node name="plane_extraction" pkg="nodelet" type="nodelet"
         args="load jsk_pcl/MultiPlaneExtraction $(arg manager)"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg input)" />
     <remap from="~indices" to="multi_plane_estimate/output_refined" />
     <remap from="~input_polygons" to="multi_plane_estimate/output_refined_polygon" />
@@ -72,7 +72,7 @@
   </node>
   -->
   <node name ="subsample_input" pkg="nodelet" type="nodelet"
-      args="load pcl/VoxelGrid $(arg manager)" output="screen">
+      args="load pcl/VoxelGrid $(arg manager)" output="log">
       <remap from="~input" to="plane_extraction/output" />
     <rosparam>
       leaf_size: 0.008
@@ -81,7 +81,7 @@
 
   <!-- reference cloud -->
   <node name="pointcloud_database_server" pkg="nodelet" type="nodelet"
-    args="load jsk_pcl/PointcloudDatabaseServer $(arg manager)" output="screen">
+    args="load jsk_pcl/PointcloudDatabaseServer $(arg manager)" output="log">
     <rosparam subst_value="true">
       models: ["$(find jsk_pcl_ros)/sample/data/2016-10-26-02-09-51_coffee_cup.pcd",
       ]
@@ -91,7 +91,7 @@
   </node>
 
   <node name ="subsample_reference" pkg="nodelet" type="nodelet"
-      args="load pcl/VoxelGrid $(arg manager)" output="screen">
+      args="load pcl/VoxelGrid $(arg manager)" output="log">
     <remap from="~input" to="pointcloud_database_server/cloud" />
     <rosparam>
       leaf_size: 0.005
@@ -101,7 +101,7 @@
   <node name="icp_registration"
         pkg="nodelet" type="nodelet"
         args="load jsk_pcl/ICPRegistration /$(arg manager)"
-        output="screen">
+        output="log">
     <remap from="~input" to="subsample_input/output" />
     <remap from="~input_reference" to="subsample_reference/output" />
   </node>

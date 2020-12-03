@@ -21,7 +21,7 @@
 
     <node name="checkerboard_calibration"
           pkg="checkerboard_detector" type="checkerboard_calibration"
-          output="screen">
+          output="log">
       <remap from="image" to="/image_publisher/output/image_raw"/>
     </node>
   </group>

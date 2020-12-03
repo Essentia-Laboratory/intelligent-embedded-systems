@@ -3,14 +3,14 @@
     <arg name="depth_registration" value="true" />
   </include>
   <node pkg="jsk_network_tools" type="silverhammer_highspeed_streamer.py"
-        output="screen"
+        output="log"
         name="streamer">
     <rosparam>
       message: jsk_network_tools/OpenNISample
     </rosparam>
   </node>
   <node pkg="jsk_network_tools" type="silverhammer_highspeed_receiver_with_internal_buffer.py"
-        output="screen"
+        output="log"
         name="receiver">
     <rosparam>
       message: jsk_network_tools/OpenNISample

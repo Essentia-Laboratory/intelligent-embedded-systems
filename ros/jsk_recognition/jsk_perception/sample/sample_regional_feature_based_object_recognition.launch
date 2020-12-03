@@ -15,7 +15,7 @@
 
   <node name="regional_feature_based_object_recognition"
         pkg="jsk_perception" type="regional_feature_based_object_recognition.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="publish_apc2016_object_imgs_and_masks/output/image" />
     <remap from="~input/mask" to="publish_apc2016_object_imgs_and_masks/output/mask" />
     <rosparam subst_value="true">

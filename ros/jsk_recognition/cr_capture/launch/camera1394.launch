@@ -2,7 +2,7 @@
 <launch>
   <group ns="wide_stereo">
     <node name="flea_left" pkg="camera1394" type="camera1394_node"
-	  respawn="false" output="screen" clear_params="true">
+	  respawn="false" output="log" clear_params="true">
       <remap from="camera" to="left_raw" />
       <param name="frame_rate" value="7.5"/>
       <param name="video_mode" value="640x480_rgb8"/>
@@ -16,7 +16,7 @@
       -->
     </node>
     <node name="flea_right" pkg="camera1394" type="camera1394_node"
-	  respawn="false" output="screen" clear_params="true">
+	  respawn="false" output="log" clear_params="true">
       <remap from="camera" to="right_raw" />
       <param name="frame_rate" value="7.5"/>
       <param name="video_mode" value="640x480_rgb8"/>
@@ -31,9 +31,9 @@
     </node>
     <!-- synchronizer -->
     <node name="stereo_synchronizer" pkg="stereo_synchronizer" type="stereo_synchronizer"
-	  respawn="false" output="screen" />
+	  respawn="false" output="log" />
     <!-- stereo proc -->
     <node name="stereo_proc" pkg="stereo_image_proc" type="stereo_image_proc"
-	  respawn="false" output="screen" />
+	  respawn="false" output="log" />
   </group>
 </launch>

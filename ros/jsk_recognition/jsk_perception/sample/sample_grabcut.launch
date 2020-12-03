@@ -13,7 +13,7 @@
   <node name="sample_manager"
         pkg="nodelet" type="nodelet"
         args="manager"
-        output="screen"/>
+        output="log"/>
 
   <node name="mask_image_generator_foreground"
         pkg="nodelet" type="nodelet"

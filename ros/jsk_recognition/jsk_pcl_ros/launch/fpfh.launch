@@ -119,7 +119,7 @@
     </rosparam>
   </node>
 
-  <node pkg="jsk_pcl_ros" type="feature_registration" name="feature_registration" output="screen">
+  <node pkg="jsk_pcl_ros" type="feature_registration" name="feature_registration" output="log">
     <remap from="~input" to="normal_estimation/output_with_xyz"/>
     <remap from="~input/feature" to="fpfh/output" />
     <remap from="~input/reference/cloud" to="template_normal_concat/output"/>

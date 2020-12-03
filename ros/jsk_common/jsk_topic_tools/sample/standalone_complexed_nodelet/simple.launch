@@ -1,6 +1,6 @@
 <launch>
   <node pkg="jsk_topic_tools" type="standalone_complexed_nodelet"
-        name="manager" output="screen">
+        name="manager" output="log">
     <rosparam>
       nodelets:
         - name: relay

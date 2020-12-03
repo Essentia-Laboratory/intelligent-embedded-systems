@@ -8,11 +8,11 @@
   <group if="$(arg LAUNCH_MANAGER)">
     <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
           args="manager"
-          output="screen"/>
+          output="log"/>
   </group>
   <node pkg="nodelet" type="nodelet" name="add_cluster"
         args="load jsk_pcl/PointCloudToClusterPointIndices $(arg MANAGER)"
-        output="screen" >
+        output="log" >
     <remap from="~input" to="$(arg INPUT)" />
   </node>
 
@@ -39,7 +39,7 @@
   <node pkg="nodelet" type="nodelet"
         name="cluster_decomposer_one"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT)" />
     <remap from="~target" to="/add_cluster/output" />
     <remap from="~align_planes" to="ensynced_planes" />

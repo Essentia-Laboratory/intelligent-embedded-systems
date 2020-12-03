@@ -8,7 +8,7 @@
   <group if="$(arg LAUNCH_MANAGER)">
     <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
           args="manager"
-          output="screen"/>
+          output="log"/>
   </group>
 
   <node pkg="nodelet" type="nodelet" name="polygon_transformer"
@@ -42,7 +42,7 @@
   <!-- <node pkg="nodelet" type="nodelet" -->
   <!--       name="plane_extraction" -->
   <!--       args="load jsk_pcl/MultiPlaneExtraction $(arg MANAGER)" -->
-  <!--       output="screen"> -->
+  <!--       output="log"> -->
   <!--   <param name="use_indices" value="false" /> -->
   <!--   <remap from="~input" to="$(arg INPUT)" /> -->
   <!--   <remap from="~input_polygons" to="/polygon_transformer/output_polygons" /> -->

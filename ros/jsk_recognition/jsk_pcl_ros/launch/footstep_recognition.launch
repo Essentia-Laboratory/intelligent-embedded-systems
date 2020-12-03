@@ -24,12 +24,12 @@
           machine="$(arg MACHINE)"
           if="$(arg GDB)"
           launch-prefix="xterm -e gdb --args"
-          output="screen"/>
+          output="log"/>
     <node pkg="nodelet" type="nodelet" name="$(arg MANAGER)"
           args="manager"
           machine="$(arg MACHINE)"
           unless="$(arg GDB)"
-          output="screen"/>
+          output="log"/>
   </group>
 
   
@@ -123,7 +123,7 @@
   
   <node pkg="jsk_pcl_ros" type="environment_plane_modeling"
         name="env_server" respawn="true"
-        output="screen">
+        output="log">
     <remap from="~input" to="transform_input/output" />
     <remap from="~indices" to="/ground_wall_separator/output/horizontal/inliers" />
     <remap from="~input_polygons" to="/estimated_plane_respected_to_odom/output_polygons" />
@@ -154,7 +154,7 @@
         name="cluster_decomposer"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~target" to="/multi_plane_estimate/output" />
     <rosparam>
@@ -166,7 +166,7 @@
         name="cluster_decomposer2"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~target" to="/multi_plane_estimate/output_nonconnected" />
     <rosparam>
@@ -179,7 +179,7 @@
         name="plane_extraction"
         machine="$(arg MACHINE)"
         args="load jsk_pcl/MultiPlaneExtraction $(arg MANAGER)"
-        output="screen">
+        output="log">
     <remap from="~input" to="input_relay/output" />
     <remap from="~indices" to="/multi_plane_estimate/output_refined" />
     <remap from="~input_polygons" to="/multi_plane_estimate/output_refined_polygon" />

@@ -31,7 +31,7 @@
 
   <node name="face_pose_estimation"
         pkg="jsk_perception" type="face_pose_estimation.py"
-        output="screen">
+        output="log">
     <remap from="~input" to="$(arg INPUT_IMAGE)"/>
     <remap from="~input/pose_2d" to="people_pose_estimation_2d/pose_2d" />
     <remap from="~input/pose" to="people_pose_estimation_2d/pose" />

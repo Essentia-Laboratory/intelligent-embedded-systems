@@ -293,11 +293,13 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
     }
     in_publisher->publish(clusters_transformed);
     publishDetectedObjects(clusters_transformed);
+    ROS_INFO( "[%s] in_target_frame = [%s], in_header.frame_id = [%s]", __APP_NAME__,  in_target_frame.c_str(), in_header.frame_id.c_str());
   } 
   else
   {
     in_publisher->publish(in_clusters);
     publishDetectedObjects(in_clusters);
+    ROS_INFO( "[%s] in_target_frame = [%s]", __APP_NAME__,  in_target_frame.c_str());
   }
 }
 
@@ -373,6 +375,7 @@ void keepLanePoints(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr,
   extract.setIndices(far_indices);
   extract.setNegative(true);  // true removes the indices, false leaves only the indices
   extract.filter(*out_cloud_ptr);
+  ROS_INFO("[%s] keepLanePoints - in_cloud count=[%d], out_cloud count=[%d]", __APP_NAME__, in_cloud_ptr->points.size(), out_cloud_ptr->points.size());
 }
 
 #ifdef GPU_CLUSTERING
@@ -884,6 +887,7 @@ void velodyne_callback(const sensor_msgs::PointCloud2ConstPtr& in_sensor_cloud)
 {
   //_start = std::chrono::system_clock::now();
 
+  ROS_INFO("[%s] velodyne_callback", __APP_NAME__);
   if (!_using_sensor_cloud)
   {
     _using_sensor_cloud = true;
@@ -922,7 +926,10 @@ void velodyne_callback(const sensor_msgs::PointCloud2ConstPtr& in_sensor_cloud)
     clipCloud(downsampled_cloud_ptr, clipped_cloud_ptr, _clip_min_height, _clip_max_height);
 
     if (_keep_lanes)
+    {
+      ROS_INFO("[%s] keepLanePoints", __APP_NAME__);
       keepLanePoints(clipped_cloud_ptr, inlanes_cloud_ptr, _keep_lane_left_distance, _keep_lane_right_distance);
+    }
     else
       inlanes_cloud_ptr = clipped_cloud_ptr;
 

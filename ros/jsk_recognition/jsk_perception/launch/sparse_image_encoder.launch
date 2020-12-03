@@ -5,7 +5,7 @@
   <arg name="print_point_num" default="false" />
 
   <node pkg="jsk_perception" type="sparse_image_encoder" name="sparse_image_encoder"
-        output="screen">
+        output="log">
     <remap from="image" to="$(arg image)" />
     <remap from="sparse_image" to="$(arg sparse_image)" />
     <param name="rate" value="$(arg rate)" />

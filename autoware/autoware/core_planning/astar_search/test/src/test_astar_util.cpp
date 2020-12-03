@@ -69,8 +69,14 @@ TEST_F(TestSuite, CheckThetaWrapAround){
 TEST_F(TestSuite, CheckTransformPose){
 
   // Check translation of 1 along X axis
+
+#if USE_TF2
+  tf2::Quaternion q(0,0,0,1);
+  tf2::Vector3 v(1,0,0);
+#else
   tf::Quaternion q(0,0,0,1);
   tf::Vector3 v(1,0,0);
+#endif
   geometry_msgs::Pose in_pose, out_pose, expected_pose;
 
   in_pose.position.x = 0;
@@ -87,7 +93,12 @@ TEST_F(TestSuite, CheckTransformPose){
   expected_pose.orientation.y = 0;
   expected_pose.orientation.z = 0;
   expected_pose.orientation.w = 1;
+#if USE_TF2
+  tf2::Transform t(q, v);
+  tf2::Stamped<tf2::Transform> translation( t, ros::Time(0), "" );
+#else
   tf::Transform translation(q, v);
+#endif
 
   out_pose = transformPose(in_pose, translation);
 

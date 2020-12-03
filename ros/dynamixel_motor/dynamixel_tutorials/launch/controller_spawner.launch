@@ -11,5 +11,5 @@
                 --type=simple
                 pan_controller
                 tilt_controller"
-          output="screen"/>
+          output="log"/>
 </launch>

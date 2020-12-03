@@ -38,7 +38,7 @@
   <arg name="mapSource"           default="2" /> <!-- Autoware=0, Vector Map Folder=1, kml=2 -->
   <arg name="mapFileName"         default="/home/user/SimuLogs/KmlMaps/TsukubaMapWithStopLines.kml" />
   
-  <node pkg="dp_planner" type="dp_planner" name="dp_planner" output="screen">
+  <node pkg="dp_planner" type="dp_planner" name="dp_planner" output="log">
     <param name="maxVelocity"           value="$(arg maxVelocity)" />
       <param name="minVelocity"           value="$(arg minVelocity)" />
       

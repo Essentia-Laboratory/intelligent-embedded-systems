@@ -54,6 +54,7 @@ bool RayGroundFilter::TransformPointCloud(const std::string& in_target_frame,
                                           const sensor_msgs::PointCloud2::ConstPtr& in_cloud_ptr,
                                           const sensor_msgs::PointCloud2::Ptr& out_cloud_ptr)
 {
+  ROS_INFO("[RayGroundFilter] in_target_frame=[%s], in_cloud_ptr->header.frame_id=[%s]", in_target_frame.c_str(), in_cloud_ptr->header.frame_id.c_str() );
   if (in_target_frame == in_cloud_ptr->header.frame_id)
   {
     *out_cloud_ptr = *in_cloud_ptr;
@@ -68,7 +69,7 @@ bool RayGroundFilter::TransformPointCloud(const std::string& in_target_frame,
   }
   catch (tf2::TransformException& ex)
   {
-    ROS_WARN("%s", ex.what());
+    ROS_WARN("[RayGroundFilter] %s", ex.what());
     return false;
   }
   // tf2::doTransform(*in_cloud_ptr, *out_cloud_ptr, transform_stamped);

@@ -18,7 +18,7 @@
 #define LIBWAYPOINT_FOLLOWER_LIBWAYPOINT_FOLLOWER_H
 
 #define EIGEN_MPL2_ONLY
-#include <tf/transform_datatypes.h>
+#include <tf2/transform_datatypes.h>
 #include <tf2/utils.h>
 
 // C++ header

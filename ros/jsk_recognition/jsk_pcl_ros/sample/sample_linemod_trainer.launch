@@ -69,7 +69,7 @@
   <node name="linemod_trainer"
         pkg="nodelet" type="nodelet"
         args="standalone jsk_pcl/LINEMODTrainer"
-        output="screen">
+        output="log">
     <remap from="~input" to="extract_indices/output"/>
     <remap from="~input/info" to="/kinect_head/rgb/camera_info"/>
     <rosparam subst_value="true">

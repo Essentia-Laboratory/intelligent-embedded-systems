@@ -15,7 +15,7 @@
   <arg name="v_limit_min" default="50" doc="The minimum allowed field value Value" />
 
   <!-- color_filter.cpp  -->
-  <node name="$(arg node_name)" pkg="opencv_apps" type="hsv_color_filter" output="screen">
+  <node name="$(arg node_name)" pkg="opencv_apps" type="hsv_color_filter" output="log">
     <remap from="image" to="$(arg image)" />
     <param name="use_camera_info" value="$(arg use_camera_info)" />
     <param name="debug_view" value="$(arg debug_view)" />

@@ -9,7 +9,7 @@
     <param name="depth_registration" type="bool" value="true" />
   </node>
 
- <node pkg="face_detector" type="face_detector" name="face_detector" output="screen">
+ <node pkg="face_detector" type="face_detector" name="face_detector" output="log">
     <remap from="camera" to="$(arg camera)" />
     <remap from="image_topic" to="$(arg image_topic)" />
     <remap from="depth_topic" to="$(arg depth_topic)" />

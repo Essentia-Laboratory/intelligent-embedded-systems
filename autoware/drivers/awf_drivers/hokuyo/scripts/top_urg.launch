@@ -17,7 +17,7 @@
     <arg name="angle_min" default="-1.5707963" />
     <arg name="angle_max" default="1.5707963" />
 
-    <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+    <node name="urg_node" pkg="urg_node" type="urg_node" output="log">
         <param name="ip_address" value="$(arg ip_address)"/>
         <param name="serial_port" value="$(arg serial_port)"/>
         <param name="serial_baud" value="$(arg serial_baud)"/>

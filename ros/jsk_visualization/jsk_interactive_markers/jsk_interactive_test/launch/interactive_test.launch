@@ -12,7 +12,7 @@
   </group>
 
   <node pkg="jsk_interactive_test" name="publish_goal_marker"
-        type="publish_goal_marker.py" output="screen" clear_params="true">
+        type="publish_goal_marker.py" output="log" clear_params="true">
     <param name="ui_type" value="$(arg UI_TYPE)" />
     <param name="use_rotation" value="$(arg USE_ROTATION)" />
     <param name="position_threshold" value="$(arg POSITION_THRESHOLD)" />

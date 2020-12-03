@@ -11,7 +11,7 @@
     <param name="grid0_size_y" type="int" value="5"/>
     <param name="board_type" value="chess" />
     <param name="type0" type="string" value="data/ricebox.kinbody.xml"/>
-    <node pkg="checkerboard_detector" name="checkerboard_detector" type="checkerboard_detector" respawn="false" output="screen">
+    <node pkg="checkerboard_detector" name="checkerboard_detector" type="checkerboard_detector" respawn="false" output="log">
       <remap from="camera_info" to="/multisense_local/left/camera_info"/>
       <remap from="image" to="/multisense_local/left/image_rect_color"/>
       </node>

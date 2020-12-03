@@ -80,7 +80,13 @@
         args='pub -l /config/waypoint_follower autoware_config_msgs/ConfigWaypointFollower
         "{ header: auto, param_flag: 0, velocity: 6.0, lookahead_distance: 4.0, lookahead_ratio: 2.0, minimum_lookahead_distance: 6.0, displacement_threshold: 0.0, relative_angle_threshold: 0.0 }"'/>
 
-  <include file='$(find pure_pursuit)/launch/pure_pursuit.launch'/> 
+<!--
+  <include file='$(find pure_pursuit)/launch/pure_pursuit.launch'/>
+-->
+  <include file='$(find pure_pursuit)/launch/pure_pursuit.launch'>
+    <arg name='publishes_for_steering_robot' value='false'/>
+    <arg name='velocity_source' value='0'/>
+  </include>
 
   <!--
     # twist_filter #

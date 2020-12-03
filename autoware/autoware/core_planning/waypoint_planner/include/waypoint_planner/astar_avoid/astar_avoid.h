@@ -23,7 +23,12 @@
 #include <mutex>
 
 #include <ros/ros.h>
-#include <tf/transform_listener.h>
+#if USE_TF2
+# include <tf2/transform_datatypes.h>
+# include <tf2_ros/transform_listener.h>
+#else
+# include <tf/transform_listener.h>
+#endif
 #include <std_msgs/Int32.h>
 #include <std_msgs/String.h>
 #include <geometry_msgs/PoseStamped.h>
@@ -63,7 +68,12 @@ private:
   ros::Subscriber state_sub_;
   ros::Rate *rate_;
   ros::Timer timer_;
+#if USE_TF2
+  tf2_ros::Buffer tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+#else
   tf::TransformListener tf_listener_;
+#endif
 
   // params
   int safety_waypoints_size_;   // output waypoint size [-]
@@ -98,7 +108,11 @@ private:
   geometry_msgs::PoseStamped current_pose_local_, current_pose_global_;
   geometry_msgs::PoseStamped goal_pose_local_, goal_pose_global_;
   geometry_msgs::TwistStamped current_velocity_;
+#if USE_TF2
+  tf2::Transform local2costmap_;
+#else
   tf::Transform local2costmap_;  // local frame (e.g. velodyne) -> costmap origin
+#endif
 
   bool costmap_initialized_ = false;
   bool current_pose_initialized_ = false;
@@ -118,7 +132,11 @@ private:
   bool checkInitialized();
   bool planAvoidWaypoints(int& end_of_avoid_index);
   void mergeAvoidWaypoints(const nav_msgs::Path& path, int& end_of_avoid_index);
+#if USE_TF2
+  geometry_msgs::TransformStamped getTransform(const std::string& from, const std::string& to);
+#else
   tf::Transform getTransform(const std::string& from, const std::string& to);
+#endif
 
   // Find closest waypoint index within a search_size around the previous closest waypoint
   void updateClosestWaypoint(const autoware_msgs::Lane& waypoints, const geometry_msgs::Pose& pose, const int& search_size);
