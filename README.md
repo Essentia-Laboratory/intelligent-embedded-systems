@@ -2,3 +2,5 @@
 
 
 [Build](docs/build.md)
+
+[Lanelet2 Map](autoware/autoware/common/lanelet2_extension/README.md)
