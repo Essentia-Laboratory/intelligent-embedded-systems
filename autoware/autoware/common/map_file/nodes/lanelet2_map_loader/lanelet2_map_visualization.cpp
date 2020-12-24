@@ -74,7 +74,7 @@ void binMapCallback(autoware_lanelet2_msgs::MapBin msg)
   setColor(&cl_ll_borders, 1.0, 1.0, 1.0, 1.0);
   setColor(&cl_tl_stoplines, 1.0, 0.5, 0.0, 0.5);
   setColor(&cl_ss_stoplines, 1.0, 0.0, 0.0, 0.5);
-  setColor(&cl_trafficlights, 0.7, 0.7, 0.7, 0.8);
+  setColor(&cl_trafficlights, 1.0, 0.7, 0.7, 0.8);
 
   visualization_msgs::MarkerArray map_marker_array;
 

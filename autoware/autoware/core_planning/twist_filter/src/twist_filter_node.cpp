@@ -117,6 +117,8 @@ void TwistFilterNode::twistCmdCallback(const geometry_msgs::TwistStampedConstPtr
   geometry_msgs::TwistStamped out_msg = *msg;
   out_msg.twist.linear.x = twist_out.lx;
   out_msg.twist.angular.z = twist_out.az;
+  ROS_INFO("[%s] twist_cmd={linear.x=[%lf], angular.z=[%lf]", __APP_NAME__,
+                  out_msg.twist.linear.x, out_msg.twist.angular.z);
   twist_pub_.publish(out_msg);
 
   if (enable_debug_)
@@ -194,6 +196,8 @@ void TwistFilterNode::ctrlCmdCallback(const autoware_msgs::ControlCommandStamped
   autoware_msgs::ControlCommandStamped out_msg = *msg;
   out_msg.cmd.linear_velocity = ctrl_out.lv;
   out_msg.cmd.steering_angle = ctrl_out.sa;
+  ROS_INFO("[%s] ctrl_cmd={ctrl.angle=[%lf],ctrl_out.angle=[%lf],ctrl.velocity=[%lf],ctrl_out.angle=[%lf]}", 
+		  __APP_NAME__, ctrl.sa, ctrl_out.sa, ctrl.lv, ctrl_out.lv);
   ctrl_pub_.publish(out_msg);
 
   if (enable_debug_)

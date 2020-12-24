@@ -90,6 +90,7 @@ class FromFileLoader {  // NOLINT
     for (const auto& nodeElem : nodes) {
       const auto& node = nodeElem.second;
       try {
+//        std::cerr << "[FromFileLoader::loadNodes] node.id=[" << node.id << "], node.point=[" << node.point.lat << ", " << node.point.lon << "]\n";
         points_.emplace(node.id, Point3d(node.id, projector.forward(node.point), getAttributes(node.attributes)));
       } catch (ForwardProjectionError& e) {
         parserError(node.id, e.what());
@@ -202,6 +203,7 @@ class FromFileLoader {  // NOLINT
       auto regelemType = type->second.value();
       try {
         auto regElem = RegulatoryElementFactory::create(regelemType, regelemData);
+	std::cout << "[loadRegulatoryElements] RegulatoryElement 클래스=" << typeid(regElem).name() << "\n";
         regulatoryElements_.emplace(id, regElem);
       } catch (std::exception& e) {
         parserError(id, "Creating a regulatory element of type "s + regelemType + " failed: " + e.what());

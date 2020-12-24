@@ -41,6 +41,7 @@
 // headers in Autowae Health Checker
 #include <autoware_health_checker/health_checker/health_checker.h>
 
+#define __APP_NAME__ "twist_gate"
 
 class TwistGate
 {

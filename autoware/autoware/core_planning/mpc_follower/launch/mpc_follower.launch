@@ -14,7 +14,7 @@
   <arg name="steering_lpf_cutoff_hz" default="3.0" doc="cutoff frequency of lowpass filter for steering command [Hz]"/>
   <arg name="qp_solver_type" default="unconstraint_fast" doc="optimization solver type. option is unconstraint_fast, unconstraint, and qpoases_hotstart"/>
   <arg name="qpoases_max_iter" default="500" doc="max iteration number for quadratic programming"/>
-  <arg name="vehicle_model_type" default="kinematics" doc="vehicle model type for mpc prediction. option is kinematics, kinematics_no_delay, and dynamics"/>
+  <arg name="vehicle_model_type" default="dynamics" doc="vehicle model type for mpc prediction. option is kinematics, kinematics_no_delay, and dynamics"/>
 
   <!-- MPC design parameters -->
   <arg name="mpc_prediction_horizon" default="70" doc="prediction horizon step"/>
@@ -31,18 +31,20 @@
   <arg name="delay_compensation_time" default="0.0" doc="steering input delay time for delay compensation"/>
 
   <arg name="vehicle_model_steer_tau" default="0.3" doc="steering dynamics time constant (1d approzimation) [s]"/>
-  <arg name="vehicle_model_wheelbase" default="2.9" doc="wheel base length [m]"/>
-  <arg name="steer_lim_deg" default="40.0" doc="steering angle limit [deg]"/>
-  <arg name="steering_gear_ratio" default="20.0" doc="steering gear ratio"/>
+  <arg name="vehicle_model_wheelbase" default="2.7" doc="wheel base length [m]"/>
+  <arg name="steer_lim_deg" default="44.58" doc="steering angle limit [deg]"/>
+  <arg name="steering_gear_ratio" default="45.0" doc="steering gear ratio"/>
 
+<!--
   <group ns="$(arg ns)">
+-->
 
     <node pkg="mpc_follower" type="mpc_waypoints_converter" name="mpc_waypoints_converter" output="log"/>
 
     <node pkg="mpc_follower" type="mpc_follower" name="mpc_follower" output="log">
 
       <!-- system -->
-      <param name="ctrl_cmd_interface" value="all"/>
+      <param name="ctrl_cmd_interface" value="twist"/>
       <param name="in_waypoints_name" value="/mpc_waypoints"/>
       <param name="in_vehicle_status_name" value="/vehicle_status"/>
       <param name="in_selfpose_name" value="/current_pose"/>
@@ -82,6 +84,8 @@
       <param name="steering_gear_ratio" value="$(arg steering_gear_ratio)"/>
     </node>
 
+<!--
   </group>
+-->
 
 </launch>

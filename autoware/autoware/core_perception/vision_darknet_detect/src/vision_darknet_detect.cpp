@@ -251,18 +251,23 @@ void Yolo3DetectorNode::image_callback(const sensor_msgs::ImageConstPtr& in_imag
 {
     std::vector< RectClassScore<float> > detections;
 
+    ROS_INFO("[%s] image_callback before convert_ipl_to_image", __APP_NAME__);
     darknet_image_ = convert_ipl_to_image(in_image_message);
 
+    ROS_INFO("[%s] image_callback before detect", __APP_NAME__);
     detections = yolo_detector_.detect(darknet_image_);
 
     //Prepare Output message
     autoware_msgs::DetectedObjectArray output_message;
     output_message.header = in_image_message->header;
 
+    ROS_INFO("[%s] image_callback before convert_rect_to_image_obj", __APP_NAME__);
     convert_rect_to_image_obj(detections, output_message);
 
+    ROS_INFO("[%s] image_callback before publish", __APP_NAME__);
     publisher_objects_.publish(output_message);
 
+    ROS_INFO("[%s] image_callback before free", __APP_NAME__);
     free(darknet_image_.data);
 }
 
@@ -300,6 +305,12 @@ void Yolo3DetectorNode::Run()
         ROS_INFO("[%s] No image node received, defaulting to /image_raw, you can use _image_raw_node:=YOUR_TOPIC", __APP_NAME__);
         image_raw_topic_str = "/image_raw";
     }
+
+    private_node_handle.param<int>("gpu_device_id", gpu_device_id_, 0);
+    ROS_INFO("[%s] gpu_device_id: %d",__APP_NAME__, gpu_device_id_);
+#ifdef GPU
+    cuda_set_device( gpu_device_id_ );
+#endif
 
     std::string network_definition_file;
     std::string pretrained_model_file, names_file;
@@ -339,7 +350,6 @@ void Yolo3DetectorNode::Run()
 
     private_node_handle.param<float>("nms_threshold", nms_threshold_, 0.45);
     ROS_INFO("[%s] nms_threshold: %f",__APP_NAME__, nms_threshold_);
-
 
     ROS_INFO("[%s] Initializing Yolo on Darknet...", __APP_NAME__ );
     yolo_detector_.load(network_definition_file, pretrained_model_file, score_threshold_, nms_threshold_);

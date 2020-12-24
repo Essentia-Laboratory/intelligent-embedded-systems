@@ -99,6 +99,7 @@ class Yolo3DetectorNode {
 
     float                           score_threshold_;
     float                           nms_threshold_;
+    int                             gpu_device_id_;
     double                          image_ratio_;//resize ratio used to fit input image to network input size
     uint32_t                        image_top_bottom_border_;//black strips added to the input image to maintain aspect ratio while resizing it to fit the network input size
     uint32_t                        image_left_right_border_;

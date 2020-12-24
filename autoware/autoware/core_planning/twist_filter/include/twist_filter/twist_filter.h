@@ -20,6 +20,8 @@
 #include <iostream>
 #include <boost/optional.hpp>
 
+#define __APP_NAME__ "twist_filter"
+
 namespace twist_filter
 {
 typedef struct

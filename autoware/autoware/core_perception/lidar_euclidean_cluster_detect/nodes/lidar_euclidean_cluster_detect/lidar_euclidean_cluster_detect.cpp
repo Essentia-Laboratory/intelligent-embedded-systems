@@ -53,7 +53,17 @@
 
 #include <vector_map/vector_map.h>
 
-#include <tf/tf.h>
+#if USE_TF2
+# include <tf2/transform_datatypes.h>
+# include <tf2/utils.h>
+# include <tf2_ros/buffer.h>
+# include <tf2_ros/transform_listener.h>
+# include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+# include <sensor_msgs/PointCloud2.h>
+# include <tf2_sensor_msgs/tf2_sensor_msgs.h>
+#else
+# include <tf/tf.h>
+#endif
 
 #include <yaml-cpp/yaml.h>
 
@@ -78,6 +88,8 @@
 #ifdef GPU_CLUSTERING
 
 #include "gpu_euclidean_clustering.h"
+#include <cuda.h>
+#include <cuda_runtime.h>
 
 #endif
 
@@ -124,6 +136,7 @@ static double _cluster_merge_threshold;
 static double _clustering_distance;
 
 static bool _use_gpu;
+static int  _gpu_device_id;
 static std::chrono::system_clock::time_point _start, _end;
 
 std::vector<std::vector<geometry_msgs::Point>> _way_area_points;
@@ -135,6 +148,12 @@ static bool _use_multiple_thres;
 std::vector<double> _clustering_distances;
 std::vector<double> _clustering_ranges;
 
+#if USE_TF2
+tf2::Stamped<tf2::Transform> *_transform;
+tf2::Stamped<tf2::Transform> *_velodyne_output_transform;
+tf2_ros::Buffer *_transform_buffer;
+tf2_ros::TransformListener *_transform_listener;
+#else
 tf::StampedTransform *_transform;
 tf::StampedTransform *_velodyne_output_transform;
 tf::TransformListener *_transform_listener;
@@ -170,6 +189,15 @@ geometry_msgs::Point transformPoint(const geometry_msgs::Point& point, const tf:
 
   return ros_point;
 }
+#endif
+
+#ifdef GPU_CLUSTERING
+void initGpuDevice(int deviceId)
+{
+    cudaError_t  result = cudaSetDevice(deviceId);
+    ROS_INFO("[%s] cudaSetDevice result=[%s]", __APP_NAME__, cudaGetErrorString(result));
+}
+#endif
 
 void transformBoundingBox(const jsk_recognition_msgs::BoundingBox &in_boundingbox,
                           jsk_recognition_msgs::BoundingBox &out_boundingbox, const std::string &in_target_frame,
@@ -180,9 +208,17 @@ void transformBoundingBox(const jsk_recognition_msgs::BoundingBox &in_boundingbo
     pose_in.pose = in_boundingbox.pose;
     try
     {
+#if USE_TF2
+        _transform_buffer->transform( pose_in, pose_out, in_target_frame, ros::Time(), in_header.frame_id );
+#else
         _transform_listener->transformPose(in_target_frame, ros::Time(), pose_in, in_header.frame_id, pose_out);
+#endif
     }
+#if USE_TF2
+    catch( tf2::TransformException &ex )
+#else
     catch (tf::TransformException &ex)
+#endif
     {
         ROS_ERROR("transformBoundingBox: %s", ex.what());
     }
@@ -235,6 +271,15 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
       cluster_transformed.header = in_header;
       try
       {
+#if USE_TF2
+        geometry_msgs::TransformStamped tfGeom;
+        tfGeom = _transform_buffer->lookupTransform(in_target_frame, _velodyne_header.frame_id, ros::Time(), ros::Duration(1000.0));
+	tf2::doTransform(cluster.cloud, cluster_transformed.cloud, tfGeom);
+	_transform_buffer->transform(cluster.min_point, cluster_transformed.min_point, in_target_frame, ros::Time(), in_header.frame_id);
+	_transform_buffer->transform(cluster.max_point, cluster_transformed.max_point, in_target_frame, ros::Time(), in_header.frame_id);
+	_transform_buffer->transform(cluster.avg_point, cluster_transformed.avg_point, in_target_frame, ros::Time(), in_header.frame_id);
+	_transform_buffer->transform(cluster.centroid_point, cluster_transformed.centroid_point, in_target_frame, ros::Time(), in_header.frame_id);
+#else
         _transform_listener->lookupTransform(in_target_frame, _velodyne_header.frame_id, ros::Time(), *_transform);
         pcl_ros::transformPointCloud(in_target_frame, *_transform, cluster.cloud, cluster_transformed.cloud);
         _transform_listener->transformPoint(in_target_frame, ros::Time(), cluster.min_point, in_header.frame_id,
@@ -245,6 +290,7 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
                                             cluster_transformed.avg_point);
         _transform_listener->transformPoint(in_target_frame, ros::Time(), cluster.centroid_point, in_header.frame_id,
                                             cluster_transformed.centroid_point);
+#endif
         
 	// Convex_hull
         cluster_transformed.convex_hull.polygon.points.resize(cluster.convex_hull.polygon.points.size());
@@ -256,8 +302,12 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
           new_point_stamped.point.x = static_cast<double>(cluster.convex_hull.polygon.points[i].x);
           new_point_stamped.point.y = static_cast<double>(cluster.convex_hull.polygon.points[i].y);
           new_point_stamped.point.z = static_cast<double>(cluster.convex_hull.polygon.points[i].z);
+#if USE_TF2
+	  _transform_buffer->transform(new_point_stamped, new_point_stamped_tfed, in_target_frame, ros::Time(), in_header.frame_id);
+#else
           _transform_listener->transformPoint(in_target_frame, ros::Time(), new_point_stamped, in_header.frame_id,
                                               new_point_stamped_tfed);
+#endif
           new_point32.x = static_cast<float>(new_point_stamped_tfed.point.x);
           new_point32.y = static_cast<float>(new_point_stamped_tfed.point.y);
           new_point32.z = static_cast<float>(new_point_stamped_tfed.point.z);
@@ -269,7 +319,11 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
         geometry_msgs::PoseStamped bb_pose_stamped_tfed;
         bb_pose_stamped.header = in_header;
         bb_pose_stamped.pose = cluster.bounding_box.pose;
+#if USE_TF2
+	_transform_buffer->transform(bb_pose_stamped, bb_pose_stamped_tfed, in_target_frame);
+#else
         _transform_listener->transformPose(in_target_frame, bb_pose_stamped, bb_pose_stamped_tfed);
+#endif
         cluster_transformed.bounding_box.pose = bb_pose_stamped_tfed.pose;
 
         cluster_transformed.dimensions = cluster.dimensions;
@@ -286,20 +340,24 @@ void publishCloudClusters(const ros::Publisher *in_publisher, const autoware_msg
         }
         clusters_transformed.clusters.push_back(cluster_transformed);
       }
+#if USE_TF2
+      catch (tf2::TransformException &ex)
+#else
       catch (tf::TransformException &ex)
+#endif
       {
         ROS_ERROR("publishCloudClusters: %s", ex.what());
       }
     }
     in_publisher->publish(clusters_transformed);
     publishDetectedObjects(clusters_transformed);
-    ROS_INFO( "[%s] in_target_frame = [%s], in_header.frame_id = [%s]", __APP_NAME__,  in_target_frame.c_str(), in_header.frame_id.c_str());
+    // ROS_INFO( "[%s] in_target_frame = [%s], in_header.frame_id = [%s]", __APP_NAME__,  in_target_frame.c_str(), in_header.frame_id.c_str());
   } 
   else
   {
     in_publisher->publish(in_clusters);
     publishDetectedObjects(in_clusters);
-    ROS_INFO( "[%s] in_target_frame = [%s]", __APP_NAME__,  in_target_frame.c_str());
+    // ROS_INFO( "[%s] in_target_frame = [%s]", __APP_NAME__,  in_target_frame.c_str());
   }
 }
 
@@ -318,12 +376,19 @@ void publishCentroids(const ros::Publisher *in_publisher, const autoware_msgs::C
       centroid_in.point = *i;
       try
       {
+#if USE_TF2
+        _transform_buffer->transform(centroid_in, centroid_out, in_target_frame, ros::Time(), in_header.frame_id);
+#else
         _transform_listener->transformPoint(in_target_frame, ros::Time(), centroid_in, in_header.frame_id,
                                             centroid_out);
-
+#endif
         centroids_transformed.points.push_back(centroid_out.point);
       }
+#if USE_TF2
+      catch (tf2::TransformException &ex)
+#else
       catch (tf::TransformException &ex)
+#endif
       {
         ROS_ERROR("publishCentroids: %s", ex.what());
       }
@@ -375,7 +440,7 @@ void keepLanePoints(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr,
   extract.setIndices(far_indices);
   extract.setNegative(true);  // true removes the indices, false leaves only the indices
   extract.filter(*out_cloud_ptr);
-  ROS_INFO("[%s] keepLanePoints - in_cloud count=[%d], out_cloud count=[%d]", __APP_NAME__, in_cloud_ptr->points.size(), out_cloud_ptr->points.size());
+  ROS_INFO("[%s] keepLanePoints - in_cloud count=[%ld], out_cloud count=[%ld]", __APP_NAME__, in_cloud_ptr->points.size(), out_cloud_ptr->points.size());
 }
 
 #ifdef GPU_CLUSTERING
@@ -974,6 +1039,15 @@ int main(int argc, char **argv)
   ros::NodeHandle h;
   ros::NodeHandle private_nh("~");
 
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> transform;
+  tf2_ros::Buffer            buffer;
+  tf2_ros::TransformListener listener(buffer);
+
+  _transform = &transform;
+  _transform_buffer = &buffer;
+  _transform_listener = &listener;
+#else
   tf::StampedTransform transform;
   tf::TransformListener listener;
   tf::TransformListener vectormap_tf_listener;
@@ -981,6 +1055,7 @@ int main(int argc, char **argv)
   _vectormap_transform_listener = &vectormap_tf_listener;
   _transform = &transform;
   _transform_listener = &listener;
+#endif
 
 #if (CV_MAJOR_VERSION == 3 || CV_MAJOR_VERSION == 4)
   generateColors(_colors, 255);
@@ -1045,7 +1120,7 @@ int main(int argc, char **argv)
   ROS_INFO("[%s] keep_lane_right_distance: %f", __APP_NAME__, _keep_lane_right_distance);
   private_nh.param("cluster_merge_threshold", _cluster_merge_threshold, 1.5);
   ROS_INFO("[%s] cluster_merge_threshold: %f", __APP_NAME__, _cluster_merge_threshold);
-  private_nh.param<std::string>("output_frame", _output_frame, "velodyne");
+  private_nh.param<std::string>("output_frame", _output_frame, "/velodyne");
   ROS_INFO("[%s] output_frame: %s", __APP_NAME__, _output_frame.c_str());
 
   private_nh.param("remove_points_upto", _remove_points_upto, 0.0);
@@ -1056,6 +1131,13 @@ int main(int argc, char **argv)
 
   private_nh.param("use_gpu", _use_gpu, false);
   ROS_INFO("[%s] use_gpu: %d", __APP_NAME__, _use_gpu);
+  private_nh.param("gpu_device_id", _gpu_device_id, 0);
+  ROS_INFO("[%s] gpu_device_id: %d", __APP_NAME__, _gpu_device_id);
+
+#ifdef GPU_CLUSTERING
+  if( _use_gpu )
+    initGpuDevice(_gpu_device_id);
+#endif
 
   private_nh.param("use_multiple_thres", _use_multiple_thres, false);
   ROS_INFO("[%s] use_multiple_thres: %d", __APP_NAME__, _use_multiple_thres);

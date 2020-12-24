@@ -85,7 +85,7 @@ image get_convolutional_delta(convolutional_layer l)
 
 static size_t get_workspace_size(layer l){
 #ifdef CUDNN
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         size_t most = 0;
         size_t s = 0;
         cudnnGetConvolutionForwardWorkspaceSize(cudnn_handle(),
@@ -263,7 +263,7 @@ convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int
     l.backward_gpu = backward_convolutional_layer_gpu;
     l.update_gpu = update_convolutional_layer_gpu;
 
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         if (adam) {
             l.m_gpu = cuda_make_array(l.m, l.nweights);
             l.v_gpu = cuda_make_array(l.v, l.nweights);

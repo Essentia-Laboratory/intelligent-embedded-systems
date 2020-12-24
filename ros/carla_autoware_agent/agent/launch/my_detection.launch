@@ -97,10 +97,12 @@
     <arg name='input_topic' value='/detection/fusion_tools/objects'/>
   </include>
 
-  <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch"/>
+  <include file="$(find trafficlight_recognizer)/launch/feat_proj_lanelet2.launch"/>
   <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition_ssd.launch">
-<!--    <arg name='network_definition_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/deploy.prototxt'/> -->
+    <arg name='network_definition_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/deploy.prototxt'/> 
     <arg name='pretrained_model_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/VGG_VOC0712_SSD_500x500_iter_60000.caffemodel'/>
+    <arg name='use_gpu' value='true'/>
+    <arg name='gpu_device_id' value='1'/>
   </include>
 
 </launch>

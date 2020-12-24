@@ -27,6 +27,7 @@
 #include <lanelet2_extension/projection/mgrs_projector.h>
 #include <lanelet2_extension/io/autoware_osm_parser.h>
 #include <lanelet2_extension/utility/utilities.h>
+#include <lanelet2_extension/regulatory_elements/autoware_traffic_light.h>
 
 #include <autoware_lanelet2_msgs/MapBin.h>
 
@@ -88,7 +89,7 @@ int main(int argc, char** argv)
   lanelet::ErrorMessages errors;
 
   lanelet::projection::MGRSProjector projector;
-  lanelet::LaneletMapPtr map = lanelet::load(lanelet2_file_path, projector, &errors);
+  lanelet::LaneletMapPtr map = lanelet::load(lanelet2_file_path, "autoware_osm_handler", projector, &errors);
 
   for (const auto& error : errors)
   {

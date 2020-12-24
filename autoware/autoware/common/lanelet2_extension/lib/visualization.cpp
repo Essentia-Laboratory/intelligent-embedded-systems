@@ -437,6 +437,7 @@ visualization_msgs::MarkerArray visualization::autowareTrafficLightsAsMarkerArra
     }
   }
 
+  // ROS_WARN("[visualization::autowareTrafficLightsAsMarkerArray] tl_count=[%d]", tl_count);
   return (tl_marker_array);
 }
 
@@ -518,6 +519,7 @@ visualization_msgs::MarkerArray visualization::trafficLightsAsTriangleMarkerArra
     }
   }
 
+  // ROS_WARN("[visualization::trafficLightsAsTriangleMakerArray] tl_count=[%d]", tl_count);
   return (marker_array);
 }
 
@@ -580,6 +582,7 @@ void visualization::trafficLight2TriangleMarker(const lanelet::ConstLineString3d
     ROS_ERROR_STREAM(__FUNCTION__ << ": marker is null pointer!");
     return;
   }
+  // ROS_WARN("[visualization::trafficLight2TriangleMaker]");
   marker->header.frame_id = "map";
   marker->header.stamp = ros::Time();
   marker->ns = ns;

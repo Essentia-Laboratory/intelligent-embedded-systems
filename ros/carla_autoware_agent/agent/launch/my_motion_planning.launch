@@ -60,8 +60,8 @@
     <arg name='points_threshold' default='10' />
     <arg name='detection_height_top' default='2.5' />
     <arg name='detection_height_bottom' default='-1.7' />
-    <arg name='deceleration_obstacle' default='1.5' />
-    <arg name='deceleration_stopline' default='0.6' />
+    <arg name='deceleration_obstacle' default='2.5' />
+    <arg name='deceleration_stopline' default='2.0' />
     <arg name='velocity_change_limit' default='15' />
     <arg name='deceleration_range' default='0' />
     <arg name='temporal_waypoints_size' default='100' />

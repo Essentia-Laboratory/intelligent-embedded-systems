@@ -80,7 +80,7 @@
     <param name="radius_min" value="0.0" />
     <param name="velocity_min" value="0.0" />
     <param name="accel_limit" value="3.0" />
-    <param name="decel_limit" value="3.0" />
+    <param name="decel_limit" value="20.0" />
     <param name="lateral_accel_limit" value="0.0" />
     <param name='use_decision_maker' value='true'/>
   </node>

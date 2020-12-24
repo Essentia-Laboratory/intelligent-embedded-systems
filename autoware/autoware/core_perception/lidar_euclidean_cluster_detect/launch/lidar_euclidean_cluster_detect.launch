@@ -21,11 +21,12 @@
   <arg name="use_vector_map" default="false" />
   <arg name="wayarea_gridmap_layer" default="wayarea" />
 
-  <arg name="output_frame" default="velodyne" />
+  <arg name="output_frame" default="/velodyne" />
 
   <arg name="remove_points_upto" default="0.0" />
 
-  <arg name="use_gpu" default="false" />
+  <arg name="use_gpu" default="true" />
+  <arg name="gpu_device_id" default="1" />
 
   <arg name="use_multiple_thres" default="false"/>
   <arg name="clustering_ranges" default="[15,30,45,60]"/><!-- Distances to segment pointcloud -->
@@ -53,6 +54,7 @@
     <param name="clustering_distance" value="$(arg clustering_distance)"/>
     <param name="cluster_merge_threshold" value="$(arg cluster_merge_threshold)"/>
     <param name="use_gpu" value="$(arg use_gpu)"/>
+    <param name="gpu_device_id" value="$(arg gpu_device_id)"/>
     <param name="use_multiple_thres" value="$(arg use_multiple_thres)"/>
     <param name="clustering_ranges" value="$(arg clustering_ranges)"/><!-- Distances to segment pointcloud -->
     <param name="clustering_distances"

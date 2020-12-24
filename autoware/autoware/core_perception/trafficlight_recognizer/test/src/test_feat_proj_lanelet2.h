@@ -45,10 +45,17 @@ public:
     return fpll2->inRange(p, cam, max_r);
   }
 
+#if USE_TF2
+  Eigen::Vector3f transform(Eigen::Vector3f p, tf2::Stamped<tf2::Transform> tf)
+  {
+    return (fpll2->transform(p, tf));
+  }
+#else
   Eigen::Vector3f transform(Eigen::Vector3f p, tf::StampedTransform tf)
   {
     return (fpll2->transform(p, tf));
   }
+#endif
 
   void setCameraInfo(double cx, double cy, double fx, double fy, int iw, int ih)
   {
@@ -60,10 +67,17 @@ public:
     fpll2->fy_ = fy;
   }
 
+#if USE_TF2
+  void setCameraToMapTransform(tf2::Stamped<tf2::Transform> tf)
+  {
+    fpll2->camera_to_map_tf_ = tf;
+  }
+#else
   void setCameraToMapTransform(tf::StampedTransform tf)
   {
     fpll2->camera_to_map_tf_ = tf;
   }
+#endif
 
   bool project2(const Eigen::Vector3f& pt, int* u, int* v)
   {

@@ -1,5 +1,6 @@
 #pragma once
 #include <boost/variant.hpp>
+#include <iostream>
 
 #include "lanelet2_core/primitives/Area.h"
 #include "lanelet2_core/primitives/Lanelet.h"
@@ -63,6 +64,7 @@ class ConstLaneletOrArea {
 
   template <typename T>
   std::vector<std::shared_ptr<const T>> regulatoryElementsAs() const {
+    std::cerr << "ConstLaneletOrArea::regulatoryElementsAs 1 - " << "\n";
     return applyVisitor([](auto& elem) { return elem.template regulatoryElementsAs<T>(); });
   }
 
