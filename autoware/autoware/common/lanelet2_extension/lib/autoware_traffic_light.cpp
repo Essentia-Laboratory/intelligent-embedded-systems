@@ -16,6 +16,7 @@
  * Authors: Ryohsuke Mitsudome
  */
 
+#include <ros/ros.h>
 #include <boost/variant.hpp>
 
 #include <lanelet2_core/primitives/RegulatoryElement.h>
@@ -111,6 +112,7 @@ RegulatoryElementDataPtr constructAutowareTrafficLightData(Id id, const Attribut
   auto data = std::make_shared<RegulatoryElementData>(id, rpm, attributes);
   data->attributes[AttributeName::Type] = AttributeValueString::RegulatoryElement;
   data->attributes[AttributeName::Subtype] = AttributeValueString::TrafficLight;
+  ROS_INFO( "[%s] %s", __FUNCTION__ , " is called. return RegulatoryElementDataPtr. ");
   return data;
 }
 }  // namespace

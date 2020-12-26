@@ -113,7 +113,7 @@ layer make_deconvolutional_layer(int batch, int h, int w, int c, int n, int size
     l.backward_gpu = backward_deconvolutional_layer_gpu;
     l.update_gpu = update_deconvolutional_layer_gpu;
 
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
 
         if (adam) {
             l.m_gpu = cuda_make_array(l.m, c*n*size*size);

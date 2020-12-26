@@ -1,4 +1,4 @@
-int gpu_index = 0;
+static int gpu_index = -1;
 
 #ifdef GPU
 
@@ -11,16 +11,28 @@ int gpu_index = 0;
 
 void cuda_set_device(int n)
 {
-    gpu_index = n;
-    cudaError_t status = cudaSetDevice(n);
+    int current = 0;
+    cudaError_t status;
+
+    status = cudaGetDevice(&current);
     check_error(status);
+    if( current == n )
+        return;
+    status = cudaSetDevice(n);
+    check_error(status);
+    gpu_index = n;
 }
 
 int cuda_get_device()
 {
     int n = 0;
-    cudaError_t status = cudaGetDevice(&n);
-    check_error(status);
+    if( gpu_index >= 0) 
+        n = gpu_index;
+    else
+    {
+        cudaError_t status = cudaGetDevice(&n);
+        check_error(status);
+    }
     return n;
 }
 

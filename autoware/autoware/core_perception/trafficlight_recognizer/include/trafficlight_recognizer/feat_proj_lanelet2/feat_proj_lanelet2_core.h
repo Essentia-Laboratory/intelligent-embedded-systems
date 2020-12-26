@@ -21,7 +21,16 @@
 #define TRAFFICLIGHT_RECOGNIZER_FEAT_PROJ_LANELET2_FEAT_PROJ_LANELET2_CORE_H
 
 #include <ros/ros.h>
-#include <tf/tf.h>
+#if USE_TF2
+# include <tf2/transform_datatypes.h>
+# include <tf2/utils.h>
+# include <tf2_ros/buffer.h>
+# include <tf2_ros/transform_listener.h>
+# include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#else
+# include <tf/tf.h>
+# include <tf/transform_listener.h>
+#endif
 
 #include <lanelet2_core/LaneletMap.h>
 #include <lanelet2_routing/RoutingGraphContainer.h>
@@ -76,6 +85,8 @@ private:
 
   int adjust_proj_x_ = 0;
   int adjust_proj_y_ = 0;
+  float min_distance_ = 1.0;
+  float max_distance_ = 200.0;
   float near_plane_ = 1.0;
   float far_plane_ = 200.0;
 
@@ -90,17 +101,28 @@ private:
   float cx_;
   float cy_;
 
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> camera_to_map_tf_;
+  tf2::Stamped<tf2::Transform> map_to_camera_tf_;
+#else
   tf::StampedTransform camera_to_map_tf_;
   tf::StampedTransform map_to_camera_tf_;
+#endif
 
   void adjustXYCallback(const autoware_msgs::AdjustXY& config_msg);
   void cameraInfoCallback(const sensor_msgs::CameraInfo& camInfoMsg);
   void binMapCallback(const autoware_lanelet2_msgs::MapBin& msg);
   void waypointsCallback(const autoware_msgs::Lane::ConstPtr& waypoints);
 
+#if USE_TF2
+  void getTransform(const std::string from_frame, const std::string to_frame, Eigen::Quaternionf& ori,
+                    Eigen::Vector3f& pos, tf2::Stamped<tf2::Transform>& tf);
+  Eigen::Vector3f transform(const Eigen::Vector3f& psrc, const tf2::Stamped<tf2::Transform>& tfsource);
+#else
   void getTransform(const std::string from_frame, const std::string to_frame, Eigen::Quaternionf* ori,
                     Eigen::Vector3f* pos, tf::StampedTransform* tf);
   Eigen::Vector3f transform(const Eigen::Vector3f& psrc, const tf::StampedTransform& tfsource);  // NOLINT
+#endif
   bool project2(const Eigen::Vector3f& pt, int* u, int* v, const bool useOpenGLCoord = false);
   double getAbsoluteDiff2Angles(const double x, const double y, const double c);
   double normalise(const double value, const double start, const double end);

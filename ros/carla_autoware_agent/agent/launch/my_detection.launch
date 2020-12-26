@@ -31,7 +31,17 @@
     Out: /detection/l_shaped/objects [autoware_msgs::DetectedObjectArray]
   -->
   <include file='$(find lidar_naive_l_shape_detect)/launch/lidar_naive_l_shape_detect.launch'>
+<!--
+if use_vector_map is true 
+then 
+-->
     <arg name='input_topic' value='/detection/lidar_detector/objects_filtered'/>
+<!--
+else
+-->
+<!--
+    <arg name='input_topic' value='/detection/lidar_detector/objects'/>
+-->
     <arg name='random_ponts' value='160'/>
     <arg name='sensor_height' value='2.4'/>
   </include>
@@ -57,6 +67,7 @@
     <arg name='names_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/yolov3/coco.names'/>
     <arg name='score_threshold' value='0.50'/>
     <arg name='nms_threshold' value='0.30'/>
+    <arg name='gpu_device_id' value='1'/>
   </include>
 
   <!--
@@ -97,10 +108,14 @@
     <arg name='input_topic' value='/detection/fusion_tools/objects'/>
   </include>
 
-  <include file="$(find trafficlight_recognizer)/launch/feat_proj.launch"/>
+  <include file="$(find trafficlight_recognizer)/launch/feat_proj_lanelet2.launch"/>
   <include file="$(find trafficlight_recognizer)/launch/traffic_light_recognition_ssd.launch">
-<!--    <arg name='network_definition_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/deploy.prototxt'/> -->
+<!--
+    <arg name='network_definition_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/deploy.prototxt'/> 
     <arg name='pretrained_model_file' value='$(env CARLA_AUTOWARE_CONTENTS)/config/ssd/VGG_VOC0712_SSD_500x500_iter_60000.caffemodel'/>
+-->
+    <arg name='use_gpu' value='true'/>
+    <arg name='gpu_device_id' value='0'/>
   </include>
 
 </launch>

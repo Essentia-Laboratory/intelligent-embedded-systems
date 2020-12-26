@@ -16,6 +16,8 @@
 
 #include <vector>
 #include <string>
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #include <pure_pursuit/pure_pursuit_core.h>
 #include <pure_pursuit/pure_pursuit_viz.h>
@@ -164,7 +166,7 @@ void PurePursuitNode::run()
     is_pose_set_ = false;
     is_velocity_set_ = false;
 
-    loop_rate.sleep();
+    // loop_rate.sleep();
   }
 }
 
@@ -195,6 +197,18 @@ void PurePursuitNode::publishTwistStamped(const bool& can_get_curvature, const d
   ts.header.stamp = ros::Time::now();
   ts.twist.linear.x = can_get_curvature ? computeCommandVelocity() : 0;
   ts.twist.angular.z = can_get_curvature ? kappa * ts.twist.linear.x : 0;
+  ROS_INFO("[%s] before TwistCmd={linear.x=[%lf], angular.z=[%lf]", __APP_NAME__, 
+		  ts.twist.linear.x, ts.twist.angular.z);
+#if 0
+  if( abs( ts.twist.angular.z ) > M_PI / 2)
+    ts.twist.linear.x /= 6 / 2;
+  if( abs( ts.twist.angular.z ) > M_PI / 3)
+    ts.twist.linear.x /= 4 / 2;
+  if( abs( ts.twist.angular.z ) > M_PI / 4)
+    ts.twist.linear.x /= 3 / 2;
+  if( abs( ts.twist.angular.z ) > M_PI / 6)
+    ts.twist.linear.x /= 2 / 2;
+#endif
   pub1_.publish(ts);
 }
 
@@ -206,6 +220,8 @@ void PurePursuitNode::publishCtrlCmdStamped(const bool& can_get_curvature, const
   ccs.cmd.linear_acceleration = can_get_curvature ? computeCommandAccel() : 0;
   ccs.cmd.steering_angle = can_get_curvature ? convertCurvatureToSteeringAngle(wheel_base_, kappa) : 0;
 
+  ROS_INFO("[%s] CtlCmd={velocity=[%lf], accel=[%lf], angle=[%lf]", __APP_NAME__, 
+		  ccs.cmd.linear_velocity, ccs.cmd.linear_acceleration, ccs.cmd.steering_angle );
   pub2_.publish(ccs);
 }
 
@@ -268,7 +284,7 @@ double PurePursuitNode::computeAngularGravity(double velocity, double kappa) con
 
 void PurePursuitNode::callbackFromConfig(const autoware_config_msgs::ConfigWaypointFollowerConstPtr& config)
 {
-  ROS_INFO("[%s] callbackFromConfig", __APP_NAME__);
+  // ROS_INFO("[%s] callbackFromConfig", __APP_NAME__);
   velocity_source_ = config->param_flag;
   const_lookahead_distance_ = config->lookahead_distance;
   const_velocity_ = config->velocity;
@@ -305,14 +321,14 @@ void PurePursuitNode::publishDeviationCurrentPosition(const geometry_msgs::Point
 
 void PurePursuitNode::callbackFromCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg)
 {
-  ROS_INFO("[%s] callbackFromCurrentPose", __APP_NAME__);
+  // ROS_INFO("[%s] callbackFromCurrentPose", __APP_NAME__);
   pp_.setCurrentPose(msg);
   is_pose_set_ = true;
 }
 
 void PurePursuitNode::callbackFromCurrentVelocity(const geometry_msgs::TwistStampedConstPtr& msg)
 {
-  ROS_INFO("[%s] callbackFromCurrentVelocity", __APP_NAME__);
+  // ROS_INFO("[%s] callbackFromCurrentVelocity", __APP_NAME__);
   current_linear_velocity_ = msg->twist.linear.x;
   pp_.setCurrentVelocity(current_linear_velocity_);
   is_velocity_set_ = true;
@@ -320,7 +336,7 @@ void PurePursuitNode::callbackFromCurrentVelocity(const geometry_msgs::TwistStam
 
 void PurePursuitNode::callbackFromWayPoints(const autoware_msgs::LaneConstPtr& msg)
 {
-  ROS_INFO("[%s] callbackFromWayPoints", __APP_NAME__);
+  // ROS_INFO("[%s] callbackFromWayPoints", __APP_NAME__);
   command_linear_velocity_ = (!msg->waypoints.empty()) ? msg->waypoints.at(0).twist.twist.linear.x : 0;
   if (add_virtual_end_waypoints_)
   {
@@ -337,7 +353,7 @@ void PurePursuitNode::callbackFromWayPoints(const autoware_msgs::LaneConstPtr& m
   {
     pp_.setCurrentWaypoints(msg->waypoints);
   }
-  ROS_INFO("[%s] is_waypoint_set_ = true", __APP_NAME__);
+  // ROS_INFO("[%s] is_waypoint_set_ = true", __APP_NAME__);
   is_waypoint_set_ = true;
 }
 

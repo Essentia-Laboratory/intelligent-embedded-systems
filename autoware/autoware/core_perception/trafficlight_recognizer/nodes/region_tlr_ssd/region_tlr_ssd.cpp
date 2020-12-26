@@ -85,6 +85,7 @@ void RegionTLRSSDROSNode::ImageRawCallback(const sensor_msgs::Image& image)
 void RegionTLRSSDROSNode::ROISignalCallback(const autoware_msgs::Signals::ConstPtr& extracted_pos)
 {
   static ros::Time previous_timestamp;
+  std::cout << "[region_tlr_ssd] extracted_pos: " << *extracted_pos << ", rois: " << extracted_pos->Signals.size() << std::endl;
   // If frame has not been prepared, abort this callback
   if (frame_.empty() || frame_header_.stamp == previous_timestamp)
   {
@@ -101,26 +102,69 @@ void RegionTLRSSDROSNode::ROISignalCallback(const autoware_msgs::Signals::ConstP
   {
     // for (unsigned int i = 0; i < contexts_.size(); i++) {
     //   Context& context = contexts_.at(i);
-    if (context.topLeft.x > context.botRight.x)
+    if (context.topLeft.x >= context.botRight.x)
+    {
+      continue;
+    }
+    if( context.topLeft.y >= context.botRight.y)
     {
       continue;
     }
 
-    // std::cout << "roi inside: " << cv::Rect(context.topLeft, context.botRight) << std::endl;
+    std::cout << "[region_tlr_ssd] roi inside: " << cv::Rect(context.topLeft, context.botRight) << std::endl;
     // extract region of interest from input image
     cv::Mat roi = frame_(cv::Rect(context.topLeft, context.botRight)).clone();
 
-    // cv::imshow("ssd_tlr", roi);
-    //  cv::waitKey(200);
+//     cv::imshow("ssd_tlr", roi);
+//     cv::waitKey(200);
 
     // Get current state of traffic light from current frame
     LightState current_state = recognizer.RecognizeLightState(roi);
+    std::cout << "[region_tlr_ssd] previous light state=[" << context.lightState << "]" << std::endl;
+    std::cout << "[region_tlr_ssd] current light state=[" << current_state;
+    switch (current_state)
+    {
+      case GREEN:
+        std::cout << ":GREEN]" << std::endl;
+        break;
+      case YELLOW:
+        std::cout << ":YELLOW]" << std::endl;
+	break;
+      case RED:
+        std::cout << ":RED]" << std::endl;
+        break;
+      case UNDEFINED:
+        std::cout << ":UNDEFINED]" << std::endl;
+        break;
+      default:
+        std::cout << ":WHAT_THE_HELL_IS_THIS]" << std::endl;
+	break;
+    }
 
     // Determine the final state by referring previous state
     context.lightState =
         DetermineState(context.lightState,           // previous state
                        current_state,                // current state
                        &(context.stateJudgeCount));  // counter to record how many times does state recognized
+    std::cout << "[region_tlr_ssd] context.lightState=[" << context.lightState;
+    switch (context.lightState)
+    {
+      case GREEN:
+        std::cout << ":GREEN]" << std::endl;
+        break;
+      case YELLOW:
+        std::cout << ":YELLOW]" << std::endl;
+	break;
+      case RED:
+        std::cout << ":RED]" << std::endl;
+        break;
+      case UNDEFINED:
+        std::cout << ":UNDEFINED]" << std::endl;
+        break;
+      default:
+        std::cout << ":WHAT_THE_HELL_IS_THIS]" << std::endl;
+	break;
+    }
   }
 
   // Publish recognition result as some topic format
@@ -242,6 +286,25 @@ void RegionTLRSSDROSNode::PublishTrafficLight(std::vector<Context> contexts)
   if (topic.traffic_light != previous_state)
   {
     signal_state_publisher.publish(topic);
+    std::cout << "[region_tlr_ssd] publishTrafficLight=[" << topic.traffic_light;
+    switch (topic.traffic_light)
+    {
+      case GREEN:
+        std::cout << ":GREEN]" << std::endl;
+        break;
+      case YELLOW:
+        std::cout << ":YELLOW]" << std::endl;
+	break;
+      case RED:
+        std::cout << ":RED]" << std::endl;
+        break;
+      case UNDEFINED:
+        std::cout << ":UNDEFINED]" << std::endl;
+        break;
+      default:
+        std::cout << ":WHAT_THE_HELL_IS_THIS]" << std::endl;
+	break;
+    }
     previous_state = topic.traffic_light;
   }
 }  // void RegionTLRSSDROSNode::PublishTrafficLight()

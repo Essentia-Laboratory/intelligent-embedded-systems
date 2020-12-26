@@ -22,7 +22,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "twist_gate");
+  ros::init(argc, argv, __APP_NAME__);
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");
 

@@ -61,8 +61,13 @@ TEST_F(FeatProjLanelet2TestSuite, test_inRange)
 TEST_F(FeatProjLanelet2TestSuite, test_transform)
 {
   Eigen::Vector3f v, v_tf, v_gt;
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> stf;
+  tf2::Transform tf = tf2::Transform::getIdentity();
+#else
   tf::StampedTransform stf;
   tf::Transform tf = tf::Transform::getIdentity();
+#endif
 
   stf.setData(tf);
   v << 1, -1, 0;
@@ -70,7 +75,13 @@ TEST_F(FeatProjLanelet2TestSuite, test_transform)
   v_gt = v;
   EXPECT_EQ(v_gt, v_tf) << "vector transformed by identity is not equal";
 
+#if USE_TF2
+  tf2::Quaternion q;
+  q.setRPY(0, 0, M_PI / 2);
+  tf.setRotation(q);
+#else
   tf.setRotation(tf::createQuaternionFromRPY(0, 0, M_PI / 2));
+#endif
   stf.setData(tf);
   v << 1.000, 0.000, 0.000;
   v_tf = test_obj.transform(v, stf);
@@ -84,8 +95,13 @@ TEST_F(FeatProjLanelet2TestSuite, test_transform)
 TEST_F(FeatProjLanelet2TestSuite, test_project2)
 {
   Eigen::Vector3f pt_front, pt_behind, pt_left, pt_up, pt_far_left, pt_far_up;
+#if USE_TF2
+  tf2::Stamped<tf2::Transform> stf;
+  tf2::Transform tf = tf2::Transform::getIdentity();
+#else
   tf::StampedTransform stf;
   tf::Transform tf = tf::Transform::getIdentity();
+#endif
 
   // +z is depth from camera
   stf.setData(tf);

@@ -733,7 +733,7 @@ network *parse_network_cfg(char *filename)
     node *n = sections->front;
     if(!n) error("Config file has no sections");
     network *net = make_network(sections->size - 1);
-    net->gpu_index = gpu_index;
+    // net->gpu_index = gpu_index;
     size_params params;
 
     section *s = (section *)n->val;
@@ -861,7 +861,7 @@ network *parse_network_cfg(char *filename)
     if(workspace_size){
         //printf("%ld\n", workspace_size);
 #ifdef GPU
-        if(gpu_index >= 0){
+        if(cuda_get_device() >= 0){
             net->workspace = cuda_make_array(0, (workspace_size-1)/sizeof(float)+1);
         }else {
             net->workspace = calloc(1, workspace_size);
@@ -911,7 +911,7 @@ list *read_cfg(char *filename)
 void save_convolutional_weights_binary(layer l, FILE *fp)
 {
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         pull_convolutional_layer(l);
     }
 #endif
@@ -947,7 +947,7 @@ void save_convolutional_weights(layer l, FILE *fp)
         //return;
     }
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         pull_convolutional_layer(l);
     }
 #endif
@@ -964,7 +964,7 @@ void save_convolutional_weights(layer l, FILE *fp)
 void save_batchnorm_weights(layer l, FILE *fp)
 {
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         pull_batchnorm_layer(l);
     }
 #endif
@@ -976,7 +976,7 @@ void save_batchnorm_weights(layer l, FILE *fp)
 void save_connected_weights(layer l, FILE *fp)
 {
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         pull_connected_layer(l);
     }
 #endif
@@ -993,7 +993,7 @@ void save_weights_upto(network *net, char *filename, int cutoff)
 {
 #ifdef GPU
     if(net->gpu_index >= 0){
-        cuda_set_device(net->gpu_index);
+        // cuda_set_device(net->gpu_index);
     }
 #endif
     fprintf(stderr, "Saving weights to %s\n", filename);
@@ -1050,7 +1050,7 @@ void save_weights_upto(network *net, char *filename, int cutoff)
             save_convolutional_weights(*(l.output_layer), fp);
         } if(l.type == LOCAL){
 #ifdef GPU
-            if(gpu_index >= 0){
+            if(cuda_get_device() >= 0){
                 pull_local_layer(l);
             }
 #endif
@@ -1098,7 +1098,7 @@ void load_connected_weights(layer l, FILE *fp, int transpose)
         //printf("rolling_variance: %f mean %f variance\n", mean_array(l.rolling_variance, l.outputs), variance_array(l.rolling_variance, l.outputs));
     }
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         push_connected_layer(l);
     }
 #endif
@@ -1110,7 +1110,7 @@ void load_batchnorm_weights(layer l, FILE *fp)
     fread(l.rolling_mean, sizeof(float), l.c, fp);
     fread(l.rolling_variance, sizeof(float), l.c, fp);
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         push_batchnorm_layer(l);
     }
 #endif
@@ -1140,7 +1140,7 @@ void load_convolutional_weights_binary(layer l, FILE *fp)
         }
     }
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         push_convolutional_layer(l);
     }
 #endif
@@ -1192,7 +1192,7 @@ void load_convolutional_weights(layer l, FILE *fp)
     }
     //if (l.binary) binarize_weights(l.weights, l.n, l.c*l.size*l.size, l.weights);
 #ifdef GPU
-    if(gpu_index >= 0){
+    if(cuda_get_device() >= 0){
         push_convolutional_layer(l);
     }
 #endif
@@ -1203,7 +1203,7 @@ void load_weights_upto(network *net, char *filename, int start, int cutoff)
 {
 #ifdef GPU
     if(net->gpu_index >= 0){
-        cuda_set_device(net->gpu_index);
+        // cuda_set_device(net->gpu_index);
     }
 #endif
     fprintf(stderr, "Loading weights from %s...", filename);
@@ -1279,7 +1279,7 @@ void load_weights_upto(network *net, char *filename, int start, int cutoff)
             fread(l.biases, sizeof(float), l.outputs, fp);
             fread(l.weights, sizeof(float), size, fp);
 #ifdef GPU
-            if(gpu_index >= 0){
+            if(cuda_get_device() >= 0){
                 push_local_layer(l);
             }
 #endif

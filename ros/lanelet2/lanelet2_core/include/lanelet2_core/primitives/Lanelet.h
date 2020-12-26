@@ -6,6 +6,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <iostream>
 
 #include "lanelet2_core/Forward.h"
 #include "lanelet2_core/primitives/LineString.h"
@@ -45,10 +46,12 @@ class LaneletData : public PrimitiveData {
 
   template <typename RegElemT>
   std::vector<std::shared_ptr<const RegElemT>> regulatoryElementsAs() const {
+    std::cerr << "LaneletData::regulatoryElementsAs 1 - " << "\n";
     return utils::transformSharedPtr<const RegElemT>(regulatoryElements_);
   }
   template <typename RegElemT>
   std::vector<std::shared_ptr<RegElemT>> regulatoryElementsAs() {
+    std::cerr << "LaneletData::regulatoryElementsAs 2 - " << "\n";
     return utils::transformSharedPtr<RegElemT>(regulatoryElements_);
   }
 
@@ -180,6 +183,7 @@ class ConstLanelet : public ConstPrimitive<LaneletData> {
   //! get the regulatoryElements that could be converted to RegElemT
   template <typename RegElemT>
   std::vector<std::shared_ptr<const RegElemT>> regulatoryElementsAs() const {
+    std::cerr << "ConstLanelet::regulatoryElementsAs 1 - " <<"\n";
     return constData()->regulatoryElementsAs<RegElemT>();
   }
 
@@ -307,6 +311,7 @@ class Lanelet : public Primitive<ConstLanelet> {
   //! Get the regulatoryElements that could be converted to RegElemT
   template <typename RegElemT>
   std::vector<std::shared_ptr<RegElemT>> regulatoryElementsAs() {
+    std::cerr << "Lanelet::regulatoryElementsAs 1 - " << "\n";
     return data()->regulatoryElementsAs<RegElemT>();
   }
 };

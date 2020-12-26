@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <utility>
+#include <iostream>
 
 #include "lanelet2_core/Forward.h"
 #include "lanelet2_core/primitives/CompoundPolygon.h"
@@ -74,10 +75,12 @@ class AreaData : public PrimitiveData {
 
   template <typename RegElemT>
   std::vector<std::shared_ptr<const RegElemT>> regulatoryElementsAs() const {
+    std::cerr << "AreaData::regulatoryElementsAs 1 - " << "\n";
     return utils::transformSharedPtr<const RegElemT>(regulatoryElements_);
   }
   template <typename RegElemT>
   std::vector<std::shared_ptr<RegElemT>> regulatoryElementsAs() {
+    std::cerr << "AreaData::regulatoryElementsAs 2 - " << "\n";
     return utils::transformSharedPtr<RegElemT>(regulatoryElements_);
   }
 
@@ -196,6 +199,7 @@ class ConstArea : public ConstPrimitive<AreaData> {
    */
   template <typename RegElemT>
   std::vector<std::shared_ptr<const RegElemT>> regulatoryElementsAs() const {
+    std::cerr << "ConstArea::regulatoryElementsAs 1 - " << "\n";
     return constData()->regulatoryElementsAs<RegElemT>();
   }
 };
@@ -258,6 +262,7 @@ class Area : public Primitive<ConstArea> {
   //! get the regulatoryElements that could be converted to RegElemT
   template <typename RegElemT>
   std::vector<std::shared_ptr<RegElemT>> regulatoryElementsAs() {
+    std::cerr << "Area::regulatoryElementsAs 1 - " << "\n";
     return data()->regulatoryElementsAs<RegElemT>();
   }
 };

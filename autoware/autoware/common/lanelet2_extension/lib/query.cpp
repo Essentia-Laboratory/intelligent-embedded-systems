@@ -117,12 +117,14 @@ std::vector<lanelet::AutowareTrafficLightConstPtr> query::autowareTrafficLights(
 {
   std::vector<lanelet::AutowareTrafficLightConstPtr> tl_reg_elems;
 
+  ROS_WARN("[query::autowareTrafficLights] lanelets.count=[%ld]", lanelets.size());
   for (auto i = lanelets.begin(); i != lanelets.end(); i++)
   {
     lanelet::ConstLanelet ll = *i;
     std::vector<lanelet::AutowareTrafficLightConstPtr> ll_tl_re =
         ll.regulatoryElementsAs<lanelet::autoware::AutowareTrafficLight>();
 
+    ROS_WARN("[query::autowareTrafficLights] regulatoryElementsAs.count=[%ld]", ll_tl_re.size());
     // insert unique tl into array
     for (auto tli = ll_tl_re.begin(); tli != ll_tl_re.end(); tli++)
     {

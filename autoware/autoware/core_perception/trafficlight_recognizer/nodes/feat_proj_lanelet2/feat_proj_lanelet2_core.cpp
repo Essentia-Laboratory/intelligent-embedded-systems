@@ -18,8 +18,9 @@
  */
 
 #include <ros/ros.h>
-#include <tf/tf.h>
-#include <tf/transform_listener.h>
+#if USE_TF2
+#else
+#endif
 
 #include <lanelet2_core/LaneletMap.h>
 #include <lanelet2_core/geometry/Point.h>
@@ -43,8 +44,9 @@
 #include <set>
 #include <string>
 #include <vector>
-
 #include <trafficlight_recognizer/feat_proj_lanelet2/feat_proj_lanelet2_core.h>
+
+#define __APP_NAME__ "feat_proj_lanelet2"
 
 using lanelet::utils::getId;
 
@@ -75,6 +77,7 @@ void FeatProjLanelet2::binMapCallback(const autoware_lanelet2_msgs::MapBin& msg)
 {
   lanelet_map_ = std::make_shared<lanelet::LaneletMap>();
   lanelet::utils::conversion::fromBinMsg(msg, lanelet_map_);
+  ROS_INFO("[%s] binMapCallback after fromBinMsg", __APP_NAME__);
   loaded_lanelet_map_ = true;
 }
 
@@ -114,6 +117,36 @@ void FeatProjLanelet2::waypointsCallback(const autoware_msgs::Lane::ConstPtr& wa
   }
 }
 
+#if USE_TF2
+void FeatProjLanelet2::getTransform(const std::string from_frame, const std::string to_frame, Eigen::Quaternionf& ori,
+                                    Eigen::Vector3f& pos, tf2::Stamped<tf2::Transform>& tf)
+{
+  static tf2_ros::Buffer            buffer;
+  static tf2_ros::TransformListener listener(buffer);
+
+  ros::Time now = ros::Time();
+  geometry_msgs::TransformStamped tfGeom;
+  try
+  {
+    tfGeom = buffer.lookupTransform(from_frame, to_frame, now, ros::Duration(1000.0));
+    tf2::convert(tfGeom, tf);
+  }
+  catch( tf2::TransformException& ex )
+  {
+    // ROS_WARN("[%s] %s", __APP_NAME__, ex.what());
+    throw ex;
+  }
+
+// ROS_INFO("[%s] origin from=[%s], to=[%s], x=%lf, y=%lf, z=%lf", __APP_NAME__, from_frame.c_str(), to_frame.c_str(), tf.getOrigin().x(), tf.getOrigin().y(), tf.getOrigin().z());
+  pos.x() = tf.getOrigin().x();
+  pos.y() = tf.getOrigin().y();
+  pos.z() = tf.getOrigin().z();
+  ori.w() = tf.getRotation().w();
+  ori.x() = tf.getRotation().x();
+  ori.y() = tf.getRotation().y();
+  ori.z() = tf.getRotation().z();
+}
+#else
 // @brief get transformation between given frames
 void FeatProjLanelet2::getTransform(const std::string from_frame, const std::string to_frame, Eigen::Quaternionf* ori,
                                     Eigen::Vector3f* pos, tf::StampedTransform* tf)
@@ -141,8 +174,18 @@ void FeatProjLanelet2::getTransform(const std::string from_frame, const std::str
   ori->y() = o.y();
   ori->z() = o.z();
 }
+#endif
 
 // @brief transform 3d point
+#if USE_TF2
+Eigen::Vector3f FeatProjLanelet2::transform(const Eigen::Vector3f& psrc, const tf2::Stamped<tf2::Transform>& tfsource)
+{
+  tf2::Vector3 pt3(psrc.x(), psrc.y(), psrc.z());
+  tf2::Vector3 pt3s = tfsource * pt3;
+  Eigen::Vector3f tf_v(pt3s.x(), pt3s.y(), pt3s.z());
+  return tf_v;
+}
+#else
 Eigen::Vector3f FeatProjLanelet2::transform(const Eigen::Vector3f& psrc, const tf::StampedTransform& tfsource)
 {
   tf::Vector3 pt3(psrc.x(), psrc.y(), psrc.z());
@@ -150,6 +193,7 @@ Eigen::Vector3f FeatProjLanelet2::transform(const Eigen::Vector3f& psrc, const t
   Eigen::Vector3f tf_v(pt3s.x(), pt3s.y(), pt3s.z());
   return tf_v;
 }
+#endif
 
 // @brief project point in map frame into 2D camera image
 bool FeatProjLanelet2::project2(const Eigen::Vector3f& pt, int* u, int* v, const bool useOpenGLCoord)
@@ -203,6 +247,8 @@ double FeatProjLanelet2::normalise(const double value, const double start, const
 bool FeatProjLanelet2::inRange(const lanelet::BasicPoint2d& p, const lanelet::BasicPoint2d& cam, const double max_r)
 {
   double d = lanelet::geometry::distance(p, cam);
+
+  // ROS_INFO("[%s] inRange self.x=[%lf], self.y=[%lf], cam.x=[%lf], cam.y=[%lf], result distance=[%lf]", __APP_NAME__, p.x(), p.y(), cam.x(), cam.y(), d);
   return (d < max_r);
 }
 
@@ -213,6 +259,8 @@ bool FeatProjLanelet2::inView(const lanelet::BasicPoint2d& p, const lanelet::Bas
   double d = lanelet::geometry::distance(p, cam);
   double a = getAbsoluteDiff2Angles(heading, std::atan2(p.y() - cam.y(), p.x() - cam.x()), M_PI);
 
+  ROS_INFO("[%s] inView p.x=[%lf], p.y=[%lf], cam.x=[%lf], cam.y=[%lf], diff2Angle=[%lf], maxAngle=[%lf], distance=[%lf], maxDistance=[%lf]", 
+		  __APP_NAME__, p.x(), p.y(), cam.x(), cam.y(), a, max_a, d, max_r);
   return (d < max_r && a < max_a);
 }
 
@@ -241,8 +289,9 @@ void FeatProjLanelet2::trafficLightVisibilityCheck(
     return;
   }
 
+  int tli_count = 0, light_count = 0;
   lanelet::BasicPoint2d camera_position_2d(position_.x(), position_.y());
-  double cam_yaw = tf::getYaw(map_to_camera_tf_.getRotation()) + M_PI / 2;
+  double cam_yaw = tf2::getYaw(map_to_camera_tf_.getRotation()) + M_PI / 2;
 
   // for each traffic light in map check if in range and in view angle of camera
   for (auto tli = aw_tl_reg_elems.begin(); tli != aw_tl_reg_elems.end(); tli++)
@@ -261,9 +310,7 @@ void FeatProjLanelet2::trafficLightVisibilityCheck(
         lanelet::BasicPoint2d tl_base_0 = lanelet::utils::to2D(ls.front()).basicPoint();
         lanelet::BasicPoint2d tl_base_1 = lanelet::utils::to2D(ls.back()).basicPoint();
 
-        double max_r = 200.0;
-
-        if (inRange(tl_base_0, camera_position_2d, max_r) && inRange(tl_base_1, camera_position_2d, max_r))
+        if (inRange(tl_base_0, camera_position_2d, max_distance_) && inRange(tl_base_1, camera_position_2d, max_distance_))
         {
           double dx = tl_base_1.x() - tl_base_0.x();
           double dy = tl_base_1.y() - tl_base_0.y();
@@ -273,20 +320,56 @@ void FeatProjLanelet2::trafficLightVisibilityCheck(
 
           double diff = getAbsoluteDiff2Angles(dir, cam_yaw, M_PI);
 
+#if 0
           // traffic light must be facing to the vehicle
           if (std::abs(diff) < 50.0 / 180.0 * M_PI)
           {
+#else
+          ROS_WARN("[%s] trafficLightVisibilityCheck traffic light facing to vehicle tf_id=[%ld], diff=[%lf], max=[%lf]", 
+			  __APP_NAME__, lsp.id(), diff, 10.0 / 180.0 * M_PI);
+          if (std::abs(diff) < 10.0 / 180.0 * M_PI)
+          {
+#endif
             // testing range twice (above inRange) for each base point at the moment
-            if (inView(tl_base_0, camera_position_2d, cam_yaw, M_PI, max_r) &&
-                inView(tl_base_1, camera_position_2d, cam_yaw, M_PI, max_r))
+            if (inView(tl_base_0, camera_position_2d, cam_yaw, M_PI/2, max_distance_) &&
+                inView(tl_base_1, camera_position_2d, cam_yaw, M_PI/2, max_distance_))
             {
+              ROS_INFO("[%s] trafficLightVisibilityCheck success visibility check... tf_id=[%ld]",
+			      __APP_NAME__, lsp.id());
               visible_aw_tl->push_back(tl);
             }
+	    /*
+	    else
+	    {
+              ROS_WARN("[%s] line string is not in view.", __APP_NAME__);
+	    }
+	    */
           }
+	  /* 
+	  else
+	  {
+            ROS_WARN("[%s] traffic light is not facing to vehicle. diff=[%lf]", __APP_NAME__, diff);
+	  }
+	  */
         }
+	/* 
+	else
+	{
+          ROS_WARN("[%s] line string is not range.", __APP_NAME__);
+	}
+	*/
       }
+      /* 
+      else
+      {
+        ROS_WARN("[%s] traffic light is not line string.", __APP_NAME__);
+      }
+      */
+      light_count++;
     }
+    tli_count++;
   }
+  ROS_INFO("[%s] aw_tl_reg_elems.count=[%d], trafficLights.count=[%d], visible_aw_tl.count=[%ld]", __APP_NAME__, tli_count, light_count, visible_aw_tl->size());
 }
 
 void FeatProjLanelet2::findVisibleTrafficLightFromLanes(
@@ -430,7 +513,14 @@ void FeatProjLanelet2::findSignalsInCameraFrame(const std::vector<lanelet::Autow
                                   // physical traffic lights
           sign.plId = ls.id();
           signal_in_frame->Signals.push_back(sign);
+          ROS_INFO("[%s] found signal in camera frame. id=[%d]", __APP_NAME__, sign.plId );
         }
+	/* 
+	else
+	{
+          ROS_WARN("[%s] not found signal in camera frame.", __APP_NAME__);
+	}
+	*/
       }  // for each point p
     }    // for each linestring ls
   }
@@ -465,6 +555,8 @@ void FeatProjLanelet2::init()
   roi_sign_pub_ = rosnode_.advertise<autoware_msgs::Signals>("/roi_signal", 100);
 
   private_nh_.param<bool>("use_path_info", use_path_info_, false);
+  private_nh_.param<float>("roi_search_min_distance", min_distance_, 1.0);
+  private_nh_.param<float>("roi_search_max_distance", max_distance_, 200.0);
 
   waypoint_subscriber_ = rosnode_.subscribe("/final_waypoints", 1, &FeatProjLanelet2::waypointsCallback, this);
 
@@ -490,6 +582,7 @@ void FeatProjLanelet2::run()
   std::vector<lanelet::AutowareTrafficLightConstPtr> aw_tl_reg_elems =
       lanelet::utils::query::autowareTrafficLights(all_lanelets);
 
+  ROS_INFO("[%s] aw_tl_reg_elems.size()=[%ld]", __APP_NAME__, aw_tl_reg_elems.size());
   std_msgs::ColorRGBA cl;
   cl.r = 0.9;
   cl.g = 0.7;
@@ -504,13 +597,20 @@ void FeatProjLanelet2::run()
 
     try
     {
-      getTransform(camera_frame_, "map", &orientation_, &position_, &camera_to_map_tf_);
-      getTransform("map", camera_frame_, &orientation_, &position_, &map_to_camera_tf_);
+      getTransform(camera_frame_, "map", orientation_, position_, camera_to_map_tf_);
+      getTransform("map", camera_frame_, orientation_, position_, map_to_camera_tf_);
     }
+#if USE_TF2
+    catch( tf2::TransformException& exc )
+    {
+      ROS_WARN("[%s] %s", __APP_NAME__, exc.what());
+    }
+#else
     catch (tf::TransformException& exc)
     {
       ROS_WARN_STREAM(exc.what());
     }
+#endif
 
     if (prev_orientation.vec() != orientation_.vec() && prev_position != position_)
     {
@@ -523,6 +623,7 @@ void FeatProjLanelet2::run()
       }
       else
       {
+        // ROS_INFO("[%s] before trafficLightVisibilityCheck", __APP_NAME__);
         // check if traffic light regulatory elements are potentially in camera view field
         // Future: should pre select candidates by lanelets on current waypoint path
         trafficLightVisibilityCheck(aw_tl_reg_elems, &visible_aw_tl);
@@ -531,11 +632,13 @@ void FeatProjLanelet2::run()
       // int tl_count = 0;
       autoware_msgs::Signals signal_in_frame;
 
+      // ROS_INFO("[%s] before findSignalsInCameraFrame", __APP_NAME__);
       // project light bulbs into camera frame - create roi signal
       findSignalsInCameraFrame(visible_aw_tl, &signal_in_frame);
 
       // publish signals detected in camera frame
       signal_in_frame.header.stamp = ros::Time::now();
+      ROS_INFO("[%s] position.x=[%f],y=[%f],signal count=[%ld]", __APP_NAME__, position_.x(), position_.y(), signal_in_frame.Signals.size());
       roi_sign_pub_.publish(signal_in_frame);
 
       if (viz_tl_signs_)
@@ -553,7 +656,7 @@ void FeatProjLanelet2::run()
     prev_position = position_;
 
     // ros loop stuff
-    loop_rate.sleep();
+    // loop_rate.sleep();
   }
 }
 }  // namespace trafficlight_recognizer

@@ -69,7 +69,7 @@
 <!--
   <include file="$(find waypoint_maker)/launch/waypoint_loader.launch"/>
 -->
-  <node pkg='waypoint_maker' type='waypoint_replanner' name='waypoint_replanner' output="screen">
+  <node pkg='waypoint_maker' type='waypoint_replanner' name='waypoint_replanner' output="log">
     <param name="replanning_mode" value="true" />
     <param name="realtime_tuning_mode" value="true" />
     <param name="resample_mode" value="true" />
@@ -80,7 +80,7 @@
     <param name="radius_min" value="0.0" />
     <param name="velocity_min" value="0.0" />
     <param name="accel_limit" value="3.0" />
-    <param name="decel_limit" value="3.0" />
+    <param name="decel_limit" value="20.0" />
     <param name="lateral_accel_limit" value="0.0" />
     <param name='use_decision_maker' value='true'/>
   </node>
@@ -99,7 +99,7 @@
   <arg name="number_of_zeros_ahead"      default="0"/>
   <arg name="number_of_zeros_behind"     default="0"/>
   <arg name="number_of_smoothing_count"  default="0"/>
-  <node pkg='rostopic' type='rostopic' name='config_lane_rule' output='screen'
+  <node pkg='rostopic' type='rostopic' name='config_lane_rule' output='log'
         args='pub -l /config/lane_rule autoware_config_msgs/ConfigLaneRule "{ 
             header: { 
               seq: 0, 
@@ -110,7 +110,7 @@
             number_of_zeros_ahead: $(arg number_of_zeros_ahead), 
             number_of_zeros_behind: $(arg number_of_zeros_behind), 
             number_of_smoothing_count: $(arg number_of_smoothing_count) }"'/>
-  <node pkg='lane_planner' type='lane_rule' name='lane_rule' output="screen"/>
+  <node pkg='lane_planner' type='lane_rule' name='lane_rule' output="log"/>
 
   <!--
     # lane_stop #

@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include <iostream>
 
 #include "lanelet2_core/primitives/CompoundLineString.h"
 #include "lanelet2_core/primitives/CompoundPolygon.h"
@@ -159,6 +160,7 @@ class LaneletSequence {
    */
   template <typename RegElemT>
   std::vector<std::shared_ptr<const RegElemT>> regulatoryElementsAs() const {
+    std::cerr << "LaneletSequence::regulatoryElementsAs 1 - " << "\n";
     return utils::concatenate(lanelets(),
                               [](const auto& elem) { return elem.template regulatoryElementsAs<RegElemT>(); });
   }
