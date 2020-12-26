@@ -6,12 +6,12 @@ find_package(catkin REQUIRED)
 
 include(ExternalProject)
 ExternalProject_Add(qpoases_3_2
-  SVN_REPOSITORY https://projects.coin-or.org/svn/qpOASES/stable/3.2
-  SVN_TRUST_CERT TRUE
-  BUILD_IN_SOURCE TRUE
-  INSTALL_COMMAND ""
-)
-
+#   SVN_REPOSITORY https://projects.coin-or.org/svn/qpOASES/stable/3.2
+#   SVN_TRUST_CERT TRUE
+   BUILD_IN_SOURCE TRUE
+   INSTALL_COMMAND ""
+ )
+ 
 ExternalProject_Get_property(qpoases_3_2 SOURCE_DIR)
 
 set(qpOASES_CXX_LIBRARY ${SOURCE_DIR}/libs/libqpOASES.a)

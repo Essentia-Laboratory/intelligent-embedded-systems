@@ -47,7 +47,10 @@
     Out: /obstacle_waypoint [std_msgs::Int32]
     Out: /stopline_waypoint [std_msgs::Int32]
   -->
+  <include file='$(find waypoint_planner)/launch/velocity_set_lanelet2.launch'>
+<!--
   <include file='$(find waypoint_planner)/launch/velocity_set.launch'>
+-->
     <arg name='use_crosswalk_detection' default='false' />
     <arg name='points_topic' default='/points_no_ground' />
     <arg name='velocity_offset' default='4' />
@@ -83,10 +86,12 @@
 <!--
   <include file='$(find pure_pursuit)/launch/pure_pursuit.launch'/>
 -->
-  <include file='$(find pure_pursuit)/launch/pure_pursuit.launch'>
-    <arg name='publishes_for_steering_robot' value='false'/>
-    <arg name='velocity_source' value='0'/>
-  </include>
+  <include file='$(find mpc_follower)/launch/mpc_follower.launch'/>
+
+<!-- 
+  manual control
+-->
+  <include file='$(find carla_twist_to_control)/launch/carla_twist_to_control.launch'/>
 
   <!--
     # twist_filter #

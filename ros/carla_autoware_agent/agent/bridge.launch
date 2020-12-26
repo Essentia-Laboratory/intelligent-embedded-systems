@@ -59,7 +59,7 @@
   </node>
 
   <!-- convert the vehicle status from carla to autoware -->
-  <node pkg='carla_autoware_bridge' type='carla_to_autoware_vehicle_status' name='carla_to_autoware_vehicle_status' output='screen'/>
+  <node pkg='carla_autoware_bridge' type='carla_to_autoware_vehicle_status' name='carla_to_autoware_vehicle_status' output='log'/>
 
 
 
@@ -71,7 +71,7 @@
 
 
   <!-- convert waypoint path to autoware lane_array -->
-  <node pkg="carla_autoware_bridge" type="carla_to_autoware_waypoints" name="carla_to_autoware_waypoints" output="screen"/>
+  <node pkg="carla_autoware_bridge" type="carla_to_autoware_waypoints" name="carla_to_autoware_waypoints" output="log"/>
 
   <!--
     # ACTUATOR #
