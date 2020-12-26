@@ -8,6 +8,7 @@ include(ExternalProject)
 ExternalProject_Add(qpoases_3_2
 #   SVN_REPOSITORY https://projects.coin-or.org/svn/qpOASES/stable/3.2
 #   SVN_TRUST_CERT TRUE
+   SOURCE_DIR 'qpoases_3_2'
    BUILD_IN_SOURCE TRUE
    INSTALL_COMMAND ""
  )
