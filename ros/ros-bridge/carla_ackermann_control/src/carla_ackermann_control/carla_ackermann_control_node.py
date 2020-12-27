@@ -225,6 +225,10 @@ class CarlaAckermannControl(object):
         self.lastAckermannMsgReceived = datetime.datetime.now()
         # set target values
         self.set_target_steering_angle(ros_ackermann_drive.steering_angle)
+        # if ros_ackermann_drive.steering_angle > 25 and ros_ackermann_drive.speed > 20:
+        #     self.set_target_speed(ros_ackermann_drive.speed - ros_ackermann_drive.speed / 2)
+        # else:
+        #     self.set_target_speed(ros_ackermann_drive.speed)
         self.set_target_speed(ros_ackermann_drive.speed)
         self.set_target_accel(ros_ackermann_drive.acceleration)
         self.set_target_jerk(ros_ackermann_drive.jerk)
@@ -295,6 +299,8 @@ class CarlaAckermannControl(object):
         """
         self.info.output.steer = self.info.target.steering_angle / \
             self.info.restrictions.max_steering_angle
+        # rospy.loginfo("max_steering_angle=%lf,steering_angle=%lf,output.steer=%lf, speed=%lf, speed_abs=%lf", 
+        #         self.info.restrictions.max_steering_angle,self.info.target.steering_angle, self.info.output.steer, self.info.target.speed, self.info.target.speed_abs)
 
     def control_stop_and_reverse(self):
         """

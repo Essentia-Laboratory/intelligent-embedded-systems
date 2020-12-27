@@ -337,10 +337,10 @@ class JointTrajectoryActionController():
                 self.action_server.set_aborted(result=res, text=msg)
                 break
         else:
-	    msg = 'Trajectory execution successfully completed'
-	    rospy.loginfo(msg)
-	    res = FollowJointTrajectoryResult()  
-	    res.error_code=FollowJointTrajectoryResult.SUCCESSFUL
+            msg = 'Trajectory execution successfully completed'
+            rospy.loginfo(msg)
+            res = FollowJointTrajectoryResult()  
+            res.error_code=FollowJointTrajectoryResult.SUCCESSFUL
             self.action_server.set_succeeded(result=res, text=msg)
 
     def update_state(self):
