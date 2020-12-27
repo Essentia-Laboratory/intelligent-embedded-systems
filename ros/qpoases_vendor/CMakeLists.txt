@@ -6,9 +6,9 @@ find_package(catkin REQUIRED)
 
 include(ExternalProject)
 ExternalProject_Add(qpoases_3_2
-#   SVN_REPOSITORY https://projects.coin-or.org/svn/qpOASES/stable/3.2
-#   SVN_TRUST_CERT TRUE
-   DOWNLOAD_COMMAND ""
+   SVN_REPOSITORY https://projects.coin-or.org/svn/qpOASES/stable/3.2
+   SVN_TRUST_CERT TRUE
+   #   DOWNLOAD_COMMAND ""
    BUILD_IN_SOURCE TRUE
    INSTALL_COMMAND ""
  )
