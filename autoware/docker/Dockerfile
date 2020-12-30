@@ -77,10 +77,6 @@ WORKDIR /opt
 
 RUN git clone https://github.com/Essentia-Laboratory/intelligent-embedded-systems.git src 
 
-WORKDIR /opt/src 
-
-RUN git pull 
-
 WORKDIR /opt
 
 RUN ln -s /opt/src/caffe $CAFFE_ROOT
@@ -89,7 +85,7 @@ RUN mkdir -p $AUTOWARE_ROOT && ln -s /opt/src/autoware $AUTOWARE_ROOT/src
 
 WORKDIR $ROS_ROOT
 
-RUN catkin_make_isolated \
+RUN cd src && git pull  && cd .. && catkin_make_isolated \
   --install -DCMAKE_BUILD_TYPE=Release -DPYTHON_VERSION=3.8.5 \
   --pkg message_generation \
         catkin \
@@ -144,18 +140,22 @@ RUN git pull && make -j 24 && make dist && make clean
 
 WORKDIR $AUTOWARE_ROOT
 
-RUN /bin/bash -c 'cd /opt/autoware.ai \
+RUN cd src && git pull && cd .. && /bin/bash -c 'cd /opt/autoware.ai \
   && source $ROS_ROOT/install_isolated/setup.bash \
   && USE_TF2=1 AUTOWARE_COMPILE_WITH_CUDA=1 colcon build \
        --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYTHON_VERSION=3.8.5 \
   && rm -rf build log'
 
-RUN echo '#!/bin/bash \
-source /opt/ros_catkin_ws/install_isolated/setup.bash \
+WORKDIR /opt
+
+RUN echo '#!/usr/bin/bash \n\
+source /opt/ros_catkin_ws/install_isolated/setup.bash \n\
 source /opt/autoware.ai/install/setup.bash' > /opt/entrypoint.sh
 
-ENTRYPOINT ["/opt/entrypoint.sh"] 
+RUN chmod 755 /opt/entrypoint.sh 
 
+ENTRYPOINT ["/opt/entrypoint.sh"] 
+ 
 CMD ["roslaunch", "carla_autoware_agent", "carla_autoware_agent.launch"]
 
 # WORKDIR $CAFFE_ROOT
