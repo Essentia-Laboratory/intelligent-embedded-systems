@@ -39,7 +39,7 @@
     <remap from='/lane_waypoints_array' to='/based/lane_waypoints_raw'/>
     <include file='$(find op_global_planner)/launch/op_global_planner.launch'>
       <arg name='pathDensity' value='0.75' /> 
-      <arg name='enableSmoothing' value='true' /> 
+      <arg name='enableSmoothing' value='false' /> 
       <arg name='enableLaneChange' value='true' />
       <arg name='enableRvizInput' value='true' />
       <arg name='enableReplan' value='true' />
@@ -110,7 +110,7 @@
             number_of_zeros_ahead: $(arg number_of_zeros_ahead), 
             number_of_zeros_behind: $(arg number_of_zeros_behind), 
             number_of_smoothing_count: $(arg number_of_smoothing_count) }"'/>
-  <node pkg='lane_planner' type='lane_rule' name='lane_rule' output="log"/>
+  <node pkg='lane_planner' type='lane_rule' name='lane_rule_lanelet2' output="log"/>
 
   <!--
     # lane_stop #

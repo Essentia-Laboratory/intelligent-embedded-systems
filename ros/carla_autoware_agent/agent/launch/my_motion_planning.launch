@@ -28,6 +28,9 @@
     In:  /semantics/costmap_generator/occupancy_grid [nav_msgs/OccupancyGrid]
     Out: /safety_waypoints [autoware_msgs::Lane]
   -->
+<!--
+  <include file='$(find freespace_planner)/launch/astar_navi.launch'/>
+-->
   <include file='$(find waypoint_planner)/launch/astar_avoid.launch'>
   </include>
 
@@ -113,7 +116,7 @@
     Out: /global_waypoints_mark [visualization_msgs::MarkerArray]
     Out: /local_waypoionts_mark [visualization_msgs::MarkerArray]
   -->
-  <node pkg='waypoint_maker' type='waypoint_marker_publisher' name='waypoint_marker_publisher' output='screen'/>
+  <node pkg='waypoint_maker' type='waypoint_marker_publisher' name='waypoint_marker_publisher' output='log'/>
 
   <!-- 
     # waypoint velocity visualizer #
