@@ -79,7 +79,7 @@ public:
     const auto threshold =
         static_cast<size_t>(_success_ratio * static_cast<double>(expected_number_of_messages));
 
-    for (auto i = 0u; i < 10; ++i) {
+    for (auto i = 0u; i < 20; ++i) {
       std::cout << "received " << _number_of_messages_received
                 << " of " << expected_number_of_messages
                 << " messages,";
